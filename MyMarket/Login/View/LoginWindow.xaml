@@ -1,0 +1,103 @@
+﻿<Window
+    x:Class="MyMarket.Login.View.LoginWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyMarket.Login.View"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="window"
+    Title="LoginWindow"
+    Width="500"
+    Height="300"
+    Background="Transparent"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="50" CornerRadius="20" />
+    </WindowChrome.WindowChrome>
+    <Border Background="White" CornerRadius="20">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="180" />
+            </Grid.ColumnDefinitions>
+            <Grid Margin="40,0" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBox
+                    Margin="0,12,0,0"
+                    materialDesign:HintAssist.Hint="UserName"
+                    materialDesign:HintAssist.IsFloating="True"
+                    FontSize="24"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}">
+                    YANGKANG
+                </TextBox>
+                <PasswordBox
+                    Grid.Row="1"
+                    Margin="0,12,0,0"
+                    materialDesign:HintAssist.Hint="Password"
+                    materialDesign:HintAssist.IsFloating="True"
+                    FontSize="24"
+                    Password="{}"
+                    Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                <StackPanel
+                    Grid.Row="2"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="60"
+                        Height="40"
+                        Margin="2">
+                        <materialDesign:PackIcon
+                            Width="30"
+                            Height="30"
+                            Kind="Login" />
+                    </Button>
+                    <Button
+                        Width="60"
+                        Height="40"
+                        Margin="2"
+                        Command="{Binding CloseWinCommand, Source={StaticResource ComCmd}}"
+                        CommandParameter="{Binding ElementName=window, Mode=OneWay}">
+                        <materialDesign:PackIcon
+                            Width="30"
+                            Height="30"
+                            Kind="CancelCircle" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Border
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                CornerRadius="20">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
+                        <GradientStop Offset="1" Color="#ea7167" />
+                        <GradientStop Offset="0.5" Color="#c3a350" />
+                        <GradientStop Offset="0" Color="#ac8242" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid>
+                    <Border
+                        Width="100"
+                        Height="100"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        CornerRadius="50">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/MyImage/青苹果.png" />
+                        </Border.Background>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
