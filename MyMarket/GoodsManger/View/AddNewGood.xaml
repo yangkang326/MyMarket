@@ -2,16 +2,23 @@
     x:Class="MyMarket.GoodsManger.View.AddNewGood"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local1="clr-namespace:MyMarket.GoodsManger.View"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:MyMarket.GoodsManger.ViewModel"
     x:Name="window"
     Title="添加商品"
-    Width="900" Height="650"
+    Width="900"
     Background="Transparent"
     ResizeMode="NoResize"
+    WindowState="Maximized"
     WindowStyle="None"
     mc:Ignorable="d">
+    <Window.DataContext>
+        <vm:GoodEditViewModel />
+    </Window.DataContext>
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="{Binding Height, ElementName=border}" CornerRadius="20" />
     </WindowChrome.WindowChrome>
@@ -19,7 +26,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border
                 x:Name="border"
@@ -27,12 +34,13 @@
                 Background="DarkBlue"
                 CornerRadius="20">
                 <Grid>
-                    <TextBlock Foreground="White"
-                               Margin="20,0,0,0"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               FontSize="30"
-                               Text="{Binding Title, ElementName=window}" />
+                    <TextBlock
+                        Margin="20,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="30"
+                        Foreground="White"
+                        Text="{Binding Title, ElementName=window}" />
                 </Grid>
             </Border>
             <Grid Grid.Row="1">
@@ -41,89 +49,183 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <GroupBox
-                    Margin="20,10"
-                    FontSize="24"
-                    Header="基础信息">
-                    <StackPanel>
-                        <Grid Margin="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="80" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock VerticalAlignment="Center">
-                                <Run Text="商品条码：" /> <Run Foreground="Red" Text="*" />
-                            </TextBlock>
-                            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="手动输入或点击生成按钮" />
-                            <Button Grid.Column="2">生成</Button>
-                        </Grid>
-                        <Grid Margin="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock VerticalAlignment="Center">
-                                <Run Text="商品名称：" /> <Run Foreground="Red" Text="*" />
-                            </TextBlock>
-                            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="例如：苹果" />
-                            <TextBlock Grid.Column="2" VerticalAlignment="Center">
-                                <Run Text="拼音码：" /> <Run Foreground="Red" Text="*" />
-                            </TextBlock>
-                            <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="例如：pg" />
-                        </Grid>
-                        <Grid Margin="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock VerticalAlignment="Center">
-                                <Run Text="商品分类：" /> <Run Foreground="Red" Text="*" />
-                            </TextBlock>
-                            <ComboBox Grid.Column="1" materialDesign:HintAssist.Hint="水果" />
-                            <TextBlock Grid.Column="2" VerticalAlignment="Center">
-                                <Run Text="商品库存：" /> <Run Foreground="Red" Text="*" />
-                            </TextBlock>
-                            <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="例如：100Kg" />
-                        </Grid>
-                        <Grid Margin="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock VerticalAlignment="Center">
-                                <Run Text="售价：" /> <Run Foreground="Red" Text="*" />
-                            </TextBlock>
-                            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="￥0" />
-                            <TextBlock Grid.Column="2" VerticalAlignment="Center">
-                                <Run Text="进价：" /> <Run Foreground="Red" Text="*" />
-                            </TextBlock>
-                            <TextBox Grid.Column="3" materialDesign:HintAssist.Hint="￥0" />
-                            <TextBlock Grid.Column="4" VerticalAlignment="Center">
-                                <Run Text="毛利率：" /> <Run Foreground="Red" Text="*" />
+                <materialDesign:DialogHost>
+                    <GroupBox
+                        Margin="20,10"
+                        FontSize="24"
+                        Header="基础信息">
+                        <StackPanel>
+                            <Grid Margin="2,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="80" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock VerticalAlignment="Center">
+                                    <Run Text="商品条码：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
+                                </TextBlock>
+                                <TextBox
+                                    Grid.Column="1"
+                                    materialDesign:HintAssist.Hint="手动输入或点击生成按钮"
+                                    Text="{Binding NewDetialMoedl.PDCode}" />
+                                <Button
+                                    Grid.Column="2"
+                                    Command="{Binding CreatePDCodeCommand}"
+                                    Content="生成" />
+                            </Grid>
+                            <Grid Margin="2,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock VerticalAlignment="Center">
+                                    <Run Text="商品名称：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
+                                </TextBlock>
+                                <TextBox
+                                    Grid.Column="1"
+                                    materialDesign:HintAssist.Hint="例如：苹果"
+                                    Text="{Binding NewDetialMoedl.PDName}" />
+                                <TextBlock Grid.Column="2" VerticalAlignment="Center">
+                                    <Run Text="拼音码：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
+                                </TextBlock>
+                                <TextBox
+                                    Grid.Column="3"
+                                    materialDesign:HintAssist.Hint="例如：pg"
+                                    Text="{Binding NewDetialMoedl.PDSubName}" />
+                            </Grid>
+                            <Grid Margin="2,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock VerticalAlignment="Center">
+                                    <Run Text="商品分类：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
+                                </TextBlock>
+                                <ComboBox
+                                    Grid.Column="1"
+                                    materialDesign:HintAssist.Hint="Search"
+                                    materialDesign:HintAssist.HintOpacity=".26"
+                                    IsEnabled="True"
+                                    Text="{Binding NewDetialMoedl.PDGroup}">
+                                    <TextBlock>123q</TextBlock>
+                                    <TextBlock>123w</TextBlock>
+                                    <TextBlock>123e</TextBlock>
+                                    <TextBlock>123r</TextBlock>
+                                    <TextBlock>123t</TextBlock>
+                                </ComboBox>
+                                <Button Grid.Column="2" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                                    <materialDesign:PackIcon Kind="Add" />
+                                    <Button.CommandParameter>
+                                        <!--  the simplest view model of all, a DateTime. the view can be found in the resources of MainWindow.xaml  -->
+                                        <system:DateTime xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                            1966-JUL-30
+                                        </system:DateTime>
+                                    </Button.CommandParameter>
+                                </Button>
+
+                                <TextBlock Grid.Column="3" VerticalAlignment="Center">
+                                    <Run Text="商品库存：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
+                                </TextBlock>
+                                <TextBox
+                                    Grid.Column="4"
+                                    materialDesign:HintAssist.Hint="例如：100Kg"
+                                    Text="{Binding NewDetialMoedl.PDStock}" />
+                            </Grid>
+                            <Grid Margin="2,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock VerticalAlignment="Center">
+                                    <Run Text="售价：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
+                                </TextBlock>
+                                <TextBox
+                                    Grid.Column="1"
+                                    materialDesign:HintAssist.Hint="￥0"
+                                    Text="{Binding NewDetialMoedl.PDSellPrice, Mode=TwoWay, StringFormat=\{0:F2\}, UpdateSourceTrigger=PropertyChanged}">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="TextChanged">
+                                            <b:InvokeCommandAction Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewGood}}}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </TextBox>
+                                <TextBlock Grid.Column="2" VerticalAlignment="Center">
+                                    <Run Text="进价：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
+                                </TextBlock>
+                                <TextBox
+                                    Grid.Column="3"
+                                    materialDesign:HintAssist.Hint="￥0"
+                                    Text="{Binding NewDetialMoedl.PDCost, Mode=TwoWay, StringFormat=\{0:F2\}, UpdateSourceTrigger=PropertyChanged}">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="TextChanged">
+                                            <b:InvokeCommandAction Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewGood}}}" />
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </TextBox>
+                                <TextBlock Grid.Column="4" VerticalAlignment="Center">
+                                    <Run Text="毛利率：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
+                                </TextBlock>
+                                <TextBlock
+                                    Grid.Column="5"
+                                    materialDesign:HintAssist.Hint="0"
+                                    Text="{Binding NewDetialMoedl.PDProfit, Mode=TwoWay, StringFormat=\{0:P2\}, UpdateSourceTrigger=PropertyChanged}" />
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                    <materialDesign:DialogHost.DialogContent>
+                        <StackPanel Width="300" Height="200">
+                            <TextBlock>
+                                Add a new fruit.
                             </TextBlock>
                             <TextBox
-                                Grid.Column="5"
-                                materialDesign:HintAssist.Hint="0"
-                                materialDesign:TextFieldAssist.SuffixText="%" />
-                        </Grid>
-                    </StackPanel>
-                </GroupBox>
+                                x:Name="FruitTextBox"
+                                Margin="0,8,0,0"
+                                HorizontalAlignment="Stretch" />
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Button
+                                    Margin="0,8,8,0"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"
+                                    IsDefault="True"
+                                    Style="{StaticResource MaterialDesignFlatButton}">
+                                    <Button.CommandParameter>
+                                        <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                            True
+                                        </system:Boolean>
+                                    </Button.CommandParameter>
+                                    ACCEPT
+                                </Button>
+                                <Button
+                                    Margin="0,8,8,0"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"
+                                    IsCancel="True"
+                                    Style="{StaticResource MaterialDesignFlatButton}">
+                                    <Button.CommandParameter>
+                                        <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                            False
+                                        </system:Boolean>
+                                    </Button.CommandParameter>
+                                    CANCEL
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:DialogHost.DialogContent>
+                </materialDesign:DialogHost>
                 <GroupBox
                     Grid.Row="1"
                     Margin="20,10"
                     FontSize="24"
                     Header="拓展信息">
                     <StackPanel>
-                        <Grid Margin="2">
+                        <Grid Margin="2,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="*" />
@@ -133,13 +235,19 @@
                             <TextBlock VerticalAlignment="Center">
                                 <Run Text="供货商：" />
                             </TextBlock>
-                            <TextBox Grid.Column="1" materialDesign:HintAssist.Hint="王二麻子" />
+                            <TextBox
+                                Grid.Column="1"
+                                materialDesign:HintAssist.Hint="王二麻子"
+                                Text="{Binding NewDetialMoedl.PDSupplier}" />
                             <TextBlock Grid.Column="2" VerticalAlignment="Center">
                                 <Run Text="单位：" />
                             </TextBlock>
-                            <ComboBox Grid.Column="3" materialDesign:HintAssist.Hint="kg" />
+                            <ComboBox
+                                Grid.Column="3"
+                                materialDesign:HintAssist.Hint="kg"
+                                Text="{Binding NewDetialMoedl.PDUnit}" />
                         </Grid>
-                        <Grid Margin="2">
+                        <Grid Margin="2,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="*" />
@@ -150,9 +258,10 @@
                             <ToggleButton
                                 Grid.Column="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center" />
+                                VerticalAlignment="Center"
+                                IsChecked="{Binding NewDetialMoedl.IsVipDiscount}" />
                         </Grid>
-                        <Grid Margin="2">
+                        <Grid Margin="2,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="*" />
@@ -163,9 +272,10 @@
                             <ToggleButton
                                 Grid.Column="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center" />
+                                VerticalAlignment="Center"
+                                IsChecked="{Binding NewDetialMoedl.IsVipPointInc}" />
                         </Grid>
-                        <Grid Margin="2">
+                        <Grid Margin="2,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="*" />
@@ -178,16 +288,18 @@
                             <ToggleButton
                                 Grid.Column="1"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center" />
+                                VerticalAlignment="Center"
+                                IsChecked="{Binding NewDetialMoedl.IsWeighedNeeded}" />
                             <TextBlock Grid.Column="2" VerticalAlignment="Center">
                                 <Run Text="是否传秤：" />
                             </TextBlock>
                             <ToggleButton
                                 Grid.Column="3"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Center" />
+                                VerticalAlignment="Center"
+                                IsChecked="{Binding NewDetialMoedl.IsCommunicationNeeded}" />
                         </Grid>
-                        <Grid Margin="2">
+                        <Grid Margin="2,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="*" />
@@ -200,7 +312,8 @@
                             <TextBox
                                 Grid.Column="1"
                                 materialDesign:HintAssist.Hint="请输入秤编码"
-                                IsEnabled="False" />
+                                IsEnabled="False"
+                                Text="{Binding NewDetialMoedl.WeighSN}" />
                         </Grid>
                     </StackPanel>
                 </GroupBox>
@@ -210,14 +323,17 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
                     <Button
-                        Command="{Binding CloseWinCommand, Source={StaticResource ComCmd}}"
-                        CommandParameter="{Binding ElementName=window, Mode=OneWay}"
                         Margin="2"
                         Background="FloralWhite"
-                        FontSize="20">
-                        取消
-                    </Button>
-                    <Button Margin="2" FontSize="20">保存</Button>
+                        Command="{Binding CloseWinCommand, Source={StaticResource ComCmd}}"
+                        CommandParameter="{Binding ElementName=window, Mode=OneWay}"
+                        Content="取消"
+                        FontSize="20" />
+                    <Button
+                        Margin="2"
+                        Command="{Binding SaveThisGoodC0mmand}"
+                        Content="保存"
+                        FontSize="20" />
                 </StackPanel>
             </Grid>
         </Grid>

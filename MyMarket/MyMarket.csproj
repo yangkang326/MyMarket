@@ -21,6 +21,9 @@
 		<None Remove="MyImage\黑提.png" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="FreeSql" Version="2.3.200" />
+		<PackageReference Include="FreeSql.Provider.Sqlite" Version="2.3.200" />
+		<PackageReference Include="FreeSql.Repository" Version="2.3.200" />
 		<PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.0-preview5" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />

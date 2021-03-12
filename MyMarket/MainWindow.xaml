@@ -256,7 +256,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-                    <ItemsControl.ItemTemplate >
+                    <ItemsControl.ItemTemplate>
                         <ItemContainerTemplate>
                             <Border
                                 Padding="2"
