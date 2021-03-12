@@ -2,9 +2,11 @@
 
 namespace MyMarket.Models
 {
-    public class CartItem:ObservableObject
+    public class CartItem : ObservableObject
     {
         private double _Count;
+
+        private double _PDTotalPrice;
         public string PDName { get; set; }
         public string PDSN { get; set; }
 
@@ -19,8 +21,6 @@ namespace MyMarket.Models
                 PDTotalPrice = value * UnitPrice;
             }
         }
-
-        private double _PDTotalPrice;
 
         public double PDTotalPrice
         {

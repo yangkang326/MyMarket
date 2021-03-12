@@ -22,13 +22,65 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <ScrollViewer>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <materialDesign:ColorZone>
+                <ListView Name="GoodTpyeListview">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Width="{Binding ActualWidth, ElementName=GoodTpyeListview}" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <RadioButton
+                        Width="200"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="123"
+                        IsChecked="True"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Width="200"
+                        Content="123"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Width="200"
+                        Content="123"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Width="200"
+                        Content="123"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Width="200"
+                        Content="123"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Width="200"
+                        Content="123"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Width="200"
+                        Content="123"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Width="200"
+                        Content="123"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Width="200"
+                        Content="123"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Width="200"
+                        Content="123"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                </ListView>
+            </materialDesign:ColorZone>
+            <ScrollViewer Grid.Row="1">
                 <ItemsControl
-                    x:Name="ListView"
+                    x:Name="GoodsListView"
                     ItemsSource="{Binding ProductsCollection}"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -71,7 +123,8 @@
                                             Text="{Binding PDName}" />
                                         <TextBlock Margin="10,0,10,0" HorizontalAlignment="Right">
                                             <Run FontSize="24" Text="{Binding PDUnitPrice}" />
-                                            <Run FontSize="20" Text="元/" /><Run FontSize="20" Text="{Binding PDUnit}" />
+                                            <Run FontSize="20" Text="元/" />
+                                            <Run FontSize="20" Text="{Binding PDUnit}" />
                                         </TextBlock>
                                     </StackPanel>
                                 </Grid>
@@ -81,15 +134,15 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel
-                                Width="{Binding ActualWidth, ElementName=ListView}"
-                                ItemHeight="300"
-                                ItemWidth="250" />
+                                Width="{Binding ActualWidth, ElementName=GoodsListView}"
+                                ItemHeight="250"
+                                ItemWidth="200" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
         </Grid>
-        <Grid Name="DealDetial"  Grid.Column="1">
+        <Grid Name="DealDetial" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
@@ -108,10 +161,10 @@
                         购物车
                     </TextBlock>
                     <StackPanel
-                        Grid.Row="0"
                         Margin="5"
                         HorizontalAlignment="Left"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Visibility="Collapsed">
                         <TextBlock
                             MinWidth="100"
                             Margin="5,0"
@@ -154,56 +207,63 @@
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>
-                <ListView Grid.Row="1" ItemsSource="{Binding CartList}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
+                <DataGrid x:Name="dataGrid" CanUserAddRows="False"
+                          Grid.Row="1"
+                          AutoGenerateColumns="False"
+                          ItemsSource="{Binding CartList}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="150"
+                            Binding="{Binding PDName}"
+                            Header="名称"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="150"
+                            Binding="{Binding PDSN}"
+                            Header="货号" />
+                        <DataGridTextColumn
+                            Binding="{Binding UnitPrice, StringFormat=\{0:F2\}}"
+                            Header="单价"
+                            IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="数量">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox
+                                        Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat=\{0:F3\}}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction
+                                                    Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn
+                            Binding="{Binding PDTotalPrice, StringFormat=\{0:F2\}}"
+                            Header="总价"
+                            IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="数量">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                                        CommandParameter="{Binding Mode=OneWay}">
+                                        <materialDesign:PackIcon Kind="Delete" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <ItemsControl.ItemTemplate >
                         <ItemContainerTemplate>
                             <Border
                                 Padding="2"
                                 BorderBrush="Black"
                                 BorderThickness="2"
                                 CornerRadius="5">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock
-                                        MinWidth="100"
-                                        Margin="5,0"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding PDName}"
-                                        TextAlignment="Center" />
-                                    <TextBlock
-                                        MinWidth="100"
-                                        Margin="5,0"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding PDSN}"
-                                        TextAlignment="Center" />
-                                    <TextBlock
-                                        MinWidth="100"
-                                        Margin="5,0"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding UnitPrice, StringFormat=\{0:F2\}}"
-                                        TextAlignment="Center" />
-                                    <TextBox
-                                        MinWidth="100"
-                                        Margin="5,0"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding Count, Mode=TwoWay, StringFormat=\{0:F3\}, UpdateSourceTrigger=PropertyChanged}"
-                                        TextAlignment="Center">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="TextChanged">
-                                                <i:InvokeCommandAction Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </TextBox>
-                                    <TextBlock
-                                        MinWidth="100"
-                                        Margin="5,0"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding PDTotalPrice, StringFormat=\{0:F2\}}"
-                                        TextAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" Width="120">
                                     <Button
                                         Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
                                         CommandParameter="{Binding}"
@@ -218,7 +278,7 @@
                             </Border>
                         </ItemContainerTemplate>
                     </ItemsControl.ItemTemplate>
-                </ListView>
+                </DataGrid>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -227,11 +287,16 @@
                 </Grid.ColumnDefinitions>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <materialDesign:PackIcon Kind="User" Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"></materialDesign:PackIcon>
-                    <TextBlock HorizontalAlignment="Center" Grid.Row="1">User1</TextBlock>
+                    <materialDesign:PackIcon
+                        Width="100"
+                        Height="100"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Kind="User" />
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center">User1</TextBlock>
                 </Grid>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
@@ -239,18 +304,30 @@
                         <TextBlock FontSize="45" Text="{Binding TotalPrice, StringFormat=\{0:F2\}}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="40" Text="付款：" />
-                        <TextBlock FontSize="45" Text="{Binding TotalPrice, StringFormat=\{0:F2\}}" />
-                        <Button Margin="2" Command="{Binding PrintDealDetialCommand}" CommandParameter="{Binding ElementName=DealDetial, Mode=OneWay}">
-                            <materialDesign:PackIcon Kind="CashCheck" />
-                        </Button>
-                        <Button Command="{Binding CloseWinCommand, Source={StaticResource ComCmd}}"  Margin="2" CommandParameter="{Binding ElementName=window, Mode=OneWay}">
-                            <materialDesign:PackIcon Kind="Wechat" />
-                        </Button>
+                        <TextBlock FontSize="40" Text="商品件数：" />
+                        <TextBlock FontSize="45" Text="{Binding CartCount}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="40" Text="找零：" />
-                        <TextBlock FontSize="45" Text="{Binding TotalPrice, StringFormat=\{0:F2\}}" />
+                    <StackPanel>
+                        <Button
+                            Height="60"
+                            Margin="2"
+                            Command="{Binding PrintDealDetialCommand}"
+                            CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}">
+                            <materialDesign:PackIcon
+                                Width="40"
+                                Height="40"
+                                Kind="CashCheck" />
+                        </Button>
+                        <Button
+                            Height="60"
+                            Margin="2"
+                            Command="{Binding CloseWinCommand, Source={StaticResource ComCmd}}"
+                            CommandParameter="{Binding ElementName=window, Mode=OneWay}">
+                            <materialDesign:PackIcon
+                                Width="40"
+                                Height="40"
+                                Kind="Wechat" />
+                        </Button>
                     </StackPanel>
                 </StackPanel>
             </Grid>

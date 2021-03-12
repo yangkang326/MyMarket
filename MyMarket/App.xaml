@@ -2,17 +2,22 @@
     x:Class="MyMarket.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:comcmd="clr-namespace:MyMarket.ComCommand"
-    StartupUri="/Login/View/LoginWindow.xaml">
+    xmlns:converter="clr-namespace:MyMarket.MyUserControl.Converter"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    StartupUri="/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <comcmd:ComCmd x:Key="ComCmd"></comcmd:ComCmd>
+            <comcmd:ComCmd x:Key="ComCmd" />
+            <converter:ValueToString x:Key="ValueToString" />
+            <converter:StringToImageSourceConverter x:Key="ImageSourceConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="BlueGrey" SecondaryColor="LightGreen" />
+                <materialDesign:BundledTheme
+                    BaseTheme="Light"
+                    PrimaryColor="BlueGrey"
+                    SecondaryColor="LightGreen" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                <ResourceDictionary Source="Dic/MyDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
