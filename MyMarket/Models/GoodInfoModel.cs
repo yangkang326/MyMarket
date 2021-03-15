@@ -56,5 +56,6 @@ namespace MyMarket.Models
         [Column(IsNullable = true)] public bool IsCommunicationNeeded { get; set; }
         public string PDGroup { get; set; }
         [Column(IsNullable = true)] public string WeighSN { get; set; }
+        [Column(IsNullable = true)] public string PicPath { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Windows;
+using MyMarket.GoodsManger.View;
 
 #endregion
 
@@ -14,6 +15,12 @@ namespace MyMarket
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            var addwin = new AddNewGood();
+            addwin.Show();
         }
     }
 }

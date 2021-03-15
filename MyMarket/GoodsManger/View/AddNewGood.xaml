@@ -23,7 +23,7 @@
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="{Binding Height, ElementName=border}" CornerRadius="20" />
     </WindowChrome.WindowChrome>
-    <Border Background="Azure" CornerRadius="20">
+    <Border Background="Azure" CornerRadius="10">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -33,7 +33,7 @@
                 x:Name="border"
                 Height="50"
                 Background="#8bc34a"
-                CornerRadius="20">
+                CornerRadius="10">
                 <Grid>
                     <TextBlock
                         Margin="20,0,0,0"
@@ -232,8 +232,19 @@
                             </TextBlock>
                             <ComboBox
                                 Grid.Column="3"
-                                materialDesign:HintAssist.Hint="kg"
-                                Text="{Binding NewDetialMoedl.PDUnit}" />
+                                materialDesign:HintAssist.Hint="/500g"
+                                Text="{Binding NewDetialMoedl.PDUnit}">
+                                <TextBlock>/500g（斤）</TextBlock>
+                                <TextBlock>/1Kg（公斤）</TextBlock>
+                                <TextBlock>/盒</TextBlock>
+                                <TextBlock>/条</TextBlock>
+                                <TextBlock>/只</TextBlock>
+                                <TextBlock>/个</TextBlock>
+                                <TextBlock>/套</TextBlock>
+                                <TextBlock>/件</TextBlock>
+                                <TextBlock>/箱</TextBlock>
+                                <TextBlock>/打</TextBlock>
+                            </ComboBox>
                         </Grid>
                         <Grid Margin="2,5">
                             <Grid.ColumnDefinitions>
@@ -293,6 +304,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock VerticalAlignment="Center">
                                 <Run Text="秤编码：" />
@@ -300,8 +312,20 @@
                             <TextBox
                                 Grid.Column="1"
                                 materialDesign:HintAssist.Hint="请输入秤编码"
-                                IsEnabled="False"
+                                IsEnabled="True"
                                 Text="{Binding NewDetialMoedl.WeighSN}" />
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center">
+                                <Run Text="图片地址：" />
+                            </TextBlock>
+                            <TextBox Name="PicPathBox" FontSize="20"
+                                     Grid.Column="3"
+                                     materialDesign:HintAssist.Hint="//d"
+                                     IsEnabled="True"
+                                     Text="{Binding NewDetialMoedl.PicPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Button Grid.Column="4" Command="{Binding SelectPicPath}"
+                                    CommandParameter="{Binding ElementName=PicPathBox}">
+                                选择
+                            </Button>
                         </Grid>
                     </StackPanel>
                 </GroupBox>
@@ -321,6 +345,11 @@
                         Margin="2"
                         Command="{Binding SaveThisGoodC0mmand}"
                         Content="保存"
+                        FontSize="20" />
+                    <Button
+                        Margin="2"
+                        Command="{Binding AddAnothercommand}"
+                        Content="继续添加"
                         FontSize="20" />
                 </StackPanel>
             </Grid>

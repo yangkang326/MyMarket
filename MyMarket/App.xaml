@@ -5,7 +5,7 @@
     xmlns:comcmd="clr-namespace:MyMarket.ComCommand"
     xmlns:converter="clr-namespace:MyMarket.MyUserControl.Converter"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    StartupUri="/GoodsManger/View/AddNewGood.xaml">
+    StartupUri="/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <comcmd:ComCmd x:Key="ComCmd" />

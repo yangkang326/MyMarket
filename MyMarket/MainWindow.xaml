@@ -27,55 +27,24 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <materialDesign:ColorZone>
-                <ListView Name="GoodTpyeListview">
+                <ListView Name="GoodTpyeListview" ItemsSource="{Binding GroupNameCollection}">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Width="{Binding ActualWidth, ElementName=GoodTpyeListview}" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
-                    <RadioButton
-                        Width="200"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Content="123"
-                        IsChecked="True"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
-                        Width="200"
-                        Content="123"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
-                        Width="200"
-                        Content="123"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
-                        Width="200"
-                        Content="123"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
-                        Width="200"
-                        Content="123"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
-                        Width="200"
-                        Content="123"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
-                        Width="200"
-                        Content="123"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
-                        Width="200"
-                        Content="123"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
-                        Width="200"
-                        Content="123"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
-                        Width="200"
-                        Content="123"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton GroupName="GoodsNameGr"
+                                         Width="200"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Content="{Binding }"
+                                         CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                         Command="{Binding DataContext.SelectGropuChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                                         Style="{StaticResource MaterialDesignTabRadioButton}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </materialDesign:ColorZone>
             <ScrollViewer Grid.Row="1">
@@ -100,7 +69,7 @@
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch">
                                         <Border.Background>
-                                            <ImageBrush ImageSource="{Binding PDIcon}" />
+                                            <ImageBrush ImageSource="{Binding PicPath}" />
                                         </Border.Background>
                                     </Border>
                                     <Button
@@ -122,7 +91,7 @@
                                             FontSize="24"
                                             Text="{Binding PDName}" />
                                         <TextBlock Margin="10,0,10,0" HorizontalAlignment="Right">
-                                            <Run FontSize="24" Text="{Binding PDUnitPrice}" />
+                                            <Run FontSize="24" Text="{Binding PDSellPrice}" />
                                             <Run FontSize="20" Text="元/" />
                                             <Run FontSize="20" Text="{Binding PDUnit}" />
                                         </TextBlock>
@@ -327,6 +296,14 @@
                                 Width="40"
                                 Height="40"
                                 Kind="Wechat" />
+                        </Button>
+                        <Button Click="ButtonBase_OnClick"
+                                Height="60"
+                                Margin="2">
+                            <materialDesign:PackIcon
+                                Width="40"
+                                Height="40"
+                                Kind="OpenInNew" />
                         </Button>
                     </StackPanel>
                 </StackPanel>

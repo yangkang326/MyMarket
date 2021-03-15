@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MyMarket.GoodsManger.DbOperate;
+using MyMarket.GoodsManger.Model;
 using MyMarket.Models;
 
 namespace MyMarket.ViewModel
@@ -11,101 +13,27 @@ namespace MyMarket.ViewModel
     {
         private int _CartCount;
         private ObservableCollection<CartItem> _CartList;
-        private ObservableCollection<GoodsIcon> _ProductsCollection;
+        private ObservableCollection<string> _GroupNameCollection;
+        private ObservableCollection<GoodInfoModel> _ProductsCollection;
         private double _TotalPrice;
 
         public MainViewModel()
         {
             _CartCount = 0;
-            _ProductsCollection = new ObservableCollection<GoodsIcon>();
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "红苹果",
-                PDUnitPrice = 6.5,
-                PDUnit = "500g",
-                PDSN = "01",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/红苹果.png"
-            });
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "青苹果",
-                PDUnitPrice = 3.0,
-                PDUnit = "500g",
-                PDSN = "02",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/青苹果.png"
-            });
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "香蕉",
-                PDUnitPrice = 4.5,
-                PDUnit = "500g",
-                PDSN = "03",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/香蕉.png"
-            });
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "西瓜",
-                PDUnitPrice = 7.8,
-                PDUnit = "500g",
-                PDSN = "04",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/西瓜.png"
-            });
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "草莓",
-                PDUnitPrice = 15,
-                PDUnit = "500g",
-                PDSN = "01",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/草莓.png"
-            });
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "葡萄",
-                PDUnitPrice = 9.9,
-                PDUnit = "500g",
-                PDSN = "02",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/葡萄.png"
-            });
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "黑提",
-                PDUnitPrice = 19.9,
-                PDUnit = "500g",
-                PDSN = "03",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/黑提.png"
-            });
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "猕猴桃",
-                PDUnitPrice = 6.9,
-                PDUnit = "500g",
-                PDSN = "04",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/猕猴桃.png"
-            });
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "油桃",
-                PDUnitPrice = 9.9,
-                PDUnit = "500g",
-                PDSN = "04",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/油桃.png"
-            });
-            ProductsCollection.Add(new GoodsIcon
-            {
-                PDName = "茶Π茉莉花味",
-                PDUnitPrice = 9.9,
-                PDUnit = "500g",
-                PDSN = "04",
-                PDIcon = "pack://application:,,,/MyMarket;component/MyImage/香梨.png"
-            });
+            _GroupNameCollection = new ObservableCollection<string>();
+            var goupnamelist = DbConn.fsql.Select<GoodsGroup>().ToList();
+            foreach (var GoodsGroup in goupnamelist)
+                GroupNameCollection.Add(GoodsGroup.PDGroup);
+            _ProductsCollection = new ObservableCollection<GoodInfoModel>();
             _CartList = new ObservableCollection<CartItem>();
-            AddToCratCommand = new RelayCommand<GoodsIcon>(e =>
+            ChangGoodsGoup(goupnamelist[1].PDGroup);
+            AddToCratCommand = new RelayCommand<GoodInfoModel>(e =>
             {
                 CartList.Add(new CartItem
                 {
                     PDName = e.PDName,
-                    PDSN = e.PDSN,
-                    UnitPrice = e.PDUnitPrice,
+                    PDSN = e.PDCode,
+                    UnitPrice = e.PDSellPrice,
                     Count = 1
                 });
                 TotalPrice = DOAddTotal(CartList);
@@ -125,8 +53,20 @@ namespace MyMarket.ViewModel
                     pd.PrintVisual(g, "111");
                 }
             });
+            SelectGropuChangedCommand = new RelayCommand<object>(o => { ChangGoodsGoup((string) o); });
         }
 
+        public ObservableCollection<string> GroupNameCollection
+        {
+            get => _GroupNameCollection;
+            set
+            {
+                _GroupNameCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RelayCommand<object> SelectGropuChangedCommand { get; set; }
         public RelayCommand<CartItem> DeleCartItemCommand { get; set; }
 
         public ObservableCollection<CartItem> CartList
@@ -139,9 +79,9 @@ namespace MyMarket.ViewModel
             }
         }
 
-        public RelayCommand<GoodsIcon> AddToCratCommand { get; set; }
+        public RelayCommand<GoodInfoModel> AddToCratCommand { get; set; }
 
-        public ObservableCollection<GoodsIcon> ProductsCollection
+        public ObservableCollection<GoodInfoModel> ProductsCollection
         {
             get => _ProductsCollection;
             set
@@ -175,15 +115,21 @@ namespace MyMarket.ViewModel
             }
         }
 
+        private void ChangGoodsGoup(string Groupname)
+        {
+            var repo = DbConn.fsql.GetRepository<GoodInfoModel>();
+            repo.AsTable(oldname => $"{oldname}_{Groupname}");
+            ProductsCollection = new ObservableCollection<GoodInfoModel>();
+            var goodslist = repo.Select.Where(a => true).ToList();
+            foreach (var item in goodslist) ProductsCollection.Add(item);
+        }
+
         private double DOAddTotal(ObservableCollection<CartItem> listcartitems)
         {
             double temp = 0;
-            foreach (var listcartiteml in listcartitems)
-            {
-                temp += listcartiteml.PDTotalPrice;
-                CartCount = listcartitems.Count;
-            }
+            foreach (var listcartiteml in listcartitems) temp += listcartiteml.PDTotalPrice;
 
+            CartCount = listcartitems.Count;
             return temp;
         }
     }
