@@ -14,10 +14,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:BundledTheme
                     BaseTheme="Light"
-                    PrimaryColor="BlueGrey"
+                    PrimaryColor="LightGreen"
                     SecondaryColor="LightGreen" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

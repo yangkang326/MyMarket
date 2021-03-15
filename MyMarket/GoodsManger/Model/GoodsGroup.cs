@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using FreeSql.DataAnnotations;
-using MyMarket.Models;
+﻿using FreeSql.DataAnnotations;
 
 namespace MyMarket.GoodsManger.Model
 {
@@ -10,6 +8,5 @@ namespace MyMarket.GoodsManger.Model
         public int ID { get; set; }
 
         [Column(IsNullable = false)] public string PDGroup { get; set; }
-
     }
 }

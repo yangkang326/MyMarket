@@ -1,6 +1,5 @@
 ﻿using FreeSql.DataAnnotations;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using MyMarket.GoodsManger.Model;
 
 namespace MyMarket.Models
 {

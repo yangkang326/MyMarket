@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MyMarket.GoodsManger.DbOperate;
 using MyMarket.GoodsManger.Model;
 using MyMarket.Models;
 
@@ -10,15 +10,14 @@ namespace MyMarket.GoodsManger.ViewModel
 {
     public class GoodEditViewModel : ObservableObject
     {
+        private ObservableCollection<string> _GroupNameCollection;
         private GoodInfoModel _NewDetialMoedl;
 
         public GoodEditViewModel()
         {
-            _GrouppCollection = new ObservableCollection<string>();
-            foreach (var GoodsGroup in DbOperate.DbConn.fsql.Select<GoodsGroup>().ToList())
-            {
-                GrouppCollection.Add(GoodsGroup.PDGroup);
-            }
+            _GroupNameCollection = new ObservableCollection<string>();
+            foreach (var GoodsGroup in DbConn.fsql.Select<GoodsGroup>().ToList())
+                GroupNameCollection.Add(GoodsGroup.PDGroup);
             _NewDetialMoedl = new GoodInfoModel();
             ChangeProfitCommand = new RelayCommand(() =>
             {
@@ -28,23 +27,28 @@ namespace MyMarket.GoodsManger.ViewModel
                     NewDetialMoedl.PDProfit = 0;
             });
             CreatePDCodeCommand = new RelayCommand(() => { NewDetialMoedl.PDCode = "我去你大爷的"; });
-            SaveThisGoodC0mmand = new RelayCommand(async () =>
+            SaveThisGoodC0mmand = new RelayCommand(async () => { });
+            AddGroupDiaClosedCommand = new RelayCommand<string>(s =>
             {
-
+                if ((s != null) & (s.Length > 2) && !GroupNameCollection.Contains(s))
+                    GroupNameCollection.Add(s);
+                else
+                    MessageBox.Show("组名不符合要求或组名已存在");
             });
         }
 
-        private ObservableCollection<string> _GrouppCollection;
-
-        public ObservableCollection<string> GrouppCollection
+        public ObservableCollection<string> GroupNameCollection
         {
-            get => _GrouppCollection;
+            get => _GroupNameCollection;
             set
             {
-                _GrouppCollection = value;
+                _GroupNameCollection = value;
                 OnPropertyChanged();
             }
         }
+
+        public RelayCommand<string> AddGroupDiaClosedCommand { get; set; }
+
         public GoodInfoModel NewDetialMoedl
         {
             get => _NewDetialMoedl;

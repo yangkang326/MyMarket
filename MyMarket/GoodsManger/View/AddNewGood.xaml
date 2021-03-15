@@ -13,7 +13,8 @@
     Width="900"
     Background="Transparent"
     ResizeMode="NoResize"
-    WindowState="Maximized"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Normal"
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.DataContext>
@@ -31,7 +32,7 @@
             <Border
                 x:Name="border"
                 Height="50"
-                Background="DarkBlue"
+                Background="#8bc34a"
                 CornerRadius="20">
                 <Grid>
                     <TextBlock
@@ -47,9 +48,42 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <materialDesign:DialogHost>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="DialogClosing">
+                            <b:InvokeCommandAction
+                                Command="{Binding DataContext.AddGroupDiaClosedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewGood}}}"
+                                CommandParameter="{Binding ElementName=NewGroupNameInput, Path=Text}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                    <materialDesign:DialogHost.DialogContent>
+                        <Grid
+                            Width="300"
+                            Height="200"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                Name="NewGroupNameInput"
+                                Grid.Column="0"
+                                Margin="3"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                materialDesign:HintAssist.Hint="新类名" />
+                            <Button
+                                Grid.Column="1"
+                                Margin="3"
+                                VerticalContentAlignment="Center"
+                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                                确认
+                            </Button>
+                        </Grid>
+                    </materialDesign:DialogHost.DialogContent>
                     <GroupBox
                         Margin="20,10"
                         FontSize="24"
@@ -111,23 +145,12 @@
                                     materialDesign:HintAssist.Hint="Search"
                                     materialDesign:HintAssist.HintOpacity=".26"
                                     IsEnabled="True"
-                                    Text="{Binding NewDetialMoedl.PDGroup}">
-                                    <TextBlock>123q</TextBlock>
-                                    <TextBlock>123w</TextBlock>
-                                    <TextBlock>123e</TextBlock>
-                                    <TextBlock>123r</TextBlock>
-                                    <TextBlock>123t</TextBlock>
-                                </ComboBox>
-                                <Button Grid.Column="2" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                                    ItemsSource="{Binding GroupNameCollection}"
+                                    Text="{Binding NewDetialMoedl.PDGroup}" />
+                                <Button Grid.Column="2"
+                                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
                                     <materialDesign:PackIcon Kind="Add" />
-                                    <Button.CommandParameter>
-                                        <!--  the simplest view model of all, a DateTime. the view can be found in the resources of MainWindow.xaml  -->
-                                        <system:DateTime xmlns:system="clr-namespace:System;assembly=mscorlib">
-                                            1966-JUL-30
-                                        </system:DateTime>
-                                    </Button.CommandParameter>
                                 </Button>
-
                                 <TextBlock Grid.Column="3" VerticalAlignment="Center">
                                     <Run Text="商品库存：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
                                 </TextBlock>
@@ -154,7 +177,8 @@
                                     Text="{Binding NewDetialMoedl.PDSellPrice, Mode=TwoWay, StringFormat=\{0:F2\}, UpdateSourceTrigger=PropertyChanged}">
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="TextChanged">
-                                            <b:InvokeCommandAction Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewGood}}}" />
+                                            <b:InvokeCommandAction
+                                                Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewGood}}}" />
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </TextBox>
@@ -167,7 +191,8 @@
                                     Text="{Binding NewDetialMoedl.PDCost, Mode=TwoWay, StringFormat=\{0:F2\}, UpdateSourceTrigger=PropertyChanged}">
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="TextChanged">
-                                            <b:InvokeCommandAction Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewGood}}}" />
+                                            <b:InvokeCommandAction
+                                                Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewGood}}}" />
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </TextBox>
@@ -181,43 +206,6 @@
                             </Grid>
                         </StackPanel>
                     </GroupBox>
-                    <materialDesign:DialogHost.DialogContent>
-                        <StackPanel Width="300" Height="200">
-                            <TextBlock>
-                                Add a new fruit.
-                            </TextBlock>
-                            <TextBox
-                                x:Name="FruitTextBox"
-                                Margin="0,8,0,0"
-                                HorizontalAlignment="Stretch" />
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <Button
-                                    Margin="0,8,8,0"
-                                    Command="materialDesign:DialogHost.CloseDialogCommand"
-                                    IsDefault="True"
-                                    Style="{StaticResource MaterialDesignFlatButton}">
-                                    <Button.CommandParameter>
-                                        <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
-                                            True
-                                        </system:Boolean>
-                                    </Button.CommandParameter>
-                                    ACCEPT
-                                </Button>
-                                <Button
-                                    Margin="0,8,8,0"
-                                    Command="materialDesign:DialogHost.CloseDialogCommand"
-                                    IsCancel="True"
-                                    Style="{StaticResource MaterialDesignFlatButton}">
-                                    <Button.CommandParameter>
-                                        <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
-                                            False
-                                        </system:Boolean>
-                                    </Button.CommandParameter>
-                                    CANCEL
-                                </Button>
-                            </StackPanel>
-                        </StackPanel>
-                    </materialDesign:DialogHost.DialogContent>
                 </materialDesign:DialogHost>
                 <GroupBox
                     Grid.Row="1"
