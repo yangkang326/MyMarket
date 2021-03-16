@@ -3,7 +3,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace MyMarket.Models
 {
-    public class GoodInfoModel : ObservableObject
+    public class CargoInfoModel : ObservableObject
     {
         private string _PDCode;
         private double _PDProfit;

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using MyMarket.GoodsManger.DbOperate;
+using MyMarket.DbOperate;
 using MyMarket.GoodsManger.Model;
 using MyMarket.Models;
 
@@ -14,7 +14,7 @@ namespace MyMarket.ViewModel
         private int _CartCount;
         private ObservableCollection<CartItem> _CartList;
         private ObservableCollection<string> _GroupNameCollection;
-        private ObservableCollection<GoodInfoModel> _ProductsCollection;
+        private ObservableCollection<CargoInfoModel> _ProductsCollection;
         private double _TotalPrice;
 
         public MainViewModel()
@@ -24,10 +24,10 @@ namespace MyMarket.ViewModel
             var goupnamelist = DbConn.fsql.Select<GoodsGroup>().ToList();
             foreach (var GoodsGroup in goupnamelist)
                 GroupNameCollection.Add(GoodsGroup.PDGroup);
-            _ProductsCollection = new ObservableCollection<GoodInfoModel>();
+            _ProductsCollection = new ObservableCollection<CargoInfoModel>();
             _CartList = new ObservableCollection<CartItem>();
             ChangGoodsGoup(goupnamelist[1].PDGroup);
-            AddToCratCommand = new RelayCommand<GoodInfoModel>(e =>
+            AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
             {
                 CartList.Add(new CartItem
                 {
@@ -79,9 +79,9 @@ namespace MyMarket.ViewModel
             }
         }
 
-        public RelayCommand<GoodInfoModel> AddToCratCommand { get; set; }
+        public RelayCommand<CargoInfoModel> AddToCratCommand { get; set; }
 
-        public ObservableCollection<GoodInfoModel> ProductsCollection
+        public ObservableCollection<CargoInfoModel> ProductsCollection
         {
             get => _ProductsCollection;
             set
@@ -117,9 +117,9 @@ namespace MyMarket.ViewModel
 
         private void ChangGoodsGoup(string Groupname)
         {
-            var repo = DbConn.fsql.GetRepository<GoodInfoModel>();
+            var repo = DbConn.fsql.GetRepository<CargoInfoModel>();
             repo.AsTable(oldname => $"{oldname}_{Groupname}");
-            ProductsCollection = new ObservableCollection<GoodInfoModel>();
+            ProductsCollection = new ObservableCollection<CargoInfoModel>();
             var goodslist = repo.Select.Where(a => true).ToList();
             foreach (var item in goodslist) ProductsCollection.Add(item);
         }

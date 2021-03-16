@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 #endregion
 
-namespace MyMarket.MyUserControl.Converter
+namespace MyMarket.Converter
 {
     public class StringToImageSourceConverter : IValueConverter
     {

@@ -19,7 +19,7 @@ namespace MyMarket
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var addwin = new AddNewGood();
+            var addwin = AddNewCargo.GetInstance();
             addwin.Show();
         }
     }

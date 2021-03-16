@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 #endregion
 
-namespace MyMarket.MyUserControl.Converter
+namespace MyMarket.Converter
 {
     public class ValueToString : IValueConverter
     {

@@ -1,6 +1,6 @@
 ﻿using FreeSql;
 
-namespace MyMarket.GoodsManger.DbOperate
+namespace MyMarket.DbOperate
 {
     public static class DbConn
     {

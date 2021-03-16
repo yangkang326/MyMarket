@@ -4,23 +4,23 @@ using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
-using MyMarket.GoodsManger.DbOperate;
+using MyMarket.DbOperate;
 using MyMarket.GoodsManger.Model;
 using MyMarket.Models;
 
 namespace MyMarket.GoodsManger.ViewModel
 {
-    public class GoodEditViewModel : ObservableObject
+    public class CargoEditViewModel : ObservableObject
     {
         private ObservableCollection<string> _GroupNameCollection;
-        private GoodInfoModel _NewDetialMoedl;
+        private CargoInfoModel _NewDetialMoedl;
 
-        public GoodEditViewModel()
+        public CargoEditViewModel()
         {
             _GroupNameCollection = new ObservableCollection<string>();
             foreach (var GoodsGroup in DbConn.fsql.Select<GoodsGroup>().ToList())
                 GroupNameCollection.Add(GoodsGroup.PDGroup);
-            _NewDetialMoedl = new GoodInfoModel();
+            _NewDetialMoedl = new CargoInfoModel();
             ChangeProfitCommand = new RelayCommand(() =>
             {
                 if (NewDetialMoedl.PDCost > 0)
@@ -29,12 +29,12 @@ namespace MyMarket.GoodsManger.ViewModel
                     NewDetialMoedl.PDProfit = 0;
             });
             CreatePDCodeCommand = new RelayCommand(() => { NewDetialMoedl.PDCode = "我去你大爷的"; });
-            SaveThisGoodC0mmand = new RelayCommand(async () =>
+            SaveThisGoodC0mmand = new RelayCommand( () =>
             {
-                var repo = DbConn.fsql.GetRepository<GoodInfoModel>();
+                var repo = DbConn.fsql.GetRepository<CargoInfoModel>();
                 repo.AsTable(oldname => $"{oldname}_{NewDetialMoedl.PDGroup}");
                 if (!(repo.Where(o => o.PDCode == NewDetialMoedl.PDCode).Count() > 0))
-                    repo.Insert(new GoodInfoModel
+                    repo.Insert(new CargoInfoModel
                     {
                         IsCommunicationNeeded = NewDetialMoedl.IsCommunicationNeeded,
                         IsVipDiscount = NewDetialMoedl.IsVipDiscount,
@@ -55,10 +55,10 @@ namespace MyMarket.GoodsManger.ViewModel
             });
             AddAnothercommand = new RelayCommand(() =>
             {
-                var repo = DbConn.fsql.GetRepository<GoodInfoModel>();
+                var repo = DbConn.fsql.GetRepository<CargoInfoModel>();
                 repo.AsTable(oldname => $"{oldname}_{NewDetialMoedl.PDGroup}");
                 if (!(repo.Where(o => o.PDCode == NewDetialMoedl.PDCode).Count() > 0))
-                    repo.Insert(new GoodInfoModel
+                    repo.Insert(new CargoInfoModel
                     {
                         IsCommunicationNeeded = NewDetialMoedl.IsCommunicationNeeded,
                         IsVipDiscount = NewDetialMoedl.IsVipDiscount,
@@ -76,7 +76,7 @@ namespace MyMarket.GoodsManger.ViewModel
                         WeighSN = NewDetialMoedl.WeighSN,
                         PicPath = NewDetialMoedl.PicPath
                     });
-                NewDetialMoedl = new GoodInfoModel();
+                NewDetialMoedl = new CargoInfoModel();
             });
             AddGroupDiaClosedCommand = new RelayCommand<string>(s =>
             {
@@ -124,7 +124,7 @@ namespace MyMarket.GoodsManger.ViewModel
 
         public RelayCommand<string> AddGroupDiaClosedCommand { get; set; }
 
-        public GoodInfoModel NewDetialMoedl
+        public CargoInfoModel NewDetialMoedl
         {
             get => _NewDetialMoedl;
             set

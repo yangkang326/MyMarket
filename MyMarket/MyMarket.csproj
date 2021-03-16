@@ -75,8 +75,8 @@
 		</Resource>
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="GoodsManger\ViewModel\" />
 		<Folder Include="Login\ViewModel\" />
 		<Folder Include="Login\Model\" />
+		<Folder Include="MyUserControl\" />
 	</ItemGroup>
 </Project>
