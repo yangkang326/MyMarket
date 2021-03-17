@@ -63,17 +63,35 @@ namespace MyMarket.ViewModel
             });
             HoldThisCartCommand = new RelayCommand(() =>
             {
-                HoldCartsCollection.Add(CartList);
-
-                CartList = new ObservableCollection<CartItem>();
-                HoldCount = HoldCartsCollection.Count;
-                HoldCartsIndexCollection.Add(HoldCount);
+                if (CartList.Count > 0)
+                {
+                    HoldCartsCollection.Add(CartList);
+                    CartList = new ObservableCollection<CartItem>();
+                    HoldCount = HoldCartsCollection.Count;
+                    HoldCartsIndexCollection.Add(HoldCount);
+                }
             });
             GetHoldCartByIndexCommand = new RelayCommand<int>(i =>
             {
                 if (CartList.Count > 0)
                 {
-                    MessageBox.Show("当前购物车未结算，是否保存");
+                    var result = MessageBox.Show("当前购物车未结算，是否保存", "挂单处理", MessageBoxButton.YesNoCancel);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        HoldCartsCollection.Add(CartList);
+                        CartList = HoldCartsCollection[i - 1];
+                        HoldCartsCollection.RemoveAt(i - 1);
+                        HoldCartsIndexCollection.RemoveAt(HoldCartsIndexCollection.Count - 1);
+                        HoldCount = HoldCartsCollection.Count;
+                        HoldCartsIndexCollection.Add(HoldCount);
+                    }
+                    else if (result == MessageBoxResult.No)
+                    {
+                        CartList = HoldCartsCollection[i - 1];
+                        HoldCartsCollection.RemoveAt(i - 1);
+                        HoldCartsIndexCollection.RemoveAt(HoldCartsIndexCollection.Count - 1);
+                        HoldCount = HoldCartsCollection.Count;
+                    }
                 }
                 else
                 {

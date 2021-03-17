@@ -287,10 +287,13 @@
                             Margin="0 2"
                             Command="{Binding PrintDealDetialCommand}"
                             CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}">
-                            <materialDesign:PackIcon
-                                Width="40"
-                                Height="40"
-                                Kind="CashCheck" />
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon
+                                    Width="40"
+                                    Height="40"
+                                    Kind="CashCheck" />
+                                <TextBlock FontSize="28">结算</TextBlock>
+                            </StackPanel>
                         </Button>
                         <Grid Grid.Row="1" Margin=" 0 2">
                             <Grid.ColumnDefinitions>
@@ -300,10 +303,13 @@
                             <Button
                                 Height="60"
                                 Command="{Binding DataContext.HoldThisCartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
-                                <materialDesign:PackIcon
-                                    Width="40"
-                                    Height="40"
-                                    Kind="Wechat" />
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        Width="40"
+                                        Height="40"
+                                        Kind="GestureTapHold" />
+                                    <TextBlock FontSize="28">挂单</TextBlock>
+                                </StackPanel>
                             </Button>
                             <materialDesign:Badged Margin="2" Grid.Column="1"
                                                    Badge="{Binding HoldCount}" HorizontalAlignment="Stretch"
@@ -316,8 +322,10 @@
                                                 <StackPanel Orientation="Horizontal">
                                                     <Border>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <materialDesign:PackIcon Kind="Cart" />
-                                                            <TextBlock Text="{Binding}" />
+                                                            <materialDesign:PackIcon Width="30" Height="30" Kind="Cart"
+                                                                VerticalAlignment="Center" />
+                                                            <TextBlock FontSize="24" Text="{Binding}"
+                                                                       VerticalAlignment="Center" />
                                                         </StackPanel>
                                                     </Border>
                                                     <Button CommandParameter="{Binding}"
@@ -335,10 +343,13 @@
                         <Button Grid.Row="2" Click="ButtonBase_OnClick"
                                 Height="60"
                                 Margin="0 2">
-                            <materialDesign:PackIcon
-                                Width="40"
-                                Height="40"
-                                Kind="OpenInNew" />
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon
+                                    Width="40"
+                                    Height="40"
+                                    Kind="SettingsApplications" />
+                                <TextBlock FontSize="28">设置</TextBlock>
+                            </StackPanel>
                         </Button>
                     </Grid>
                 </StackPanel>
