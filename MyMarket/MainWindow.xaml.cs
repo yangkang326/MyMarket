@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.Windows;
-using MyMarket.GoodsManger.View;
+using MyMarket.CargosManger.View;
 
 #endregion
 

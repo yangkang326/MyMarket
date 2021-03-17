@@ -5,22 +5,6 @@
 		<UseWPF>true</UseWPF>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Remove="MyImage\椰子.png" />
-		<None Remove="MyImage\樱桃.png" />
-		<None Remove="MyImage\油桃.png" />
-		<None Remove="MyImage\猕猴桃.png" />
-		<None Remove="MyImage\红苹果.png" />
-		<None Remove="MyImage\草莓.png" />
-		<None Remove="MyImage\菠萝.png" />
-		<None Remove="MyImage\葡萄.png" />
-		<None Remove="MyImage\西瓜.png" />
-		<None Remove="MyImage\青苹果.png" />
-		<None Remove="MyImage\香梨.png" />
-		<None Remove="MyImage\香蕉.png" />
-		<None Remove="MyImage\黄元帅.png" />
-		<None Remove="MyImage\黑提.png" />
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="FreeSql" Version="2.3.200" />
 		<PackageReference Include="FreeSql.Provider.Sqlite" Version="2.3.200" />
 		<PackageReference Include="FreeSql.Repository" Version="2.3.200" />
@@ -31,52 +15,8 @@
 		<PackageReference Include="System.Drawing.Common" Version="5.0.2" />
 	</ItemGroup>
 	<ItemGroup>
-		<Resource Include="MyImage\椰子.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\樱桃.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\油桃.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\猕猴桃.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\红苹果.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\草莓.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\菠萝.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\葡萄.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\西瓜.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\青苹果.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\香梨.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\香蕉.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\黄元帅.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="MyImage\黑提.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-	<ItemGroup>
+		<Folder Include="CargosManger\Model\" />
 		<Folder Include="Login\ViewModel\" />
 		<Folder Include="Login\Model\" />
-		<Folder Include="MyUserControl\" />
 	</ItemGroup>
 </Project>

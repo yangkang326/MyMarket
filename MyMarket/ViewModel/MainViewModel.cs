@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MyMarket.DbOperate;
-using MyMarket.GoodsManger.Model;
 using MyMarket.Models;
 
 namespace MyMarket.ViewModel
@@ -21,12 +20,11 @@ namespace MyMarket.ViewModel
         {
             _CartCount = 0;
             _GroupNameCollection = new ObservableCollection<string>();
-            var goupnamelist = DbConn.fsql.Select<GoodsGroup>().ToList();
-            foreach (var GoodsGroup in goupnamelist)
+            foreach (var GoodsGroup in DbConn.GetCargosGroups())
                 GroupNameCollection.Add(GoodsGroup.PDGroup);
             _ProductsCollection = new ObservableCollection<CargoInfoModel>();
             _CartList = new ObservableCollection<CartItem>();
-            ChangGoodsGoup(goupnamelist[1].PDGroup);
+            ProductsCollection = DbConn.GetCargoInfoModels("*");
             AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
             {
                 CartList.Add(new CartItem
@@ -53,7 +51,7 @@ namespace MyMarket.ViewModel
                     pd.PrintVisual(g, "111");
                 }
             });
-            SelectGropuChangedCommand = new RelayCommand<object>(o => { ChangGoodsGoup((string) o); });
+            SelectGropuChangedCommand = new RelayCommand<object>(o => { ProductsCollection = DbConn.GetCargoInfoModels((string)o); });
         }
 
         public ObservableCollection<string> GroupNameCollection
@@ -115,13 +113,9 @@ namespace MyMarket.ViewModel
             }
         }
 
-        private void ChangGoodsGoup(string Groupname)
+        private void ChangGoodsGoup(string groupname)
         {
-            var repo = DbConn.fsql.GetRepository<CargoInfoModel>();
-            repo.AsTable(oldname => $"{oldname}_{Groupname}");
-            ProductsCollection = new ObservableCollection<CargoInfoModel>();
-            var goodslist = repo.Select.Where(a => true).ToList();
-            foreach (var item in goodslist) ProductsCollection.Add(item);
+            ProductsCollection = DbConn.GetCargoInfoModels(groupname);
         }
 
         private double DOAddTotal(ObservableCollection<CartItem> listcartitems)
