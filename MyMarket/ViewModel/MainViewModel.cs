@@ -10,44 +10,44 @@ namespace MyMarket.ViewModel
 {
     public class MainViewModel : ObservableObject
     {
-        private int _CartCount;
-        private ObservableCollection<CartItem> _CartList;
+        private ObservableCollection<CargoInfoModel> _CargoInfoCollection;
+        private int _CartCargosCount;
+        private ObservableCollection<CartItem> _CurentCargosCollection;
+        private double _CurrentCurrentTotalPrice;
         private ObservableCollection<string> _GroupNameCollection;
         private ObservableCollection<ObservableCollection<CartItem>> _HoldCartsCollection;
         private ObservableCollection<int> _HoldCartsIndexCollection;
         private int _HoldCount;
-        private ObservableCollection<CargoInfoModel> _ProductsCollection;
-        private string _SelectedString;
-        private double _TotalPrice;
+        private string _InputSearchString;
 
         public MainViewModel()
         {
-            _CartCount = 0;
+            _CartCargosCount = 0;
             _HoldCount = 0;
             _HoldCartsIndexCollection = new ObservableCollection<int>();
             _GroupNameCollection = new ObservableCollection<string>();
             foreach (var GoodsGroup in DbConn.GetCargosGroups())
                 GroupNameCollection.Add(GoodsGroup.PDGroup);
-            _ProductsCollection = new ObservableCollection<CargoInfoModel>();
+            _CargoInfoCollection = new ObservableCollection<CargoInfoModel>();
             _HoldCartsCollection = new ObservableCollection<ObservableCollection<CartItem>>();
-            _CartList = new ObservableCollection<CartItem>();
-            ProductsCollection = DbConn.GetCargoInfoModels("*");
+            _CurentCargosCollection = new ObservableCollection<CartItem>();
+            CargoInfoCollection = DbConn.GetCargoInfoModels("*");
             AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
             {
-                CartList.Add(new CartItem
+                CurentCargosCollection.Add(new CartItem
                 {
                     PDName = e.PDName,
                     PDSN = e.PDCode,
                     UnitPrice = e.PDSellPrice,
                     Count = 1
                 });
-                TotalPrice = DOAddTotal(CartList);
+                CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
             });
-            PdContChangedCommand = new RelayCommand(() => { TotalPrice = DOAddTotal(CartList); });
+            PdContChangedCommand = new RelayCommand(() => { CurrentTotalPrice = DOAddTotal(CurentCargosCollection); });
             DeleCartItemCommand = new RelayCommand<CartItem>(e =>
             {
-                CartList.Remove(e);
-                TotalPrice = DOAddTotal(CartList);
+                CurentCargosCollection.Remove(e);
+                CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
             });
             PrintDealDetialCommand = new RelayCommand<DataGrid>(g =>
             {
@@ -60,27 +60,27 @@ namespace MyMarket.ViewModel
             });
             SelectGropuChangedCommand = new RelayCommand<object>(o =>
             {
-                ProductsCollection = DbConn.GetCargoInfoModels((string) o);
+                CargoInfoCollection = DbConn.GetCargoInfoModels((string) o);
             });
             HoldThisCartCommand = new RelayCommand(() =>
             {
-                if (CartList.Count > 0)
+                if (CurentCargosCollection.Count > 0)
                 {
-                    HoldCartsCollection.Add(CartList);
-                    CartList = new ObservableCollection<CartItem>();
+                    HoldCartsCollection.Add(CurentCargosCollection);
+                    CurentCargosCollection = new ObservableCollection<CartItem>();
                     HoldCount = HoldCartsCollection.Count;
                     HoldCartsIndexCollection.Add(HoldCount);
                 }
             });
             GetHoldCartByIndexCommand = new RelayCommand<int>(i =>
             {
-                if (CartList.Count > 0)
+                if (CurentCargosCollection.Count > 0)
                 {
                     var result = MessageBox.Show("当前购物车未结算，是否保存", "挂单处理", MessageBoxButton.YesNoCancel);
                     if (result == MessageBoxResult.Yes)
                     {
-                        HoldCartsCollection.Add(CartList);
-                        CartList = HoldCartsCollection[i - 1];
+                        HoldCartsCollection.Add(CurentCargosCollection);
+                        CurentCargosCollection = HoldCartsCollection[i - 1];
                         HoldCartsCollection.RemoveAt(i - 1);
                         HoldCartsIndexCollection.RemoveAt(HoldCartsIndexCollection.Count - 1);
                         HoldCount = HoldCartsCollection.Count;
@@ -88,7 +88,7 @@ namespace MyMarket.ViewModel
                     }
                     else if (result == MessageBoxResult.No)
                     {
-                        CartList = HoldCartsCollection[i - 1];
+                        CurentCargosCollection = HoldCartsCollection[i - 1];
                         HoldCartsCollection.RemoveAt(i - 1);
                         HoldCartsIndexCollection.RemoveAt(HoldCartsIndexCollection.Count - 1);
                         HoldCount = HoldCartsCollection.Count;
@@ -96,7 +96,7 @@ namespace MyMarket.ViewModel
                 }
                 else
                 {
-                    CartList = HoldCartsCollection[i - 1];
+                    CurentCargosCollection = HoldCartsCollection[i - 1];
                     HoldCartsCollection.RemoveAt(i - 1);
                     HoldCartsIndexCollection.RemoveAt(HoldCartsIndexCollection.Count - 1);
                     HoldCount = HoldCartsCollection.Count;
@@ -104,16 +104,16 @@ namespace MyMarket.ViewModel
             });
             SelectCargoByStringCommand = new RelayCommand<string>(s =>
             {
-                ProductsCollection = DbConn.GetCargoInfoModelsByString(s);
+                CargoInfoCollection = DbConn.GetCargoInfoModelsByString(s);
             });
         }
 
         public string SelectedString
         {
-            get => _SelectedString;
+            get => _InputSearchString;
             set
             {
-                _SelectedString = value;
+                _InputSearchString = value;
                 OnPropertyChanged();
             }
         }
@@ -166,36 +166,36 @@ namespace MyMarket.ViewModel
         public RelayCommand<object> SelectGropuChangedCommand { get; set; }
         public RelayCommand<CartItem> DeleCartItemCommand { get; set; }
 
-        public ObservableCollection<CartItem> CartList
+        public ObservableCollection<CartItem> CurentCargosCollection
         {
-            get => _CartList;
+            get => _CurentCargosCollection;
             set
             {
-                _CartList = value;
+                _CurentCargosCollection = value;
                 OnPropertyChanged();
             }
         }
 
         public RelayCommand<CargoInfoModel> AddToCratCommand { get; set; }
 
-        public ObservableCollection<CargoInfoModel> ProductsCollection
+        public ObservableCollection<CargoInfoModel> CargoInfoCollection
         {
-            get => _ProductsCollection;
+            get => _CargoInfoCollection;
             set
             {
-                _ProductsCollection = value;
+                _CargoInfoCollection = value;
                 OnPropertyChanged();
             }
         }
 
         public RelayCommand PdContChangedCommand { get; set; }
 
-        public double TotalPrice
+        public double CurrentTotalPrice
         {
-            get => _TotalPrice;
+            get => _CurrentCurrentTotalPrice;
             set
             {
-                _TotalPrice = value;
+                _CurrentCurrentTotalPrice = value;
                 OnPropertyChanged();
             }
         }
@@ -204,10 +204,10 @@ namespace MyMarket.ViewModel
 
         public int CartCount
         {
-            get => _CartCount;
+            get => _CartCargosCount;
             set
             {
-                _CartCount = value;
+                _CartCargosCount = value;
                 OnPropertyChanged();
             }
         }

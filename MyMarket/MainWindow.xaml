@@ -52,17 +52,17 @@
                 </ListView>
             </materialDesign:ColorZone>
             <ScrollViewer Grid.Row="1">
-                <ItemsControl
-                    x:Name="GoodsListView"
-                    ItemsSource="{Binding ProductsCollection}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ItemsControl Background="#303030"
+                              x:Name="GoodsListView"
+                              ItemsSource="{Binding CargoInfoCollection}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <materialDesign:Card
                                 x:Name="outBorder"
                                 Margin="5"
-                                Background="GreenYellow">
+                                Background="#ff5722">
                                 <Grid Background="Transparent">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
@@ -129,7 +129,9 @@
                         Text="{Binding SelectedString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="TextChanged">
-                                <i:InvokeCommandAction Command="{Binding DataContext.SelectCargoByStringCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}" />
+                                <i:InvokeCommandAction
+                                    Command="{Binding DataContext.SelectCargoByStringCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                                    CommandParameter="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </TextBox>
@@ -159,7 +161,7 @@
                     Grid.Row="1"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
-                    ItemsSource="{Binding CartList}">
+                    ItemsSource="{Binding CurentCargosCollection}">
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Width="150"
@@ -177,10 +179,12 @@
                         <DataGridTemplateColumn Header="数量">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:F3\}}">
+                                    <TextBox
+                                        Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:F3\}}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
-                                                <i:InvokeCommandAction Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
+                                                <i:InvokeCommandAction
+                                                    Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
@@ -194,7 +198,9 @@
                         <DataGridTemplateColumn Header="数量">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding Mode=OneWay}">
+                                    <Button
+                                        Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                                        CommandParameter="{Binding Mode=OneWay}">
                                         <materialDesign:PackIcon Kind="Delete" />
                                     </Button>
                                 </DataTemplate>
@@ -229,23 +235,23 @@
                         <Run FontSize="50" Text="00000" />
                         <Run Text="KG" />
                     </TextBlock>
-                    <Grid >
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontSize="24" VerticalAlignment="Center">稳定</TextBlock>
-                            <Border Background="Red" Height="20" Width="20" CornerRadius="10"></Border>
+                            <Border Background="Red" Height="20" Width="20" CornerRadius="10" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <TextBlock FontSize="24" VerticalAlignment="Center">净重</TextBlock>
-                            <Border Background="Red" Height="20" Width="20" CornerRadius="10"></Border>
+                            <Border Background="Red" Height="20" Width="20" CornerRadius="10" />
                         </StackPanel>
-                        <StackPanel  Grid.Column="2" Orientation="Horizontal">
+                        <StackPanel Grid.Column="2" Orientation="Horizontal">
                             <TextBlock FontSize="24" VerticalAlignment="Center">连称</TextBlock>
-                            <Border Background="Red" Height="20" Width="20" CornerRadius="10"></Border>
+                            <Border Background="Red" Height="20" Width="20" CornerRadius="10" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -271,7 +277,7 @@
                 <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="40" Text="总价：" />
-                        <TextBlock FontSize="45" Text="{Binding TotalPrice, StringFormat=\{0:F2\}}" />
+                        <TextBlock FontSize="45" Text="{Binding CurrentTotalPrice, StringFormat=\{0:F2\}}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="40" Text="商品件数：" />
@@ -301,7 +307,8 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Button Height="60" Command="{Binding DataContext.HoldThisCartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
+                            <Button Height="60"
+                                    Command="{Binding DataContext.HoldThisCartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon
                                         Width="40"
@@ -337,7 +344,9 @@
                                                                 Text="{Binding}" />
                                                         </StackPanel>
                                                     </Border>
-                                                    <Button Command="{Binding DataContext.GetHoldCartByIndexCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding}">
+                                                    <Button
+                                                        Command="{Binding DataContext.GetHoldCartByIndexCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                                                        CommandParameter="{Binding}">
                                                         恢复
                                                     </Button>
                                                 </StackPanel>
