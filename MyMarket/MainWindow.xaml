@@ -25,6 +25,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <materialDesign:ColorZone>
                 <ListView Name="GoodTpyeListview" ItemsSource="{Binding GroupNameCollection}">
@@ -35,14 +36,15 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <RadioButton GroupName="GoodsNameGr"
-                                         Width="200"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Center"
-                                         Content="{Binding }"
-                                         CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
-                                         Command="{Binding DataContext.SelectGropuChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
-                                         Style="{StaticResource MaterialDesignTabRadioButton}" />
+                            <RadioButton
+                                Width="200"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Command="{Binding DataContext.SelectGropuChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                                CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                Content="{Binding}"
+                                GroupName="GoodsNameGr"
+                                Style="{StaticResource MaterialDesignTabRadioButton}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -110,6 +112,18 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
+            <Grid Grid.Row="2" Margin="2,2,2,20">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Height="30" Width="30" Kind="Search" VerticalAlignment="Center" />
+                    <TextBox FontSize="30" MinWidth="300" materialDesign:HintAssist.Hint="请输入产品名称、编码或简码"  materialDesign:HintAssist.HelperText="请输入产品名称、编码或简码" Text="{Binding SelectedString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged">
+                                <i:InvokeCommandAction  Command="{Binding DataContext.SelectCargoByStringCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </StackPanel>
+            </Grid>
         </Grid>
         <Grid Name="DealDetial" Grid.Column="1">
             <Grid.RowDefinitions>
@@ -176,10 +190,12 @@
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>
-                <DataGrid x:Name="dataGrid" CanUserAddRows="False"
-                          Grid.Row="1"
-                          AutoGenerateColumns="False"
-                          ItemsSource="{Binding CartList}">
+                <DataGrid
+                    x:Name="dataGrid"
+                    Grid.Row="1"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    ItemsSource="{Binding CartList}">
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Width="150"
@@ -197,12 +213,10 @@
                         <DataGridTemplateColumn Header="数量">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox
-                                        Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat=\{0:F3\}}">
+                                    <TextBox Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:F3\}}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
-                                                <i:InvokeCommandAction
-                                                    Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
+                                                <i:InvokeCommandAction Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
@@ -216,9 +230,7 @@
                         <DataGridTemplateColumn Header="数量">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button
-                                        Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
-                                        CommandParameter="{Binding Mode=OneWay}">
+                                    <Button Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding Mode=OneWay}">
                                         <materialDesign:PackIcon Kind="Delete" />
                                     </Button>
                                 </DataTemplate>
@@ -232,7 +244,7 @@
                                 BorderBrush="Black"
                                 BorderThickness="2"
                                 CornerRadius="5">
-                                <StackPanel Orientation="Horizontal" Width="120">
+                                <StackPanel Width="120" Orientation="Horizontal">
                                     <Button
                                         Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
                                         CommandParameter="{Binding}"
@@ -284,7 +296,7 @@
                         </Grid.RowDefinitions>
                         <Button
                             Height="60"
-                            Margin="0 2"
+                            Margin="0,2"
                             Command="{Binding PrintDealDetialCommand}"
                             CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}">
                             <StackPanel Orientation="Horizontal">
@@ -295,14 +307,12 @@
                                 <TextBlock FontSize="28">结算</TextBlock>
                             </StackPanel>
                         </Button>
-                        <Grid Grid.Row="1" Margin=" 0 2">
+                        <Grid Grid.Row="1" Margin="0,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Button
-                                Height="60"
-                                Command="{Binding DataContext.HoldThisCartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
+                            <Button Height="60" Command="{Binding DataContext.HoldThisCartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon
                                         Width="40"
@@ -311,25 +321,34 @@
                                     <TextBlock FontSize="28">挂单</TextBlock>
                                 </StackPanel>
                             </Button>
-                            <materialDesign:Badged Margin="2" Grid.Column="1"
-                                                   Badge="{Binding HoldCount}" HorizontalAlignment="Stretch"
-                                                   VerticalAlignment="Stretch">
-                                <materialDesign:PopupBox HorizontalAlignment="Center" Height="60"
-                                                         VerticalAlignment="Center">
+                            <materialDesign:Badged
+                                Grid.Column="1"
+                                Margin="2"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Badge="{Binding HoldCount}">
+                                <materialDesign:PopupBox
+                                    Height="60"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
                                     <ListBox ItemsSource="{Binding HoldCartsIndexCollection}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <Border>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <materialDesign:PackIcon Width="30" Height="30" Kind="Cart"
-                                                                VerticalAlignment="Center" />
-                                                            <TextBlock FontSize="24" Text="{Binding}"
-                                                                       VerticalAlignment="Center" />
+                                                            <materialDesign:PackIcon
+                                                                Width="30"
+                                                                Height="30"
+                                                                VerticalAlignment="Center"
+                                                                Kind="Cart" />
+                                                            <TextBlock
+                                                                VerticalAlignment="Center"
+                                                                FontSize="24"
+                                                                Text="{Binding}" />
                                                         </StackPanel>
                                                     </Border>
-                                                    <Button CommandParameter="{Binding}"
-                                                            Command="{Binding DataContext.GetHoldCartByIndexCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
+                                                    <Button Command="{Binding DataContext.GetHoldCartByIndexCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding}">
                                                         恢复
                                                     </Button>
                                                 </StackPanel>
@@ -340,9 +359,11 @@
                             </materialDesign:Badged>
 
                         </Grid>
-                        <Button Grid.Row="2" Click="ButtonBase_OnClick"
-                                Height="60"
-                                Margin="0 2">
+                        <Button
+                            Grid.Row="2"
+                            Height="60"
+                            Margin="0,2"
+                            Click="ButtonBase_OnClick">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon
                                     Width="40"

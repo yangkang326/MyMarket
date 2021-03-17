@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using FreeSql;
 using MyMarket.Models;
@@ -22,7 +24,22 @@ namespace MyMarket.DbOperate
                     .Where(c => c.PDGroup == groupname).ToList());
             return Result;
         }
-
+        public static ObservableCollection<CargoInfoModel> GetCargoInfoModelsByString(string Inputstring)
+        {
+            var Result = new ObservableCollection<CargoInfoModel>();
+            if (Inputstring == "*")
+                Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
+            else
+            {
+                var temp1 = fsql.Select<CargoInfoModel>().Where(i => i.PDCode.Contains(Inputstring)).ToList();
+                var temp2 = fsql.Select<CargoInfoModel>().Where(i => i.PDName.Contains(Inputstring)).ToList();
+                var temp3 = fsql.Select<CargoInfoModel>().Where(i => i.PDSubName.Contains(Inputstring)).ToList();
+                var temp4 =temp1.Union(temp2).ToList();
+                var temp5 = temp4.Union(temp3).ToList();
+                Result = new ObservableCollection<CargoInfoModel>(temp5);
+            }
+            return Result;
+        }
         public static ObservableCollection<CargoInfoModel> InsertCargoInfoModels(CargoInfoModel newcargo)
         {
             var Result = new ObservableCollection<CargoInfoModel>();
