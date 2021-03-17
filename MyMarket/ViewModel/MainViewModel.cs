@@ -13,16 +13,22 @@ namespace MyMarket.ViewModel
         private int _CartCount;
         private ObservableCollection<CartItem> _CartList;
         private ObservableCollection<string> _GroupNameCollection;
+        private ObservableCollection<ObservableCollection<CartItem>> _HoldCartsCollection;
+        private ObservableCollection<int> _HoldCartsIndexCollection;
+        private int _HoldCount;
         private ObservableCollection<CargoInfoModel> _ProductsCollection;
         private double _TotalPrice;
 
         public MainViewModel()
         {
             _CartCount = 0;
+            _HoldCount = 0;
+            _HoldCartsIndexCollection = new ObservableCollection<int>();
             _GroupNameCollection = new ObservableCollection<string>();
             foreach (var GoodsGroup in DbConn.GetCargosGroups())
                 GroupNameCollection.Add(GoodsGroup.PDGroup);
             _ProductsCollection = new ObservableCollection<CargoInfoModel>();
+            _HoldCartsCollection = new ObservableCollection<ObservableCollection<CartItem>>();
             _CartList = new ObservableCollection<CartItem>();
             ProductsCollection = DbConn.GetCargoInfoModels("*");
             AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
@@ -51,7 +57,65 @@ namespace MyMarket.ViewModel
                     pd.PrintVisual(g, "111");
                 }
             });
-            SelectGropuChangedCommand = new RelayCommand<object>(o => { ProductsCollection = DbConn.GetCargoInfoModels((string)o); });
+            SelectGropuChangedCommand = new RelayCommand<object>(o =>
+            {
+                ProductsCollection = DbConn.GetCargoInfoModels((string) o);
+            });
+            HoldThisCartCommand = new RelayCommand(() =>
+            {
+                HoldCartsCollection.Add(CartList);
+
+                CartList = new ObservableCollection<CartItem>();
+                HoldCount = HoldCartsCollection.Count;
+                HoldCartsIndexCollection.Add(HoldCount);
+            });
+            GetHoldCartByIndexCommand = new RelayCommand<int>(i =>
+            {
+                if (CartList.Count > 0)
+                {
+                    MessageBox.Show("当前购物车未结算，是否保存");
+                }
+                else
+                {
+                    CartList = HoldCartsCollection[i - 1];
+                    HoldCartsCollection.RemoveAt(i - 1);
+                    HoldCartsIndexCollection.RemoveAt(HoldCartsIndexCollection.Count - 1);
+                    HoldCount = HoldCartsCollection.Count;
+                }
+            });
+        }
+
+        public int HoldCount
+        {
+            get => _HoldCount;
+            set
+            {
+                _HoldCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RelayCommand HoldThisCartCommand { get; set; }
+        public RelayCommand<int> GetHoldCartByIndexCommand { get; set; }
+
+        public ObservableCollection<int> HoldCartsIndexCollection
+        {
+            get => _HoldCartsIndexCollection;
+            set
+            {
+                _HoldCartsIndexCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<ObservableCollection<CartItem>> HoldCartsCollection
+        {
+            get => _HoldCartsCollection;
+            set
+            {
+                _HoldCartsCollection = value;
+                OnPropertyChanged();
+            }
         }
 
         public ObservableCollection<string> GroupNameCollection
@@ -113,16 +177,11 @@ namespace MyMarket.ViewModel
             }
         }
 
-        private void ChangGoodsGoup(string groupname)
-        {
-            ProductsCollection = DbConn.GetCargoInfoModels(groupname);
-        }
 
         private double DOAddTotal(ObservableCollection<CartItem> listcartitems)
         {
             double temp = 0;
             foreach (var listcartiteml in listcartitems) temp += listcartiteml.PDTotalPrice;
-
             CartCount = listcartitems.Count;
             return temp;
         }

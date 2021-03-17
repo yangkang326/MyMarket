@@ -276,10 +276,15 @@
                         <TextBlock FontSize="40" Text="商品件数：" />
                         <TextBlock FontSize="45" Text="{Binding CartCount}" />
                     </StackPanel>
-                    <StackPanel>
+                    <Grid Margin="0,0,15,20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
                         <Button
                             Height="60"
-                            Margin="2"
+                            Margin="0 2"
                             Command="{Binding PrintDealDetialCommand}"
                             CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}">
                             <materialDesign:PackIcon
@@ -287,25 +292,55 @@
                                 Height="40"
                                 Kind="CashCheck" />
                         </Button>
-                        <Button
-                            Height="60"
-                            Margin="2"
-                            Command="{Binding CloseWinCommand, Source={StaticResource ComCmd}}"
-                            CommandParameter="{Binding ElementName=window, Mode=OneWay}">
-                            <materialDesign:PackIcon
-                                Width="40"
-                                Height="40"
-                                Kind="Wechat" />
-                        </Button>
-                        <Button Click="ButtonBase_OnClick"
+                        <Grid Grid.Row="1" Margin=" 0 2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button
                                 Height="60"
-                                Margin="2">
+                                Command="{Binding DataContext.HoldThisCartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
+                                <materialDesign:PackIcon
+                                    Width="40"
+                                    Height="40"
+                                    Kind="Wechat" />
+                            </Button>
+                            <materialDesign:Badged Margin="2" Grid.Column="1"
+                                                   Badge="{Binding HoldCount}" HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch">
+                                <materialDesign:PopupBox HorizontalAlignment="Center" Height="60"
+                                                         VerticalAlignment="Center">
+                                    <ListBox ItemsSource="{Binding HoldCartsIndexCollection}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <materialDesign:PackIcon Kind="Cart" />
+                                                            <TextBlock Text="{Binding}" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <Button CommandParameter="{Binding}"
+                                                            Command="{Binding DataContext.GetHoldCartByIndexCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
+                                                        恢复
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </materialDesign:PopupBox>
+                            </materialDesign:Badged>
+
+                        </Grid>
+                        <Button Grid.Row="2" Click="ButtonBase_OnClick"
+                                Height="60"
+                                Margin="0 2">
                             <materialDesign:PackIcon
                                 Width="40"
                                 Height="40"
                                 Kind="OpenInNew" />
                         </Button>
-                    </StackPanel>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </Grid>

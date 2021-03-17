@@ -92,7 +92,7 @@
                         VerticalAlignment="Center"
                         CornerRadius="50">
                         <Border.Background>
-                            <ImageBrush ImageSource="/MyImage/青苹果.png" />
+                            <ImageBrush />
                         </Border.Background>
                     </Border>
                 </Grid>

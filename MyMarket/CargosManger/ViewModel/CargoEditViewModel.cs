@@ -28,10 +28,7 @@ namespace MyMarket.CargosManger.ViewModel
                     NewDetialMoedl.PDProfit = 0;
             });
             CreatePDCodeCommand = new RelayCommand(() => { NewDetialMoedl.PDCode = "我去你大爷的"; });
-            SaveThisGoodC0mmand = new RelayCommand( () =>
-            {
-                DbConn.InsertCargoInfoModels(NewDetialMoedl);
-            });
+            SaveThisGoodC0mmand = new RelayCommand(() => { DbConn.InsertCargoInfoModels(NewDetialMoedl); });
             AddAnothercommand = new RelayCommand(() =>
             {
                 DbConn.InsertCargoInfoModels(NewDetialMoedl);
@@ -39,9 +36,9 @@ namespace MyMarket.CargosManger.ViewModel
             });
             AddGroupDiaClosedCommand = new RelayCommand<string>(s =>
             {
-                if ((s != null) && (s.Length >= 2) && !GroupNameCollection.Contains(s))
+                if (s != null && s.Length >= 2 && !GroupNameCollection.Contains(s))
                 {
-                    GroupNameCollection= new ObservableCollection<string>();
+                    GroupNameCollection = new ObservableCollection<string>();
                     foreach (var GoodsGroup in DbConn.InsertCargosGroups(s))
                         GroupNameCollection.Add(GoodsGroup.PDGroup);
                 }
@@ -49,7 +46,6 @@ namespace MyMarket.CargosManger.ViewModel
                 {
                     MessageBox.Show("组名不符合要求或组名已存在");
                 }
-                
             });
             SelectPicPath = new RelayCommand<TextBox>(T =>
             {

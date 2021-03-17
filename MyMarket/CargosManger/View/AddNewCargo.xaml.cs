@@ -8,10 +8,12 @@ namespace MyMarket.CargosManger.View
     /// </summary>
     public partial class AddNewCargo : Window
     {
+        private static AddNewCargo Instance;
+
         private AddNewCargo()
         {
             InitializeComponent();
-            this.Closed += Dispose;
+            Closed += Dispose;
         }
 
         private void Dispose(object sender, EventArgs e)
@@ -19,14 +21,9 @@ namespace MyMarket.CargosManger.View
             Instance = null;
         }
 
-        static AddNewCargo Instance = null;
-
         public static AddNewCargo GetInstance()
         {
-            if (Instance == null)
-            {
-                Instance = new AddNewCargo();
-            }
+            if (Instance == null) Instance = new AddNewCargo();
 
             return Instance;
         }

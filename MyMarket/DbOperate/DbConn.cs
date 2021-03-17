@@ -2,7 +2,6 @@
 using System.Windows;
 using FreeSql;
 using MyMarket.Models;
-using Org.BouncyCastle.Bcpg.Sig;
 
 namespace MyMarket.DbOperate
 {
@@ -16,27 +15,25 @@ namespace MyMarket.DbOperate
         public static ObservableCollection<CargoInfoModel> GetCargoInfoModels(string groupname)
         {
             var Result = new ObservableCollection<CargoInfoModel>();
-            if (groupname=="*")
-            {
-                Result =new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
-            }
+            if (groupname == "*")
+                Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
             else
-            {
-                Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().Where(c=>c.PDGroup==groupname).ToList());
-            }
+                Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>()
+                    .Where(c => c.PDGroup == groupname).ToList());
             return Result;
         }
+
         public static ObservableCollection<CargoInfoModel> InsertCargoInfoModels(CargoInfoModel newcargo)
         {
             var Result = new ObservableCollection<CargoInfoModel>();
-            if (fsql.Select<CargoInfoModel>().Where(c=>c.PDCode==newcargo.PDCode).ToList().Count > 0)
+            if (fsql.Select<CargoInfoModel>().Where(c => c.PDCode == newcargo.PDCode).ToList().Count > 0)
             {
                 MessageBox.Show("商品序号重复！！！");
                 Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
             }
             else
             {
-                fsql.Insert<CargoInfoModel>(new CargoInfoModel()
+                fsql.Insert(new CargoInfoModel
                 {
                     IsCommunicationNeeded = newcargo.IsCommunicationNeeded,
                     IsVipDiscount = newcargo.IsVipDiscount,
@@ -57,13 +54,15 @@ namespace MyMarket.DbOperate
                 }).ExecuteAffrows();
                 Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
             }
+
             return Result;
         }
 
         public static ObservableCollection<CargosGroup> GetCargosGroups()
         {
-            return new ObservableCollection<CargosGroup>(fsql.Select<CargosGroup>().ToList());
+            return new(fsql.Select<CargosGroup>().ToList());
         }
+
         public static ObservableCollection<CargosGroup> InsertCargosGroups(string groupname)
         {
             var Result = new ObservableCollection<CargosGroup>();
@@ -74,12 +73,13 @@ namespace MyMarket.DbOperate
             }
             else
             {
-                fsql.Insert<CargosGroup>(new CargosGroup()
+                fsql.Insert(new CargosGroup
                 {
                     PDGroup = groupname
                 }).ExecuteAffrows();
                 Result = new ObservableCollection<CargosGroup>(fsql.Select<CargosGroup>().ToList());
             }
+
             return Result;
         }
     }
