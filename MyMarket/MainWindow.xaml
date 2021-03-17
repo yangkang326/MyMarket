@@ -12,6 +12,8 @@
     Title="MainWindow"
     Width="1600"
     Height="900"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <Window.DataContext>
         <viewModel:MainViewModel />
@@ -114,11 +116,20 @@
             </ScrollViewer>
             <Grid Grid.Row="2" Margin="2,2,2,20">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Height="30" Width="30" Kind="Search" VerticalAlignment="Center" />
-                    <TextBox FontSize="30" MinWidth="300" materialDesign:HintAssist.Hint="请输入产品名称、编码或简码"  materialDesign:HintAssist.HelperText="请输入产品名称、编码或简码" Text="{Binding SelectedString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                    <materialDesign:PackIcon
+                        Width="30"
+                        Height="30"
+                        VerticalAlignment="Center"
+                        Kind="Search" />
+                    <TextBox
+                        MinWidth="300"
+                        materialDesign:HintAssist.HelperText="请输入产品名称、编码或简码"
+                        materialDesign:HintAssist.Hint="请输入产品名称、编码或简码"
+                        FontSize="30"
+                        Text="{Binding SelectedString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="TextChanged">
-                                <i:InvokeCommandAction  Command="{Binding DataContext.SelectCargoByStringCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}" />
+                                <i:InvokeCommandAction Command="{Binding DataContext.SelectCargoByStringCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </TextBox>
@@ -134,62 +145,15 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <StackPanel>
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Stretch"
-                        FontSize="30"
-                        TextAlignment="Center">
-                        购物车
-                    </TextBlock>
-                    <StackPanel
-                        Margin="5"
-                        HorizontalAlignment="Left"
-                        Orientation="Horizontal"
-                        Visibility="Collapsed">
-                        <TextBlock
-                            MinWidth="100"
-                            Margin="5,0"
-                            FontSize="24"
-                            Text=""
-                            TextAlignment="Center">
-                            <Run Text="名称" />
-                        </TextBlock>
-                        <TextBlock
-                            MinWidth="100"
-                            Margin="5,0"
-                            FontSize="24"
-                            Text=""
-                            TextAlignment="Center">
-                            <Run Text="货号" />
-                        </TextBlock>
-                        <TextBlock
-                            MinWidth="100"
-                            Margin="5,0"
-                            FontSize="24"
-                            Text=""
-                            TextAlignment="Center">
-                            <Run Text="单价" />
-                        </TextBlock>
-                        <TextBlock
-                            MinWidth="100"
-                            Margin="5,0"
-                            FontSize="24"
-                            Text=""
-                            TextAlignment="Center">
-                            <Run Text="数量" />
-                        </TextBlock>
-                        <TextBlock
-                            MinWidth="100"
-                            Margin="5,0"
-                            FontSize="24"
-                            Text=""
-                            TextAlignment="Center">
-                            <Run Text="总价" />
-                        </TextBlock>
-                    </StackPanel>
-                </StackPanel>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    FontSize="30"
+                    TextAlignment="Center">
+                    购物车
+                </TextBlock>
                 <DataGrid
                     x:Name="dataGrid"
                     Grid.Row="1"
@@ -260,6 +224,31 @@
                         </ItemContainerTemplate>
                     </ItemsControl.ItemTemplate>
                 </DataGrid>
+                <StackPanel Grid.Row="2">
+                    <TextBlock>
+                        <Run FontSize="50" Text="00000" />
+                        <Run Text="KG" />
+                    </TextBlock>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="24" VerticalAlignment="Center">稳定</TextBlock>
+                            <Border Background="Red" Height="20" Width="20" CornerRadius="10"></Border>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock FontSize="24" VerticalAlignment="Center">净重</TextBlock>
+                            <Border Background="Red" Height="20" Width="20" CornerRadius="10"></Border>
+                        </StackPanel>
+                        <StackPanel  Grid.Column="2" Orientation="Horizontal">
+                            <TextBlock FontSize="24" VerticalAlignment="Center">连称</TextBlock>
+                            <Border Background="Red" Height="20" Width="20" CornerRadius="10"></Border>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>

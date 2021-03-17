@@ -17,20 +17,9 @@ namespace MyMarket.ViewModel
         private ObservableCollection<int> _HoldCartsIndexCollection;
         private int _HoldCount;
         private ObservableCollection<CargoInfoModel> _ProductsCollection;
-        private double _TotalPrice;
         private string _SelectedString;
+        private double _TotalPrice;
 
-        public string SelectedString
-        {
-            get => _SelectedString;
-            set
-            {
-                _SelectedString = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RelayCommand<string> SelectCargoByStringCommand { get; set; }
         public MainViewModel()
         {
             _CartCount = 0;
@@ -113,11 +102,23 @@ namespace MyMarket.ViewModel
                     HoldCount = HoldCartsCollection.Count;
                 }
             });
-            SelectCargoByStringCommand = new RelayCommand<string>((s) =>
+            SelectCargoByStringCommand = new RelayCommand<string>(s =>
             {
                 ProductsCollection = DbConn.GetCargoInfoModelsByString(s);
             });
         }
+
+        public string SelectedString
+        {
+            get => _SelectedString;
+            set
+            {
+                _SelectedString = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RelayCommand<string> SelectCargoByStringCommand { get; set; }
 
         public int HoldCount
         {

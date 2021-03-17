@@ -13,9 +13,9 @@
             <converter:StringToImageSourceConverter x:Key="ImageSourceConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:BundledTheme
-                    BaseTheme="Light"
-                    PrimaryColor="LightGreen"
-                    SecondaryColor="LightGreen" />
+                    BaseTheme="Dark"
+                    PrimaryColor="DeepOrange"
+                    SecondaryColor="Red" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
