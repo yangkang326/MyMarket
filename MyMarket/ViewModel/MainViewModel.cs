@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -10,27 +11,22 @@ namespace MyMarket.ViewModel
 {
     public class MainViewModel : ObservableObject
     {
-        private ObservableCollection<CargoInfoModel> _CargoInfoCollection;
+        private ObservableCollection<CargoInfoModel> _CargoInfoCollection = new();
         private int _CartCargosCount;
-        private ObservableCollection<CartItem> _CurentCargosCollection;
+        private ObservableCollection<CartItem> _CurentCargosCollection = new();
         private double _CurrentCurrentTotalPrice;
-        private ObservableCollection<string> _GroupNameCollection;
-        private ObservableCollection<ObservableCollection<CartItem>> _HoldCartsCollection;
-        private ObservableCollection<int> _HoldCartsIndexCollection;
+        private ObservableCollection<string> _GroupNameCollection = new();
+        private ObservableCollection<ObservableCollection<CartItem>> _HoldCartsCollection = new();
+        private ObservableCollection<int> _HoldCartsIndexCollection = new();
         private int _HoldCount;
-        private string _InputSearchString;
+        private string _InputSearchString = "";
 
         public MainViewModel()
         {
             _CartCargosCount = 0;
             _HoldCount = 0;
-            _HoldCartsIndexCollection = new ObservableCollection<int>();
-            _GroupNameCollection = new ObservableCollection<string>();
             foreach (var GoodsGroup in DbConn.GetCargosGroups())
                 GroupNameCollection.Add(GoodsGroup.PDGroup);
-            _CargoInfoCollection = new ObservableCollection<CargoInfoModel>();
-            _HoldCartsCollection = new ObservableCollection<ObservableCollection<CartItem>>();
-            _CurentCargosCollection = new ObservableCollection<CartItem>();
             CargoInfoCollection = DbConn.GetCargoInfoModels("*");
             AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
             {
@@ -39,11 +35,17 @@ namespace MyMarket.ViewModel
                     PDName = e.PDName,
                     PDSN = e.PDCode,
                     UnitPrice = e.PDSellPrice,
-                    Count = 1
+                    Count = e.IsWeighedNeeded ? GetWeight(e.PDSellPrice) : 1
                 });
                 CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
             });
-            PdContChangedCommand = new RelayCommand(() => { CurrentTotalPrice = DOAddTotal(CurentCargosCollection); });
+            PdContChangedCommand = new RelayCommand<object>(s =>
+            {
+                var tempobj = s as CartItem;
+                var temp = DbConn.fsql.Select<CargoInfoModel>().Where(i => i.PDCode == tempobj.PDSN).First().PDStock;
+                tempobj.Count = tempobj.Count > temp ? temp : tempobj.Count;
+                CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+            });
             DeleCartItemCommand = new RelayCommand<CartItem>(e =>
             {
                 CurentCargosCollection.Remove(e);
@@ -188,7 +190,7 @@ namespace MyMarket.ViewModel
             }
         }
 
-        public RelayCommand PdContChangedCommand { get; set; }
+        public RelayCommand<object> PdContChangedCommand { get; set; }
 
         public double CurrentTotalPrice
         {
@@ -210,6 +212,14 @@ namespace MyMarket.ViewModel
                 _CartCargosCount = value;
                 OnPropertyChanged();
             }
+        }
+
+        private double GetWeight(double UnitPrice)
+        {
+            double result = 0;
+            Task.Run(async () => { });
+            return result;
+            ;
         }
 
 

@@ -5,8 +5,8 @@ namespace MyMarket.Models
 {
     public class CargoInfoModel : ObservableObject
     {
-        private string _PDCode ="";
-        private double _PDProfit ;
+        private string _PDCode = "";
+        private double _PDProfit;
 
         [Column(IsIdentity = true, IsPrimary = true)]
         public int ID { get; set; }
@@ -51,7 +51,7 @@ namespace MyMarket.Models
 
         [Column(IsNullable = true)] public bool IsVipPointInc { get; set; } = false;
 
-        [Column(IsNullable = true)] public bool IsWeighedNeeded { get; set; }=false;
+        [Column(IsNullable = true)] public bool IsWeighedNeeded { get; set; } = false;
 
         [Column(IsNullable = true)] public bool IsCommunicationNeeded { get; set; } = false;
         public string PDGroup { get; set; } = "";

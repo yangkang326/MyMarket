@@ -7,7 +7,6 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:MyMarket.CargosManger.ViewModel"
-    xmlns:local1="clr-namespace:MyMarket.CargosManger.View"
     x:Name="window"
     Title="添加商品"
     Width="900"
@@ -32,7 +31,7 @@
             <Border
                 x:Name="border"
                 Height="50"
-                Background="#8bc34a"
+                Background="#ff5722"
                 CornerRadius="10">
                 <Grid>
                     <TextBlock
@@ -46,15 +45,15 @@
             </Border>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="6*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <materialDesign:DialogHost>
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="DialogClosing">
                             <b:InvokeCommandAction
-                                Command="{Binding DataContext.AddGroupDiaClosedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewCargo}}}"
+                                Command="{Binding DataContext.AddGroupDiaClosedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                 CommandParameter="{Binding ElementName=NewGroupNameInput, Path=Text}" />
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
@@ -178,7 +177,7 @@
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="TextChanged">
                                             <b:InvokeCommandAction
-                                                Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewCargo}}}" />
+                                                Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </TextBox>
@@ -192,7 +191,7 @@
                                     <b:Interaction.Triggers>
                                         <b:EventTrigger EventName="TextChanged">
                                             <b:InvokeCommandAction
-                                                Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local1:AddNewCargo}}}" />
+                                                Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                         </b:EventTrigger>
                                     </b:Interaction.Triggers>
                                 </TextBox>

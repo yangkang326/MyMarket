@@ -49,7 +49,8 @@ namespace MyMarket.DbOperate
         public static ObservableCollection<CargoInfoModel> InsertCargoInfoModels(CargoInfoModel newcargo)
         {
             var Result = new ObservableCollection<CargoInfoModel>();
-            if (newcargo.PDCode.Length> 0&&newcargo.PDName.Length>0&&newcargo.PDSubName.Length>0&&newcargo.PDSellPrice>0) 
+            if (newcargo.PDCode.Length > 0 && newcargo.PDName.Length > 0 && newcargo.PDSubName.Length > 0 &&
+                newcargo.PDSellPrice > 0)
             {
                 if (fsql.Select<CargoInfoModel>().Where(c => c.PDCode == newcargo.PDCode).ToList().Count > 0)
                 {
@@ -84,6 +85,7 @@ namespace MyMarket.DbOperate
             {
                 MessageBox.Show("商品信息输入不全");
             }
+
             return Result;
         }
 
@@ -110,6 +112,17 @@ namespace MyMarket.DbOperate
             }
 
             return Result;
+        }
+
+        public static void SellCargos(
+            ObservableCollection<CartItem> soldCargosCartItems)
+        {
+            foreach (var CartItem in soldCargosCartItems)
+            {
+                var item = fsql.Select<CargoInfoModel>().Where(i => i.PDCode == CartItem.PDSN).First();
+                fsql.Update<CargoInfoModel>(item.ID).Set(i => i.PDStock, item.PDStock - CartItem.Count)
+                    .ExecuteAffrows();
+            }
         }
     }
 }

@@ -19,6 +19,7 @@ namespace MyMarket.Models
             {
                 _Count = value;
                 PDTotalPrice = value * UnitPrice;
+                OnPropertyChanged();
             }
         }
 

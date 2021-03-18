@@ -4,13 +4,13 @@ using System.Windows;
 namespace MyMarket.CargosManger.View
 {
     /// <summary>
-    ///     AddNewCargo.xaml 的交互逻辑
+    ///     EditCargoWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class AddNewCargo : Window
+    public partial class EditCargoWindow : Window
     {
-        private static AddNewCargo Instance;
+        private static EditCargoWindow Instance;
 
-        private AddNewCargo()
+        private EditCargoWindow()
         {
             InitializeComponent();
             Closed += Dispose;
@@ -21,9 +21,9 @@ namespace MyMarket.CargosManger.View
             Instance = null;
         }
 
-        public static AddNewCargo GetInstance()
+        public static EditCargoWindow GetInstance()
         {
-            if (Instance == null) Instance = new AddNewCargo();
+            if (Instance == null) Instance = new EditCargoWindow();
             return Instance;
         }
     }
