@@ -17,6 +17,11 @@ namespace MyMarket
             InitializeComponent();
         }
 
+        private void MyHidDevice_DataReceived(byte[] data)
+        {
+            var a = data;
+        }
+
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             var addwin = AddNewCargo.GetInstance();

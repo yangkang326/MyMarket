@@ -4,17 +4,16 @@ using System.Windows;
 namespace MyMarket.CargosManger.View
 {
     /// <summary>
-    ///     AddNewCargo.xaml 的交互逻辑
+    ///     CheckModel.xaml 的交互逻辑
     /// </summary>
-    public partial class AddNewCargo : Window
+    public partial class CheckModel : Window
     {
-        private static AddNewCargo Instance;
+        private static CheckModel Instance;
 
-        private AddNewCargo()
+        private CheckModel()
         {
             InitializeComponent();
             Closed += Dispose;
-            Focus();
         }
 
         private void Dispose(object sender, EventArgs e)
@@ -22,9 +21,12 @@ namespace MyMarket.CargosManger.View
             Instance = null;
         }
 
-        public static AddNewCargo GetInstance()
+        public static CheckModel GetInstance()
         {
-            if (Instance == null) Instance = new AddNewCargo();
+            if (Instance == null) ;
+            {
+                Instance = new CheckModel();
+            }
             return Instance;
         }
     }

@@ -4,8 +4,11 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using MyMarket.CargosManger.ViewModel;
 using MyMarket.DbOperate;
 using MyMarket.Models;
+using MyMarket.Scanner;
 
 namespace MyMarket.ViewModel
 {
@@ -15,7 +18,7 @@ namespace MyMarket.ViewModel
         private int _CartCargosCount;
         private ObservableCollection<CartItem> _CurentCargosCollection = new();
         private double _CurrentCurrentTotalPrice;
-        private ObservableCollection<string> _GroupNameCollection = new();
+        private ObservableCollection<CargosGroup> _GroupNameCollection;
         private ObservableCollection<ObservableCollection<CartItem>> _HoldCartsCollection = new();
         private ObservableCollection<int> _HoldCartsIndexCollection = new();
         private int _HoldCount;
@@ -23,10 +26,12 @@ namespace MyMarket.ViewModel
 
         public MainViewModel()
         {
+            Scan.GetSerialPort("COM5");
+            Scan.OpenPort();
+            WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             _CartCargosCount = 0;
             _HoldCount = 0;
-            foreach (var GoodsGroup in DbConn.GetCargosGroups())
-                GroupNameCollection.Add(GoodsGroup.PDGroup);
+            _GroupNameCollection = DbConn.GetCargosGroups();
             CargoInfoCollection = DbConn.GetCargoInfoModels("*");
             AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
             {
@@ -60,9 +65,9 @@ namespace MyMarket.ViewModel
                     pd.PrintVisual(g, "111");
                 }
             });
-            SelectGropuChangedCommand = new RelayCommand<object>(o =>
+            SelectGropuChangedCommand = new RelayCommand<CargosGroup>(o =>
             {
-                CargoInfoCollection = DbConn.GetCargoInfoModels((string) o);
+                CargoInfoCollection = DbConn.GetCargoInfoModels(o.PDGroup);
             });
             HoldThisCartCommand = new RelayCommand(() =>
             {
@@ -104,23 +109,47 @@ namespace MyMarket.ViewModel
                     HoldCount = HoldCartsCollection.Count;
                 }
             });
-            SelectCargoByStringCommand = new RelayCommand<string>(s =>
-            {
-                CargoInfoCollection = DbConn.GetCargoInfoModelsByString(s);
-            });
         }
 
-        public string SelectedString
+        public ObservableCollection<CargosGroup> GroupNameCollection
+        {
+            get => _GroupNameCollection;
+            set
+            {
+                _GroupNameCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string InputSearchString
         {
             get => _InputSearchString;
             set
             {
                 _InputSearchString = value;
+                CargoInfoCollection = DbConn.GetCargoInfoModelsByString(value);
+                if (CargoInfoCollection.Count == 1)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        CurentCargosCollection.Add(new CartItem
+                        {
+                            PDName = CargoInfoCollection[0].PDName,
+                            PDSN = CargoInfoCollection[0].PDCode,
+                            UnitPrice = CargoInfoCollection[0].PDSellPrice,
+                            Count = CargoInfoCollection[0].IsWeighedNeeded
+                                ? GetWeight(CargoInfoCollection[0].PDSellPrice)
+                                : 1
+                        });
+                    });
+                    CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+                    InputSearchString = "*";
+                }
+
                 OnPropertyChanged();
             }
         }
 
-        public RelayCommand<string> SelectCargoByStringCommand { get; set; }
 
         public int HoldCount
         {
@@ -155,17 +184,7 @@ namespace MyMarket.ViewModel
             }
         }
 
-        public ObservableCollection<string> GroupNameCollection
-        {
-            get => _GroupNameCollection;
-            set
-            {
-                _GroupNameCollection = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public RelayCommand<object> SelectGropuChangedCommand { get; set; }
+        public RelayCommand<CargosGroup> SelectGropuChangedCommand { get; set; }
         public RelayCommand<CartItem> DeleCartItemCommand { get; set; }
 
         public ObservableCollection<CartItem> CurentCargosCollection
@@ -212,6 +231,11 @@ namespace MyMarket.ViewModel
                 _CartCargosCount = value;
                 OnPropertyChanged();
             }
+        }
+
+        private void Decode(object recipient, string message)
+        {
+            if (!CargoEditViewModel.IsActivated) InputSearchString = message;
         }
 
         private double GetWeight(double UnitPrice)

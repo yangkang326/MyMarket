@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Win32;
 using MyMarket.DbOperate;
 using MyMarket.Models;
@@ -11,11 +12,14 @@ namespace MyMarket.CargosManger.ViewModel
 {
     public class CargoEditViewModel : ObservableObject
     {
+        public static bool IsActivated;
         private ObservableCollection<string> _GroupNameCollection;
         private CargoInfoModel _NewDetialMoedl;
 
         public CargoEditViewModel()
         {
+            WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
+            IsActivated = true;
             _GroupNameCollection = new ObservableCollection<string>();
             foreach (var GoodsGroup in DbConn.fsql.Select<CargosGroup>().ToList())
                 GroupNameCollection.Add(GoodsGroup.PDGroup);
@@ -60,10 +64,11 @@ namespace MyMarket.CargosManger.ViewModel
                 var result = dialog.ShowDialog();
                 if ((bool) result) T.Text = dialog.FileName;
             });
+            ClosedCommand = new RelayCommand(() => { IsActivated = false; });
         }
 
         public RelayCommand AddAnothercommand { get; set; }
-
+        public RelayCommand ClosedCommand { get; set; }
         public RelayCommand<TextBox> SelectPicPath { get; set; }
 
         public ObservableCollection<string> GroupNameCollection
@@ -91,5 +96,10 @@ namespace MyMarket.CargosManger.ViewModel
         public RelayCommand CreatePDCodeCommand { get; set; }
         public RelayCommand ChangeProfitCommand { get; set; }
         public RelayCommand SaveThisGoodC0mmand { get; set; }
+
+        private void Decode(object recipient, string message)
+        {
+            if (IsActivated) NewDetialMoedl.PDCode = message;
+        }
     }
 }

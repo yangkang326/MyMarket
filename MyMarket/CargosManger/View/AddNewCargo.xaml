@@ -16,6 +16,13 @@
     WindowState="Normal"
     WindowStyle="None"
     mc:Ignorable="d">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Closed">
+            <b:InvokeCommandAction
+                Command="{Binding ClosedCommand}"
+                CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
     <Window.DataContext>
         <viewModel:CargoEditViewModel />
     </Window.DataContext>
