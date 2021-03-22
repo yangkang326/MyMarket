@@ -350,13 +350,13 @@
                     <Button
                         Margin="2"
                         Command="{Binding SaveThisGoodC0mmand}"
-                        Content="保存"
+                        Content="{Binding EditModel}"
                         FontSize="20" />
                     <Button
                         Margin="2"
                         Command="{Binding AddAnothercommand}"
                         Content="继续添加"
-                        FontSize="20" />
+                        FontSize="20" Cursor="Hand" />
                 </StackPanel>
             </Grid>
         </Grid>

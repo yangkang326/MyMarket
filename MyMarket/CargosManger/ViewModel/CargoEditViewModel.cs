@@ -13,11 +13,13 @@ namespace MyMarket.CargosManger.ViewModel
     public class CargoEditViewModel : ObservableObject
     {
         public static bool IsActivated;
+        private string _EditModel;
         private ObservableCollection<string> _GroupNameCollection;
         private CargoInfoModel _NewDetialMoedl;
 
         public CargoEditViewModel()
         {
+            _EditModel = "添加";
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             IsActivated = true;
             _GroupNameCollection = new ObservableCollection<string>();
@@ -70,6 +72,16 @@ namespace MyMarket.CargosManger.ViewModel
         public RelayCommand AddAnothercommand { get; set; }
         public RelayCommand ClosedCommand { get; set; }
         public RelayCommand<TextBox> SelectPicPath { get; set; }
+
+        public string EditModel
+        {
+            get => _EditModel;
+            set
+            {
+                _EditModel = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<string> GroupNameCollection
         {

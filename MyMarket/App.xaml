@@ -10,7 +10,10 @@
         <ResourceDictionary>
             <comcmd:ComCmd x:Key="ComCmd" />
             <converter:ValueToString x:Key="ValueToString" />
-            <converter:StringToImageSourceConverter x:Key="ImageSourceConverter" />
+            <Style TargetType="TextBlock" x:Key="FontIcon">
+                <Setter Property="FontFamily" Value="pack://application:,,,/Fonts/#iconfont" />
+                <Setter Property="FontSize" Value="40" />
+            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:BundledTheme
                     BaseTheme="Dark"

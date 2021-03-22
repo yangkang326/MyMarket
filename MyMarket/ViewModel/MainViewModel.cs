@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using MyMarket.AllMenu.View;
 using MyMarket.CargosManger.ViewModel;
 using MyMarket.DbOperate;
 using MyMarket.Models;
@@ -29,8 +30,6 @@ namespace MyMarket.ViewModel
             Scan.GetSerialPort("COM5");
             Scan.OpenPort();
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
-            _CartCargosCount = 0;
-            _HoldCount = 0;
             _GroupNameCollection = DbConn.GetCargosGroups();
             CargoInfoCollection = DbConn.GetCargoInfoModels("*");
             AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
@@ -78,6 +77,11 @@ namespace MyMarket.ViewModel
                     HoldCount = HoldCartsCollection.Count;
                     HoldCartsIndexCollection.Add(HoldCount);
                 }
+            });
+            OpenMenuViewCommand = new RelayCommand(() =>
+            {
+                var menuwin = MenuView.GetInstance();
+                menuwin.Show();
             });
             GetHoldCartByIndexCommand = new RelayCommand<int>(i =>
             {
@@ -150,7 +154,6 @@ namespace MyMarket.ViewModel
             }
         }
 
-
         public int HoldCount
         {
             get => _HoldCount;
@@ -186,6 +189,7 @@ namespace MyMarket.ViewModel
 
         public RelayCommand<CargosGroup> SelectGropuChangedCommand { get; set; }
         public RelayCommand<CartItem> DeleCartItemCommand { get; set; }
+        public RelayCommand OpenMenuViewCommand { get; set; }
 
         public ObservableCollection<CartItem> CurentCargosCollection
         {
@@ -241,7 +245,7 @@ namespace MyMarket.ViewModel
         private double GetWeight(double UnitPrice)
         {
             double result = 0;
-            Task.Run(async () => { });
+            Task.Run(async () => { await Task.Delay(10); });
             return result;
             ;
         }

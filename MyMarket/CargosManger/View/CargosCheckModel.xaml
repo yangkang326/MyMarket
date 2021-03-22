@@ -1,4 +1,4 @@
-﻿<Window x:Class="MyMarket.CargosManger.View.CheckModel"
+﻿<Window x:Class="MyMarket.CargosManger.View.CargosCheckModel"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,29 +15,40 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border>
-            <ListView Name="GroupNameListview" ItemsSource="{Binding GroupNameCollection}">
-                <ListView.ItemsPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ItemsControl ItemsSource="{Binding GroupNameCollection}">
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Width="{Binding ActualWidth, ElementName=GroupNameListview}" />
+                        <UniformGrid Columns="6" />
                     </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <RadioButton Background="#303030"
-                                     Width="200"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Center"
+                        <RadioButton Margin="2 1" Background="#303030"
                                      Command="{Binding DataContext.SelectGropuChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                      CommandParameter="{Binding }"
                                      Content="{Binding PDGroup}"
+                                     Foreground="White"
                                      GroupName="GoodsNameGr"
                                      Style="{StaticResource MaterialDesignTabRadioButton}" />
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Border>
-        <DataGrid Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding CargoCollection}" AutoGenerateColumns="False"
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button>添加</Button>
+                <Button Command="{Binding EditRelayCommand}"
+                        CommandParameter="{Binding SelectedItem, ElementName=dataGrid}" Cursor="Hand">
+                    修改
+                </Button>
+                <Button>删除</Button>
+            </StackPanel>
+        </Grid>
+        <DataGrid x:Name="dataGrid" SelectionUnit="FullRow" Grid.Row="1" IsReadOnly="True"
+                  ItemsSource="{Binding CargoCollection}" AutoGenerateColumns="False"
                   CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ID}" />
@@ -45,7 +56,6 @@
                 <DataGridTextColumn Header="编号" Binding="{Binding PDCode}" />
                 <DataGridTextColumn Header="售价" Binding="{Binding PDSellPrice}" />
                 <DataGridTextColumn Header="库存" Binding="{Binding PDStock}" />
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}" />
                 <DataGridCheckBoxColumn Header="需要称重" Binding="{Binding IsWeighedNeeded}" />
                 <DataGridTextColumn Header="单位" Binding="{Binding PDUnit}" />
                 <DataGridTextColumn Header="图片地址" Binding="{Binding PicPath}" />

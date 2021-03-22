@@ -16,7 +16,7 @@ namespace MyMarket.DbOperate
         public static ObservableCollection<CargoInfoModel> GetCargoInfoModels(string groupname)
         {
             var Result = new ObservableCollection<CargoInfoModel>();
-            if (groupname == "*")
+            if (groupname == "*" || groupname == "")
                 Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
             else
                 Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>()

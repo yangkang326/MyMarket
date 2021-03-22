@@ -29,97 +29,91 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <materialDesign:ColorZone>
-                <ListView Name="GoodTpyeListview" ItemsSource="{Binding GroupNameCollection}">
-                    <ListView.ItemsPanel>
+                <ItemsControl ItemsSource="{Binding GroupNameCollection}">
+                    <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Width="{Binding ActualWidth, ElementName=GoodTpyeListview}" />
+                            <UniformGrid Columns="5" />
                         </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <RadioButton
-                                Width="200"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
                                 Command="{Binding DataContext.SelectGropuChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                CommandParameter="{Binding }"
+                                CommandParameter="{Binding}"
                                 Content="{Binding PDGroup}"
                                 GroupName="GoodsNameGr"
                                 Style="{StaticResource MaterialDesignTabRadioButton}" />
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </materialDesign:ColorZone>
-            <ScrollViewer Grid.Row="1">
-                <ItemsControl Background="#303030"
-                              x:Name="GoodsListView"
-                              ItemsSource="{Binding CargoInfoCollection}"
-                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <materialDesign:Card
-                                x:Name="outBorder"
-                                Margin="5"
-                                Background="#ff5722">
-                                <Grid Background="Transparent">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Border
-                                        Margin="20"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding PicPath}" />
-                                        </Border.Background>
-                                    </Border>
-                                    <Button
-                                        Margin="0,10,10,0"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Command="{Binding DataContext.AddToCratCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        CommandParameter="{Binding}"
-                                        Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}">
-                                        <materialDesign:PackIcon
-                                            Width="24"
-                                            Height="24"
-                                            Kind="Cart" />
-                                    </Button>
-                                    <StackPanel Grid.Row="1">
-                                        <TextBlock
-                                            Margin="10,0,0,0"
-                                            HorizontalAlignment="Left"
-                                            FontSize="24"
-                                            Text="{Binding PDName}" />
-                                        <TextBlock Margin="10,0,10,0" HorizontalAlignment="Right">
-                                            <Run FontSize="24" Text="{Binding PDSellPrice}" />
-                                            <Run FontSize="20" Text="元/" />
-                                            <Run FontSize="20" Text="{Binding PDUnit}" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Grid>
-                            </materialDesign:Card>
-                        </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel
-                                Width="{Binding ActualWidth, ElementName=GoodsListView}"
-                                ItemHeight="250"
-                                ItemWidth="200" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
                 </ItemsControl>
-            </ScrollViewer>
+            </materialDesign:ColorZone>
+            <ItemsControl Grid.Row="1"
+                          x:Name="GoodsListView"
+                          Background="#303030"
+                          ItemsSource="{Binding CargoInfoCollection}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card Height="250"
+                                             x:Name="outBorder"
+                                             Margin="5"
+                                             Background="#ff5722">
+                            <Grid Background="Transparent">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Border
+                                    Margin="20"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding PicPath}" />
+                                    </Border.Background>
+                                </Border>
+                                <Button
+                                    Margin="0,10,10,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding DataContext.AddToCratCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}">
+                                    <materialDesign:PackIcon
+                                        Width="24"
+                                        Height="24"
+                                        Kind="Cart" />
+                                </Button>
+                                <StackPanel Grid.Row="1">
+                                    <TextBlock
+                                        Margin="10,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        FontSize="24"
+                                        Text="{Binding PDName}" />
+                                    <TextBlock Margin="10,0,10,0" HorizontalAlignment="Right">
+                                        <Run FontSize="24" Text="{Binding PDSellPrice}" />
+                                        <Run FontSize="20" Text="元/" />
+                                        <Run FontSize="20" Text="{Binding PDUnit}" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid VerticalAlignment="Top" Columns="5" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
             <Grid Grid.Row="2" Margin="2,2,2,20">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon
                         Width="30"
                         Height="30"
                         VerticalAlignment="Center"
-                        Kind="Search" IsTabStop="False" />
+                        IsTabStop="False"
+                        Kind="Search" />
                     <TextBox
                         MinWidth="300"
                         materialDesign:HintAssist.HelperText="请输入产品名称、编码或简码"
@@ -234,16 +228,28 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock FontSize="24" VerticalAlignment="Center">稳定</TextBlock>
-                            <Border Background="Red" Height="20" Width="20" CornerRadius="10" />
+                            <TextBlock VerticalAlignment="Center" FontSize="24">稳定</TextBlock>
+                            <Border
+                                Width="20"
+                                Height="20"
+                                Background="Red"
+                                CornerRadius="10" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <TextBlock FontSize="24" VerticalAlignment="Center">净重</TextBlock>
-                            <Border Background="Red" Height="20" Width="20" CornerRadius="10" />
+                            <TextBlock VerticalAlignment="Center" FontSize="24">净重</TextBlock>
+                            <Border
+                                Width="20"
+                                Height="20"
+                                Background="Red"
+                                CornerRadius="10" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Orientation="Horizontal">
-                            <TextBlock FontSize="24" VerticalAlignment="Center">连称</TextBlock>
-                            <Border Background="Red" Height="20" Width="20" CornerRadius="10" />
+                            <TextBlock VerticalAlignment="Center" FontSize="24">连称</TextBlock>
+                            <Border
+                                Width="20"
+                                Height="20"
+                                Background="Red"
+                                CornerRadius="10" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -353,7 +359,7 @@
                             Grid.Row="2"
                             Height="60"
                             Margin="0,2"
-                            Click="ButtonBase_OnClick">
+                            Command="{Binding OpenMenuViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon
                                     Width="40"

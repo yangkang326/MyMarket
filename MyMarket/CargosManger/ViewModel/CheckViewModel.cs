@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MyMarket.CargosManger.View;
 using MyMarket.DbOperate;
 using MyMarket.Models;
 
@@ -20,6 +22,21 @@ namespace MyMarket.CargosManger.ViewModel
             SelectGropuChangedCommand = new RelayCommand<CargosGroup>(g =>
             {
                 CargoCollection = DbConn.GetCargoInfoModels(g.PDGroup);
+            });
+            EditRelayCommand = new RelayCommand<CargoInfoModel>(async c =>
+            {
+                var win = AddNewCargo.GetInstance();
+                (win.DataContext as CargoEditViewModel).NewDetialMoedl = c;
+                (win.DataContext as CargoEditViewModel).EditModel = "修改";
+                win.Show();
+                win.Closed += UpdateList;
+            });
+            AddNewRelayCommand = new RelayCommand(async () =>
+            {
+                var win = AddNewCargo.GetInstance();
+                (win.DataContext as CargoEditViewModel).EditModel = "保存";
+                win.Show();
+                win.Closed += UpdateList;
             });
         }
 
@@ -43,6 +60,14 @@ namespace MyMarket.CargosManger.ViewModel
             }
         }
 
+        public RelayCommand AddNewRelayCommand { get; set; }
+        public RelayCommand<CargoInfoModel> EditRelayCommand { get; set; }
+        public RelayCommand<CargoInfoModel> DeleRelayCommand { get; set; }
         public RelayCommand<CargosGroup> SelectGropuChangedCommand { get; set; }
+
+        private void UpdateList(object sender, EventArgs e)
+        {
+            CargoCollection = DbConn.GetCargoInfoModels("*");
+        }
     }
 }

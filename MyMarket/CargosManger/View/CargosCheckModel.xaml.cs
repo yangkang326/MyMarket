@@ -6,11 +6,11 @@ namespace MyMarket.CargosManger.View
     /// <summary>
     ///     CheckModel.xaml 的交互逻辑
     /// </summary>
-    public partial class CheckModel : Window
+    public partial class CargosCheckModel : Window
     {
-        private static CheckModel Instance;
+        private static CargosCheckModel Instance;
 
-        private CheckModel()
+        private CargosCheckModel()
         {
             InitializeComponent();
             Closed += Dispose;
@@ -21,11 +21,11 @@ namespace MyMarket.CargosManger.View
             Instance = null;
         }
 
-        public static CheckModel GetInstance()
+        public static CargosCheckModel GetInstance()
         {
             if (Instance == null) ;
             {
-                Instance = new CheckModel();
+                Instance = new CargosCheckModel();
             }
             return Instance;
         }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Windows;
 
-namespace MyMarket.CargosManger.View
+namespace MyMarket.AllMenu.View
 {
     /// <summary>
-    ///     AddNewCargo.xaml 的交互逻辑
+    ///     MenuView.xaml 的交互逻辑
     /// </summary>
-    public partial class AddNewCargo : Window
+    public partial class MenuView : Window
     {
-        private static AddNewCargo Instance;
+        private static MenuView Instance;
 
-        private AddNewCargo()
+        private MenuView()
         {
             InitializeComponent();
             Closed += Dispose;
@@ -21,9 +21,9 @@ namespace MyMarket.CargosManger.View
             Instance = null;
         }
 
-        public static AddNewCargo GetInstance()
+        public static MenuView GetInstance()
         {
-            if (Instance == null) Instance = new AddNewCargo();
+            if (Instance == null) Instance = new MenuView();
             return Instance;
         }
     }
