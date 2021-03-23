@@ -9,9 +9,10 @@ using MyMarket.AllMenu.View;
 using MyMarket.CargosManger.ViewModel;
 using MyMarket.DbOperate;
 using MyMarket.Models;
+using MyMarket.Pay.View;
 using MyMarket.Scanner;
 
-namespace MyMarket.ViewModel
+namespace MyMarket.MainWin.ViewModel
 {
     public class MainViewModel : ObservableObject
     {
@@ -24,24 +25,22 @@ namespace MyMarket.ViewModel
         private ObservableCollection<int> _HoldCartsIndexCollection = new();
         private int _HoldCount;
         private string _InputSearchString = "";
-
+        public RelayCommand<DataGrid> ToEndCommand { get; set; }
         public MainViewModel()
         {
-            Scan.GetSerialPort("COM5");
-            Scan.OpenPort();
+            ToEndCommand = new RelayCommand<DataGrid>(d =>
+            {
+                if (d != null && d.Items.Count > 5) 
+                {
+                    d.ScrollIntoView(d.Items[d.Items.Count - 1]);
+                }
+            });
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             _GroupNameCollection = DbConn.GetCargosGroups();
             CargoInfoCollection = DbConn.GetCargoInfoModels("*");
             AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
             {
-                CurentCargosCollection.Add(new CartItem
-                {
-                    PDName = e.PDName,
-                    PDSN = e.PDCode,
-                    UnitPrice = e.PDSellPrice,
-                    Count = e.IsWeighedNeeded ? GetWeight(e.PDSellPrice) : 1
-                });
-                CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+                ADDToCart(e);
             });
             PdContChangedCommand = new RelayCommand<object>(s =>
             {
@@ -55,14 +54,10 @@ namespace MyMarket.ViewModel
                 CurentCargosCollection.Remove(e);
                 CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
             });
-            PrintDealDetialCommand = new RelayCommand<DataGrid>(g =>
+            PayDetialCommand = new RelayCommand(() =>
             {
-                var pd = new PrintDialog();
-                if (pd.ShowDialog() == true)
-                {
-                    g.Arrange(new Rect(new Size(g.ActualWidth, g.ActualHeight)));
-                    pd.PrintVisual(g, "111");
-                }
+                var win = PayWindow.GetInstace();
+                win.ShowDialog();
             });
             SelectGropuChangedCommand = new RelayCommand<CargosGroup>(o =>
             {
@@ -115,6 +110,23 @@ namespace MyMarket.ViewModel
             });
         }
 
+        private async void ADDToCart(CargoInfoModel c)
+        {
+            var tenmcont = 1.0;
+            if (c.IsWeighedNeeded)
+            {
+                await Task.Delay(1000);
+                tenmcont = 20;
+            }
+            CurentCargosCollection.Add(new CartItem
+            {
+                PDName = c.PDName,
+                PDSN = c.PDCode,
+                UnitPrice = c.PDSellPrice,
+                Count = tenmcont
+            });
+            CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+        }
         public ObservableCollection<CargosGroup> GroupNameCollection
         {
             get => _GroupNameCollection;
@@ -147,7 +159,7 @@ namespace MyMarket.ViewModel
                         });
                     });
                     CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
-                    InputSearchString = "*";
+                    InputSearchString = "";
                 }
 
                 OnPropertyChanged();
@@ -225,7 +237,7 @@ namespace MyMarket.ViewModel
             }
         }
 
-        public RelayCommand<DataGrid> PrintDealDetialCommand { get; set; }
+        public RelayCommand PayDetialCommand { get; set; }
 
         public int CartCount
         {
@@ -239,15 +251,14 @@ namespace MyMarket.ViewModel
 
         private void Decode(object recipient, string message)
         {
-            if (!CargoEditViewModel.IsActivated) InputSearchString = message;
+            if (!WindowsStatus.CargoEditWindowOpen) InputSearchString = message;
         }
 
         private double GetWeight(double UnitPrice)
         {
             double result = 0;
-            Task.Run(async () => { await Task.Delay(10); });
+            result = 30;
             return result;
-            ;
         }
 
 

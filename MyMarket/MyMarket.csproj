@@ -12,6 +12,7 @@
 		<PackageReference Include="FreeSql.Provider.Sqlite" Version="2.3.200" />
 		<PackageReference Include="FreeSql.Repository" Version="2.3.200" />
 		<PackageReference Include="HslCommunication" Version="9.6.5" />
+		<PackageReference Include="MaterialDesignExtensions" Version="3.3.0" />
 		<PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
@@ -21,6 +22,7 @@
 		<Folder Include="CargosManger\Model\" />
 		<Folder Include="Login\ViewModel\" />
 		<Folder Include="Login\Model\" />
+		<Folder Include="Pay\ViewModel\" />
 	</ItemGroup>
 	<ItemGroup>
 		<Resource Include="Fonts\iconfont.ttf">

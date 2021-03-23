@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -12,16 +13,15 @@ namespace MyMarket.CargosManger.ViewModel
 {
     public class CargoEditViewModel : ObservableObject
     {
-        public static bool IsActivated;
         private string _EditModel;
         private ObservableCollection<string> _GroupNameCollection;
-        private CargoInfoModel _NewDetialMoedl;
+        private CargoInfoModel _NewDetialMoedl =new CargoInfoModel();
 
         public CargoEditViewModel()
         {
             _EditModel = "添加";
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
-            IsActivated = true;
+            WindowsStatus.CargoEditWindowOpen = true;
             _GroupNameCollection = new ObservableCollection<string>();
             foreach (var GoodsGroup in DbConn.fsql.Select<CargosGroup>().ToList())
                 GroupNameCollection.Add(GoodsGroup.PDGroup);
@@ -33,13 +33,13 @@ namespace MyMarket.CargosManger.ViewModel
                 else
                     NewDetialMoedl.PDProfit = 0;
             });
-            CreatePDCodeCommand = new RelayCommand(() => { NewDetialMoedl.PDCode = "我去你大爷的"; });
-            SaveThisGoodC0mmand = new RelayCommand(() => { DbConn.InsertCargoInfoModels(NewDetialMoedl); });
-            AddAnothercommand = new RelayCommand(() =>
+            CreatePDCodeCommand = new RelayCommand(() =>
             {
-                DbConn.InsertCargoInfoModels(NewDetialMoedl);
                 NewDetialMoedl = new CargoInfoModel();
+                var s = DateTime.Now.ToString("yyyyMMddHHmmss") + DbConn.fsql.Select<CargoInfoModel>().ToList().Count.ToString("D5");
+                NewDetialMoedl.PDCode = s;
             });
+            SaveThisGoodC0mmand = new RelayCommand(() => { DbConn.InsertCargoInfoModels(NewDetialMoedl); });
             AddGroupDiaClosedCommand = new RelayCommand<string>(s =>
             {
                 if (s != null && s.Length >= 2 && !GroupNameCollection.Contains(s))
@@ -66,10 +66,9 @@ namespace MyMarket.CargosManger.ViewModel
                 var result = dialog.ShowDialog();
                 if ((bool) result) T.Text = dialog.FileName;
             });
-            ClosedCommand = new RelayCommand(() => { IsActivated = false; });
+            ClosedCommand = new RelayCommand(() => { WindowsStatus.CargoEditWindowOpen = false; });
         }
 
-        public RelayCommand AddAnothercommand { get; set; }
         public RelayCommand ClosedCommand { get; set; }
         public RelayCommand<TextBox> SelectPicPath { get; set; }
 
@@ -111,7 +110,8 @@ namespace MyMarket.CargosManger.ViewModel
 
         private void Decode(object recipient, string message)
         {
-            if (IsActivated) NewDetialMoedl.PDCode = message;
+            NewDetialMoedl = new CargoInfoModel();
+            if (WindowsStatus.CargoEditWindowOpen) NewDetialMoedl.PDCode = message;
         }
     }
 }

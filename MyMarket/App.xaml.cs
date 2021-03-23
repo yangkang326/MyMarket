@@ -1,6 +1,8 @@
 ﻿#region
 
 using System.Windows;
+using MyMarket.MainWin.View;
+using MyMarket.Scanner;
 
 #endregion
 
@@ -11,8 +13,13 @@ namespace MyMarket
     /// </summary>
     public partial class App : Application
     {
-        public static void Search()
+        private void App_OnStartup(object sender, StartupEventArgs e)
         {
+            Scan.GetSerialPort("COM5");
+            Scan.OpenPort();
+            var win = MyMarket.MainWin.View.MainWindow.GetInstance();
+            WindowsStatus.MainWindowOpen = true;
+            win.Show();
         }
     }
 }

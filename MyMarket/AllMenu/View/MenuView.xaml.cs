@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows;
+using MaterialDesignExtensions.Controls;
 
 namespace MyMarket.AllMenu.View
 {
     /// <summary>
     ///     MenuView.xaml 的交互逻辑
     /// </summary>
-    public partial class MenuView : Window
+    public partial class MenuView : MaterialWindow
     {
         private static MenuView Instance;
 

@@ -54,30 +54,15 @@ namespace MyMarket.DbOperate
             {
                 if (fsql.Select<CargoInfoModel>().Where(c => c.PDCode == newcargo.PDCode).ToList().Count > 0)
                 {
-                    MessageBox.Show("商品序号重复！！！");
+                    var result= MessageBox.Show("确认更改！！！","更改提示",MessageBoxButton.YesNo);
+                    if (result==MessageBoxResult.Yes)
+                    {
+                        fsql.InsertOrUpdate<CargoInfoModel>().SetSource(newcargo).ExecuteAffrows();
+                    }
                     Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
                 }
                 else
                 {
-                    fsql.Insert(new CargoInfoModel
-                    {
-                        IsCommunicationNeeded = newcargo.IsCommunicationNeeded,
-                        IsVipDiscount = newcargo.IsVipDiscount,
-                        IsVipPointInc = newcargo.IsVipPointInc,
-                        IsWeighedNeeded = newcargo.IsWeighedNeeded,
-                        PDCode = newcargo.PDCode,
-                        PDCost = newcargo.PDCost,
-                        PDGroup = newcargo.PDGroup,
-                        PDName = newcargo.PDName,
-                        PDProfit = newcargo.PDProfit,
-                        PDSubName = newcargo.PDSubName,
-                        PDStock = newcargo.PDStock,
-                        PDSellPrice = newcargo.PDSellPrice,
-                        PDSupplier = newcargo.PDSupplier,
-                        WeighSN = newcargo.WeighSN,
-                        PicPath = newcargo.PicPath,
-                        PDUnit = newcargo.PDUnit
-                    }).ExecuteAffrows();
                     Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
                 }
             }
