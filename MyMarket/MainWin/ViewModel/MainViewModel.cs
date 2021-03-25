@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,11 +7,9 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using MyMarket.AllMenu.View;
-using MyMarket.CargosManger.ViewModel;
 using MyMarket.DbOperate;
 using MyMarket.Models;
 using MyMarket.Pay.View;
-using MyMarket.Scanner;
 
 namespace MyMarket.MainWin.ViewModel
 {
@@ -25,15 +24,22 @@ namespace MyMarket.MainWin.ViewModel
         private ObservableCollection<int> _HoldCartsIndexCollection = new();
         private int _HoldCount;
         private string _InputSearchString = "";
-        public RelayCommand<DataGrid> ToEndCommand { get; set; }
+
         public MainViewModel()
         {
             ToEndCommand = new RelayCommand<DataGrid>(d =>
             {
-                if (d != null && d.Items.Count > 5) 
+                Task.Run(() =>
                 {
-                    d.ScrollIntoView(d.Items[d.Items.Count - 1]);
-                }
+                    while (WindowsStatus.MainWindowOpen)
+                    {
+                        Thread.Sleep(500);
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            if (d != null && d.Items.Count > 5) d.ScrollIntoView(d.Items[d.Items.Count - 1]);
+                        });
+                    }
+                });
             });
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             _GroupNameCollection = DbConn.GetCargosGroups();
@@ -41,6 +47,7 @@ namespace MyMarket.MainWin.ViewModel
             AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
             {
                 ADDToCart(e);
+                InputSearchString = "*";
             });
             PdContChangedCommand = new RelayCommand<object>(s =>
             {
@@ -110,23 +117,8 @@ namespace MyMarket.MainWin.ViewModel
             });
         }
 
-        private async void ADDToCart(CargoInfoModel c)
-        {
-            var tenmcont = 1.0;
-            if (c.IsWeighedNeeded)
-            {
-                await Task.Delay(1000);
-                tenmcont = 20;
-            }
-            CurentCargosCollection.Add(new CartItem
-            {
-                PDName = c.PDName,
-                PDSN = c.PDCode,
-                UnitPrice = c.PDSellPrice,
-                Count = tenmcont
-            });
-            CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
-        }
+        public RelayCommand<DataGrid> ToEndCommand { get; set; }
+
         public ObservableCollection<CargosGroup> GroupNameCollection
         {
             get => _GroupNameCollection;
@@ -144,24 +136,6 @@ namespace MyMarket.MainWin.ViewModel
             {
                 _InputSearchString = value;
                 CargoInfoCollection = DbConn.GetCargoInfoModelsByString(value);
-                if (CargoInfoCollection.Count == 1)
-                {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        CurentCargosCollection.Add(new CartItem
-                        {
-                            PDName = CargoInfoCollection[0].PDName,
-                            PDSN = CargoInfoCollection[0].PDCode,
-                            UnitPrice = CargoInfoCollection[0].PDSellPrice,
-                            Count = CargoInfoCollection[0].IsWeighedNeeded
-                                ? GetWeight(CargoInfoCollection[0].PDSellPrice)
-                                : 1
-                        });
-                    });
-                    CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
-                    InputSearchString = "";
-                }
-
                 OnPropertyChanged();
             }
         }
@@ -249,9 +223,46 @@ namespace MyMarket.MainWin.ViewModel
             }
         }
 
+        private async void ADDToCart(CargoInfoModel c)
+        {
+            var tenmcont = 1.0;
+            if (c.IsWeighedNeeded)
+            {
+                await Task.Delay(1000);
+                tenmcont = 20;
+            }
+
+            CurentCargosCollection.Add(new CartItem
+            {
+                PDName = c.PDName,
+                PDSN = c.PDCode,
+                UnitPrice = c.PDSellPrice,
+                Count = tenmcont
+            });
+            CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+        }
+
         private void Decode(object recipient, string message)
         {
             if (!WindowsStatus.CargoEditWindowOpen) InputSearchString = message;
+            CargoInfoCollection = DbConn.GetCargoInfoModelsByString(message);
+            if (CargoInfoCollection.Count == 1)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    CurentCargosCollection.Add(new CartItem
+                    {
+                        PDName = CargoInfoCollection[0].PDName,
+                        PDSN = CargoInfoCollection[0].PDCode,
+                        UnitPrice = CargoInfoCollection[0].PDSellPrice,
+                        Count = CargoInfoCollection[0].IsWeighedNeeded
+                            ? GetWeight(CargoInfoCollection[0].PDSellPrice)
+                            : 1
+                    });
+                });
+                CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+                InputSearchString = "";
+            }
         }
 
         private double GetWeight(double UnitPrice)

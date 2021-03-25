@@ -23,7 +23,7 @@ namespace MyMarket.CargosManger.ViewModel
             {
                 CargoCollection = DbConn.GetCargoInfoModels(g.PDGroup);
             });
-            EditRelayCommand = new RelayCommand<CargoInfoModel>(async c =>
+            EditRelayCommand = new RelayCommand<CargoInfoModel>(c =>
             {
                 var win = AddNewCargo.GetInstance();
                 (win.DataContext as CargoEditViewModel).NewDetialMoedl = c;
@@ -31,7 +31,7 @@ namespace MyMarket.CargosManger.ViewModel
                 win.Show();
                 win.Closed += UpdateList;
             });
-            AddNewRelayCommand = new RelayCommand(async () =>
+            AddNewRelayCommand = new RelayCommand(() =>
             {
                 var win = AddNewCargo.GetInstance();
                 (win.DataContext as CargoEditViewModel).EditModel = "保存";

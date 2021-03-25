@@ -1,9 +1,8 @@
 ﻿#region
 
 using System;
-using System.Resources;
+using System.ComponentModel;
 using System.Windows;
-using MaterialDesignExtensions.Controls;
 
 #endregion
 
@@ -12,16 +11,24 @@ namespace MyMarket.MainWin.View
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MaterialWindow
+    public partial class MainWindow : Window
     {
+        private static MainWindow Instance;
+
         public MainWindow()
         {
             InitializeComponent();
-            this.Closed+=Dispose;
-            App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            WindowsStatus.MainWindowOpen = true;
+            Closing += Closeing;
+            Closed += Dispose;
+            Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
-        private static MainWindow Instance;
+        private void Closeing(object sender, CancelEventArgs e)
+        {
+            WindowsStatus.MainWindowOpen = false;
+        }
+
         private void Dispose(object sender, EventArgs e)
         {
             Instance = null;
@@ -29,12 +36,8 @@ namespace MyMarket.MainWin.View
 
         public static MainWindow GetInstance()
         {
-            if (Instance == null)
-            {
-                Instance = new MainWindow();
-            }
+            if (Instance == null) Instance = new MainWindow();
             return Instance;
         }
-
     }
 }

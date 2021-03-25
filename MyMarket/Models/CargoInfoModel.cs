@@ -6,7 +6,12 @@ namespace MyMarket.Models
     public class CargoInfoModel : ObservableObject
     {
         private string _PDCode = "";
+
+        private double _PDCost;
         private double _PDProfit;
+
+        private double _PDSellPrice;
+        private string _PicPath = "";
 
         [Column(IsIdentity = true, IsPrimary = true)]
         public int ID { get; set; }
@@ -28,9 +33,27 @@ namespace MyMarket.Models
 
         [Column(IsNullable = false)] public double PDStock { get; set; }
 
-        [Column(IsNullable = false)] public double PDSellPrice { get; set; }
+        [Column(IsNullable = false)]
+        public double PDSellPrice
+        {
+            get => _PDSellPrice;
+            set
+            {
+                _PDSellPrice = value;
+                if (_PDCost > 0) PDProfit = (value - _PDCost) / _PDCost;
+            }
+        }
 
-        [Column(IsNullable = false)] public double PDCost { get; set; }
+        [Column(IsNullable = false)]
+        public double PDCost
+        {
+            get => _PDCost;
+            set
+            {
+                _PDCost = value;
+                if (value > 0) PDProfit = (_PDSellPrice - value) / value;
+            }
+        }
 
         [Column(IsNullable = false)]
         public double PDProfit
@@ -56,6 +79,16 @@ namespace MyMarket.Models
         [Column(IsNullable = true)] public bool IsCommunicationNeeded { get; set; } = false;
         public string PDGroup { get; set; } = "";
         [Column(IsNullable = true)] public string WeighSN { get; set; } = "";
-        [Column(IsNullable = true)] public string PicPath { get; set; } = "";
+
+        [Column(IsNullable = true)]
+        public string PicPath
+        {
+            get => _PicPath;
+            set
+            {
+                _PicPath = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

@@ -1,11 +1,9 @@
-﻿<mde:MaterialWindow
+﻿<Window
     x:Class="MyMarket.Pay.View.PayWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MyMarket.Pay.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
     xmlns:vm="clr-namespace:MyMarket.Pay.ViewModel"
     Title="PayWindow"
     Width="800"
@@ -43,130 +41,163 @@
             Grid.Row="1"
             Grid.Column="2"
             Grid.ColumnSpan="3"
-            Cursor="IBeam"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Cursor="IBeam" />
         <TextBox
             Grid.Row="2"
             Grid.Column="2"
             Grid.ColumnSpan="3"
-            Cursor="IBeam"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Cursor="IBeam" />
         <TextBox
             Grid.Row="3"
             Grid.Column="2"
             Grid.ColumnSpan="3"
-            Cursor="IBeam"
-            Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+            Cursor="IBeam" />
         <Button
             Grid.Row="4"
             Grid.Column="1"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             1
         </Button>
         <Button
             Grid.Row="4"
             Grid.Column="2"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             2
         </Button>
         <Button
             Grid.Row="4"
             Grid.Column="3"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             3
         </Button>
         <Button
             Grid.Row="5"
             Grid.Column="1"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             4
         </Button>
         <Button
             Grid.Row="5"
             Grid.Column="2"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             5
         </Button>
         <Button
             Grid.Row="5"
             Grid.Column="3"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             6
         </Button>
         <Button
             Grid.Row="6"
             Grid.Column="1"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             7
         </Button>
         <Button
             Grid.Row="6"
             Grid.Column="2"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             8
         </Button>
         <Button
             Grid.Row="6"
             Grid.Column="3"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             9
         </Button>
         <Button
             Grid.Row="7"
             Grid.Column="1"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             0
         </Button>
         <Button
             Grid.Row="7"
             Grid.Column="2"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             00
         </Button>
         <Button
             Grid.Row="7"
             Grid.Column="3"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             .
         </Button>
         <Button
             Grid.Row="4"
             Grid.Column="4"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             10
         </Button>
         <Button
             Grid.Row="5"
             Grid.Column="4"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             20
         </Button>
         <Button
             Grid.Row="6"
             Grid.Column="4"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             50
         </Button>
         <Button
             Grid.Row="7"
             Grid.Column="4"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             100
         </Button>
         <Button
             Grid.Row="4"
             Grid.Column="5"
-            Margin="5">
+            Margin="2"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             CE
         </Button>
         <Button
             Grid.Row="5"
             Grid.RowSpan="3"
             Grid.Column="5"
-            Margin="5"
+            Margin="2"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
+            VerticalAlignment="Stretch"
+            Background="LightGreen"
+            Style="{StaticResource ButtonCustom}">
             确定
         </Button>
     </Grid>
-</mde:MaterialWindow>
+</Window>

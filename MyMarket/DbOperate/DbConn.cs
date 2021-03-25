@@ -49,20 +49,20 @@ namespace MyMarket.DbOperate
         public static ObservableCollection<CargoInfoModel> InsertCargoInfoModels(CargoInfoModel newcargo)
         {
             var Result = new ObservableCollection<CargoInfoModel>();
-            if (newcargo.PDCode.Length > 0 && newcargo.PDName.Length > 0 && newcargo.PDSubName.Length > 0 &&
+            if (newcargo.PDCode.Length > 0 && newcargo.PDName.Length > 0 &&
                 newcargo.PDSellPrice > 0)
             {
                 if (fsql.Select<CargoInfoModel>().Where(c => c.PDCode == newcargo.PDCode).ToList().Count > 0)
                 {
-                    var result= MessageBox.Show("确认更改！！！","更改提示",MessageBoxButton.YesNo);
-                    if (result==MessageBoxResult.Yes)
-                    {
-                        fsql.InsertOrUpdate<CargoInfoModel>().SetSource(newcargo).ExecuteAffrows();
-                    }
+                    var result = MessageBox.Show("确认更改！！！", "更改提示", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.Yes)
+                        fsql.Update<CargoInfoModel>().Where(a => a.PDCode == newcargo.PDCode).SetSource(newcargo)
+                            .ExecuteAffrows();
                     Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
                 }
                 else
                 {
+                    fsql.Insert(newcargo).ExecuteAffrows();
                     Result = new ObservableCollection<CargoInfoModel>(fsql.Select<CargoInfoModel>().ToList());
                 }
             }

@@ -2,9 +2,13 @@
 
 namespace MyMarket.Pay.ViewModel
 {
-    public class PayViewModel:ObservableObject
+    public class PayViewModel : ObservableObject
     {
         private double _CargosCost;
+
+        private double _Exchange;
+
+        private double _Pay;
 
         public double CargosCost
         {
@@ -16,20 +20,16 @@ namespace MyMarket.Pay.ViewModel
             }
         }
 
-        private double _Pay;
-
         public double Pay
         {
             get => _Pay;
             set
             {
                 _Pay = value;
-                _Exchange = value - _CargosCost>0? value - _CargosCost:0;
+                _Exchange = value - _CargosCost > 0 ? value - _CargosCost : 0;
                 OnPropertyChanged();
             }
         }
-
-        private double _Exchange;
 
         public double Exchange
         {

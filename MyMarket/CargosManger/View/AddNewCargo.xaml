@@ -1,23 +1,16 @@
-﻿<mde:MaterialWindow
+﻿<Window
     x:Class="MyMarket.CargosManger.View.AddNewCargo"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
     xmlns:viewModel="clr-namespace:MyMarket.CargosManger.ViewModel"
     x:Name="window"
     Title="添加商品"
     Width="900"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <b:Interaction.Triggers>
-        <b:EventTrigger EventName="Closed">
-            <b:InvokeCommandAction Command="{Binding ClosedCommand}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-        </b:EventTrigger>
-    </b:Interaction.Triggers>
     <Window.DataContext>
         <viewModel:CargoEditViewModel />
     </Window.DataContext>
@@ -27,158 +20,119 @@
             <RowDefinition Height="6*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <materialDesign:DialogHost>
-            <b:Interaction.Triggers>
-                <b:EventTrigger EventName="DialogClosing">
-                    <b:InvokeCommandAction Command="{Binding DataContext.AddGroupDiaClosedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding ElementName=NewGroupNameInput, Path=Text}" />
-                </b:EventTrigger>
-            </b:Interaction.Triggers>
-            <materialDesign:DialogHost.DialogContent>
-                <Grid
-                    Width="300"
-                    Height="200"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+        <GroupBox
+            Margin="20,10"
+            FontSize="24"
+            Header="基础信息">
+            <StackPanel>
+                <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        hc:InfoElement.Necessary="True"
+                        Text="{Binding NewDetialMoedl.PDCode}"
+                        hc:InfoElement.Title="商品条码："
+                        hc:InfoElement.TitlePlacement="Left"
+
+                        Style="{StaticResource TextBoxExtend}" />
+                    <Button
+                        Grid.Column="1"
+                        Command="{Binding CreatePDCodeCommand}"
+                        Content="生成" />
+                </Grid>
+                <Grid Margin="2,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBox
-                        Name="NewGroupNameInput"
-                        Grid.Column="0"
-                        Margin="3"
-                        VerticalAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        materialDesign:HintAssist.Hint="新类名" />
-                    <Button
+                        hc:InfoElement.Necessary="True"
+                        Text="{Binding NewDetialMoedl.PDName}"
+                        hc:InfoElement.Title="商品名称："
+                        hc:InfoElement.TitlePlacement="Left"
+
+                        Style="{StaticResource TextBoxExtend}" />
+                    <TextBox
                         Grid.Column="1"
-                        Margin="3"
-                        VerticalContentAlignment="Center"
-                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
-                        确认
-                    </Button>
+                        hc:InfoElement.Necessary="True"
+                        Text="{Binding NewDetialMoedl.PDSubName}"
+                        hc:InfoElement.Title="拼音码："
+                        hc:InfoElement.TitlePlacement="Left"
+                        Style="{StaticResource TextBoxExtend}" />
                 </Grid>
-            </materialDesign:DialogHost.DialogContent>
-            <GroupBox
-                Margin="20,10"
-                FontSize="24"
-                Header="基础信息">
-                <StackPanel>
-                    <Grid Margin="2,5">
+                <Grid Margin="2,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="80" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock VerticalAlignment="Center">
-                            <Run Text="商品条码：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
-                        </TextBlock>
-                        <TextBox
-                            Grid.Column="1"
-                            materialDesign:HintAssist.Hint="手动输入或点击生成按钮"
-                            Text="{Binding NewDetialMoedl.PDCode}" />
-                        <Button
-                            Grid.Column="2"
-                            Command="{Binding CreatePDCodeCommand}"
-                            Content="生成" />
-                    </Grid>
-                    <Grid Margin="2,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock VerticalAlignment="Center">
-                            <Run Text="商品名称：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
-                        </TextBlock>
-                        <TextBox
-                            Grid.Column="1"
-                            materialDesign:HintAssist.Hint="例如：苹果"
-                            Text="{Binding NewDetialMoedl.PDName}" />
-                        <TextBlock Grid.Column="2" VerticalAlignment="Center">
-                            <Run Text="拼音码：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
-                        </TextBlock>
-                        <TextBox
-                            Grid.Column="3"
-                            materialDesign:HintAssist.Hint="例如：pg"
-                            Text="{Binding NewDetialMoedl.PDSubName}" />
-                    </Grid>
-                    <Grid Margin="2,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock VerticalAlignment="Center">
-                            <Run Text="商品分类：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
-                        </TextBlock>
                         <ComboBox
-                            Grid.Column="1"
-                            materialDesign:HintAssist.Hint="Search"
-                            materialDesign:HintAssist.HintOpacity=".26"
-                            IsEnabled="True"
+                            Width="380"
+                            hc:InfoElement.Necessary="True"
+                            Text="{Binding NewDetialMoedl.PDGroup}"
+                            hc:InfoElement.Title="商品分类"
+                            hc:InfoElement.TitlePlacement="Left"
+                            IsEditable="True"
                             ItemsSource="{Binding GroupNameCollection}"
-                            Text="{Binding NewDetialMoedl.PDGroup}" />
-                        <Button Grid.Column="2" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
-                            <materialDesign:PackIcon Kind="Add" />
-                        </Button>
-                        <TextBlock Grid.Column="3" VerticalAlignment="Center">
-                            <Run Text="商品库存：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
-                        </TextBlock>
-                        <TextBox
-                            Grid.Column="4"
-                            materialDesign:HintAssist.Hint="例如：100Kg"
-                            Text="{Binding NewDetialMoedl.PDStock}" />
-                    </Grid>
-                    <Grid Margin="2,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock VerticalAlignment="Center">
-                            <Run Text="售价：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
-                        </TextBlock>
-                        <TextBox
+                            Style="{StaticResource ComboBoxExtend}" />
+                        <hc:SplitButton
+                            x:Name="splitButton"
                             Grid.Column="1"
-                            materialDesign:HintAssist.Hint="￥0"
-                            Text="{Binding NewDetialMoedl.PDSellPrice, Mode=TwoWay, StringFormat=\{0:F2\}, UpdateSourceTrigger=PropertyChanged}">
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="TextChanged">
-                                    <b:InvokeCommandAction Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                        </TextBox>
-                        <TextBlock Grid.Column="2" VerticalAlignment="Center">
-                            <Run Text="进价：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
-                        </TextBlock>
-                        <TextBox
-                            Grid.Column="3"
-                            materialDesign:HintAssist.Hint="￥0"
-                            Text="{Binding NewDetialMoedl.PDCost, Mode=TwoWay, StringFormat=\{0:F2\}, UpdateSourceTrigger=PropertyChanged}">
-                            <b:Interaction.Triggers>
-                                <b:EventTrigger EventName="TextChanged">
-                                    <b:InvokeCommandAction Command="{Binding DataContext.ChangeProfitCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                                </b:EventTrigger>
-                            </b:Interaction.Triggers>
-                        </TextBox>
-                        <TextBlock Grid.Column="4" VerticalAlignment="Center">
-                            <Run Text="毛利率：" /><Run Text=" " /><Run Foreground="Red" Text="*" />
-                        </TextBlock>
-                        <TextBlock
-                            Grid.Column="5"
-                            materialDesign:HintAssist.Hint="0"
-                            Text="{Binding NewDetialMoedl.PDProfit, Mode=TwoWay, StringFormat=\{0:P2\}, UpdateSourceTrigger=PropertyChanged}" />
+                            Content="+">
+                            <hc:SplitButton.DropDownContent>
+                                <StackPanel>
+                                    <TextBox Name="InputGroup" Width="150" Text="{Binding NewGroupNameInput}" />
+                                    <Button Command="{Binding AddGroupNameCommand}">确定</Button>
+                                </StackPanel>
+                            </hc:SplitButton.DropDownContent>
+                        </hc:SplitButton>
                     </Grid>
-                </StackPanel>
-            </GroupBox>
-        </materialDesign:DialogHost>
+                    <TextBox
+                        Grid.Column="1"
+                        hc:InfoElement.Necessary="True"
+                        Text="{Binding NewDetialMoedl.PDStock}"
+                        hc:InfoElement.Title="商品库存："
+                        hc:InfoElement.TitlePlacement="Left"
+
+                        Style="{StaticResource TextBoxExtend}" />
+                </Grid>
+                <Grid Margin="2,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        Grid.Column="0"
+                        hc:InfoElement.Necessary="True"
+                        Text="{Binding NewDetialMoedl.PDSellPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        hc:InfoElement.Title="售价："
+                        hc:InfoElement.TitlePlacement="Left"
+                        Style="{StaticResource TextBoxExtend}" />
+                    <TextBox
+                        Grid.Column="1"
+                        hc:InfoElement.Necessary="True"
+                        Text="{Binding NewDetialMoedl.PDCost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        hc:InfoElement.Title="进价："
+                        hc:InfoElement.TitlePlacement="Left"
+                        Style="{StaticResource TextBoxExtend}" />
+                    <TextBox
+                        Grid.Column="2"
+                        hc:InfoElement.Necessary="True"
+                        Text="{Binding NewDetialMoedl.PDProfit, Mode=TwoWay, NotifyOnSourceUpdated=True, StringFormat=\{0:P\}, UpdateSourceTrigger=Default}"
+                        hc:InfoElement.Title="毛利："
+                        hc:InfoElement.TitlePlacement="Left"
+                        Style="{StaticResource TextBoxExtend}" />
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+
         <GroupBox
             Grid.Row="1"
             Margin="20,10"
@@ -187,35 +141,32 @@
             <StackPanel>
                 <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center">
-                        <Run Text="供货商：" />
-                    </TextBlock>
                     <TextBox
-                        Grid.Column="1"
-                        materialDesign:HintAssist.Hint="王二麻子"
-                        Text="{Binding NewDetialMoedl.PDSupplier}" />
-                    <TextBlock Grid.Column="2" VerticalAlignment="Center">
-                        <Run Text="单位：" />
-                    </TextBlock>
-                    <ComboBox
-                        Grid.Column="3"
-                        materialDesign:HintAssist.Hint="/500g"
-                        Text="{Binding NewDetialMoedl.PDUnit}">
-                        <TextBlock>/500g（斤）</TextBlock>
-                        <TextBlock>/1Kg（公斤）</TextBlock>
-                        <TextBlock>/盒</TextBlock>
-                        <TextBlock>/条</TextBlock>
-                        <TextBlock>/只</TextBlock>
-                        <TextBlock>/个</TextBlock>
-                        <TextBlock>/套</TextBlock>
-                        <TextBlock>/件</TextBlock>
-                        <TextBlock>/箱</TextBlock>
-                        <TextBlock>/打</TextBlock>
+                        Grid.Column="0"
+                        Text="{Binding NewDetialMoedl.PDSupplier}"
+                        hc:InfoElement.Title="供货商："
+                        hc:InfoElement.TitlePlacement="Left"
+                        Style="{StaticResource TextBoxExtend}" />
+                    <ComboBox Grid.Column="1"
+                              Text="{Binding NewDetialMoedl.PDUnit}"
+                              hc:InfoElement.Title="单位"
+                              hc:InfoElement.TitlePlacement="Left"
+                              IsEditable="True"
+                              Style="{StaticResource ComboBoxExtend}">
+                        <TextBlock>500g（斤）</TextBlock>
+                        <TextBlock>1Kg（公斤）</TextBlock>
+                        <TextBlock>盒</TextBlock>
+                        <TextBlock>条</TextBlock>
+                        <TextBlock>只</TextBlock>
+                        <TextBlock>个</TextBlock>
+                        <TextBlock>套</TextBlock>
+                        <TextBlock>件</TextBlock>
+                        <TextBlock>箱</TextBlock>
+                        <TextBlock>打</TextBlock>
+                        <TextBlock>瓶</TextBlock>
                     </ComboBox>
                 </Grid>
                 <Grid Margin="2,5">
@@ -230,7 +181,8 @@
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        IsChecked="{Binding NewDetialMoedl.IsVipDiscount}" />
+                        IsChecked="{Binding NewDetialMoedl.IsVipDiscount}"
+                        Style="{StaticResource ToggleButtonSwitch}" />
                 </Grid>
                 <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
@@ -244,7 +196,8 @@
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        IsChecked="{Binding NewDetialMoedl.IsVipPointInc}" />
+                        IsChecked="{Binding NewDetialMoedl.IsVipPointInc}"
+                        Style="{StaticResource ToggleButtonSwitch}" />
                 </Grid>
                 <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
@@ -260,7 +213,8 @@
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        IsChecked="{Binding NewDetialMoedl.IsWeighedNeeded}" />
+                        IsChecked="{Binding NewDetialMoedl.IsWeighedNeeded}"
+                        Style="{StaticResource ToggleButtonSwitch}" />
                     <TextBlock Grid.Column="2" VerticalAlignment="Center">
                         <Run Text="是否传秤：" />
                     </TextBlock>
@@ -268,40 +222,39 @@
                         Grid.Column="3"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        IsChecked="{Binding NewDetialMoedl.IsCommunicationNeeded}" />
+                        IsChecked="{Binding NewDetialMoedl.IsCommunicationNeeded}"
+                        Style="{StaticResource ToggleButtonSwitch}" />
                 </Grid>
                 <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center">
-                        <Run Text="秤编码：" />
-                    </TextBlock>
                     <TextBox
-                        Grid.Column="1"
-                        materialDesign:HintAssist.Hint="请输入秤编码"
-                        IsEnabled="True"
-                        Text="{Binding NewDetialMoedl.WeighSN}" />
-                    <TextBlock Grid.Column="2" VerticalAlignment="Center">
-                        <Run Text="图片地址：" />
-                    </TextBlock>
-                    <TextBox
-                        Name="PicPathBox"
-                        Grid.Column="3"
-                        materialDesign:HintAssist.Hint="//d"
-                        FontSize="20"
-                        IsEnabled="True"
-                        Text="{Binding NewDetialMoedl.PicPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
-                        Grid.Column="4"
-                        Command="{Binding SelectPicPath}"
-                        CommandParameter="{Binding ElementName=PicPathBox}">
-                        选择
-                    </Button>
+                        Grid.Column="0"
+                        Text="{Binding NewDetialMoedl.WeighSN}"
+                        hc:InfoElement.Title="秤编码："
+                        hc:InfoElement.TitlePlacement="Left"
+                        Style="{StaticResource TextBoxExtend}" />
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="PicPathBox"
+                                 Grid.Column="0"
+                                 Text="{Binding NewDetialMoedl.PicPath}"
+                                 hc:InfoElement.Title="图片地址："
+                                 hc:InfoElement.TitlePlacement="Left"
+                                 Style="{StaticResource TextBoxExtend}" />
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding SelectPicPath}"
+                            CommandParameter="{Binding ElementName=PicPathBox}">
+                            选择
+                        </Button>
+                    </Grid>
+
                 </Grid>
             </StackPanel>
         </GroupBox>
@@ -326,4 +279,4 @@
     </Grid>
 
 
-</mde:MaterialWindow>
+</Window>

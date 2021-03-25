@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Windows;
-using MaterialDesignExtensions.Controls;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using MyMarket.CargosManger.ViewModel;
 
 namespace MyMarket.CargosManger.View
 {
     /// <summary>
     ///     AddNewCargo.xaml 的交互逻辑
     /// </summary>
-    public partial class AddNewCargo : MaterialWindow
+    public partial class AddNewCargo : Window
     {
         private static AddNewCargo Instance;
 
@@ -23,8 +21,7 @@ namespace MyMarket.CargosManger.View
         {
             Instance = null;
             WindowsStatus.CargoEditWindowOpen = false;
-            WeakReferenceMessenger.Default.UnregisterAll(this.DataContext);
-            
+            WeakReferenceMessenger.Default.UnregisterAll(DataContext);
         }
 
         public static AddNewCargo GetInstance()

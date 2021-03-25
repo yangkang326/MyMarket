@@ -1,7 +1,6 @@
 ﻿#region
 
 using System.Windows;
-using MyMarket.MainWin.View;
 using MyMarket.Scanner;
 
 #endregion
@@ -17,7 +16,7 @@ namespace MyMarket
         {
             Scan.GetSerialPort("COM5");
             Scan.OpenPort();
-            var win = MyMarket.MainWin.View.MainWindow.GetInstance();
+            var win = MainWin.View.MainWindow.GetInstance();
             WindowsStatus.MainWindowOpen = true;
             win.Show();
         }

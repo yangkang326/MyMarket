@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Windows;
-using MaterialDesignExtensions.Controls;
 
 namespace MyMarket.CargosManger.View
 {
     /// <summary>
     ///     CheckModel.xaml 的交互逻辑
     /// </summary>
-    public partial class CargosCheckModel : MaterialWindow
+    public partial class CargosCheckModel : Window
     {
         private static CargosCheckModel Instance;
 
@@ -24,10 +23,7 @@ namespace MyMarket.CargosManger.View
 
         public static CargosCheckModel GetInstance()
         {
-            if (Instance == null)
-            {
-                Instance = new CargosCheckModel();
-            }
+            if (Instance == null) Instance = new CargosCheckModel();
             return Instance;
         }
     }

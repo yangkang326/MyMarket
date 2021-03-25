@@ -1,12 +1,11 @@
-﻿<mde:MaterialWindow
+﻿<Window
     x:Class="MyMarket.MainWin.View.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
     xmlns:viewModel="clr-namespace:MyMarket.MainWin.ViewModel"
     x:Name="window"
     Title="MainWindow"
@@ -21,7 +20,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="700" />
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
@@ -29,6 +28,7 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+
             <ItemsControl ItemsSource="{Binding GroupNameCollection}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -42,75 +42,68 @@
                             CommandParameter="{Binding}"
                             Content="{Binding PDGroup}"
                             GroupName="GoodsNameGr"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" />
+                            Style="{StaticResource RadioButtonIconBaseStyle}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <ItemsControl
-                x:Name="GoodsListView"
-                Grid.Row="1"
-                Background="#303030"
-                ItemsSource="{Binding CargoInfoCollection}"
-                ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <materialDesign:Card
-                            Height="250"
-                            Margin="5">
-                            <Grid Background="Transparent">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Border Margin="10 10 10 10"
-                                        CornerRadius="50">
-                                    <Border.Background>
-                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding PicPath}" />
-                                    </Border.Background>
-                                </Border>
-                                <Button Height="60"
-                                    Grid.Row="1" Margin="2"
-                                    Command="{Binding DataContext.AddToCratCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                    CommandParameter="{Binding}">
-                                    <StackPanel>
-                                        <TextBlock
-                                            Margin="10,0,0,0"
-                                            HorizontalAlignment="Left"
-                                            FontSize="24"
-                                            Text="{Binding PDName}" />
-                                        <TextBlock Margin="10,0,10,0" HorizontalAlignment="Right">
-                                            <Run FontSize="24" Text="{Binding PDSellPrice}" />
-                                            <Run FontSize="20" Text="元/" />
-                                            <Run FontSize="20" Text="{Binding PDUnit}" />
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button>
-                            </Grid>
-                        </materialDesign:Card>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel VerticalAlignment="Top"  />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <VirtualizingStackPanel Grid.Row="1">
+                <ItemsControl
+                    ItemsSource="{Binding CargoInfoCollection}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <hc:Card Margin="8" Effect="{StaticResource EffectShadow2}">
+                                <Image Width="150" Height="150">
+                                    <Image.Source>
+                                        <BitmapImage DecodePixelHeight="80"
+                                                     UriSource="{Binding PicPath, Converter={StaticResource StringToUri}}" />
+                                    </Image.Source>
+                                </Image>
+                                <hc:Card.Footer>
+                                    <Button
+                                        Grid.Row="1"
+                                        Height="60"
+                                        Margin="2"
+                                        Background="#67eb69"
+                                        Command="{Binding DataContext.AddToCratCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource ButtonCustom}">
+                                        <StackPanel>
+                                            <TextBlock
+                                                Margin="10,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                FontSize="24"
+                                                Text="{Binding PDName}" />
+                                            <TextBlock Margin="10,0,10,0" HorizontalAlignment="Right">
+                                                <Run FontSize="24" Text="{Binding PDSellPrice}" />
+                                                <Run FontSize="20" Text="元" />
+                                                <Run FontSize="20" Text="{Binding PDUnit}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Button>
+
+                                </hc:Card.Footer>
+                            </hc:Card>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <hc:WaterfallPanel Groups="5" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </VirtualizingStackPanel>
             <Grid Grid.Row="2" Margin="2,2,2,20">
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon
-                        Width="30"
-                        Height="30"
-                        VerticalAlignment="Center"
-                        IsTabStop="False"
-                        Kind="Search" />
-                    <TextBox
-                        MinWidth="300"
-                        materialDesign:HintAssist.HelperText="请输入产品名称、编码或简码"
-                        materialDesign:HintAssist.Hint="请输入产品名称、编码或简码"
-                        FontSize="30"
-                        Text="{Binding InputSearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
+                <TextBox
+                    Margin="0,32,0,0"
+                    hc:InfoElement.Necessary="True"
+                    hc:InfoElement.Placeholder="条码、名称"
+                    hc:InfoElement.Title="条码、名称"
+                    hc:InfoElement.TitlePlacement="Left"
+                    hc:InfoElement.TitleWidth="140"
+                    Style="{StaticResource TextBoxExtend}"
+                    Text="{Binding InputSearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </Grid>
         <Grid Name="DealDetial" Grid.Column="1">
@@ -137,9 +130,11 @@
                     CanUserAddRows="False"
                     ItemsSource="{Binding CurentCargosCollection}">
                     <i:Interaction.Triggers>
-                        <i:TimerTrigger>
-                            <i:InvokeCommandAction Command="{Binding DataContext.ToEndCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
-                        </i:TimerTrigger>
+                        <i:EventTrigger EventName="Loaded">
+                            <i:InvokeCommandAction
+                                Command="{Binding DataContext.ToEndCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <DataGrid.Columns>
                         <DataGridTextColumn
@@ -148,7 +143,7 @@
                             Header="名称"
                             IsReadOnly="True" />
                         <DataGridTextColumn
-                            Width="150"
+                            Width="*"
                             Binding="{Binding PDSN}"
                             Header="货号" />
                         <DataGridTextColumn
@@ -158,10 +153,13 @@
                         <DataGridTemplateColumn Width="120" Header="数量">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:F3\}}">
+                                    <TextBox
+                                        Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:F3\}}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
-                                                <i:InvokeCommandAction Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding }" />
+                                                <i:InvokeCommandAction
+                                                    Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                    CommandParameter="{Binding}" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
@@ -175,9 +173,11 @@
                         <DataGridTemplateColumn Width="80" Header="删除">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding Mode=OneWay}">
-                                        <materialDesign:PackIcon Kind="Delete" />
-                                    </Button>
+                                    <Button
+                                        Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="{Binding Mode=OneWay}"
+                                        Content="删除"
+                                        Style="{StaticResource ButtonDanger}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -186,20 +186,13 @@
                         <ItemContainerTemplate>
                             <Border
                                 Padding="2"
-                                BorderBrush="Black"
                                 BorderThickness="2"
                                 CornerRadius="5">
                                 <StackPanel Width="120" Orientation="Horizontal">
                                     <Button
                                         Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                         CommandParameter="{Binding}"
-                                        Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-                                        ToolTip="MaterialDesignFloatingActionMiniLightButton">
-                                        <materialDesign:PackIcon
-                                            Width="24"
-                                            Height="24"
-                                            Kind="Delete" />
-                                    </Button>
+                                        ToolTip="MaterialDesignFloatingActionMiniLightButton" />
                                 </StackPanel>
                             </Border>
                         </ItemContainerTemplate>
@@ -221,7 +214,6 @@
                             <Border
                                 Width="20"
                                 Height="20"
-                                Background="Red"
                                 CornerRadius="10" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -229,7 +221,6 @@
                             <Border
                                 Width="20"
                                 Height="20"
-                                Background="Red"
                                 CornerRadius="10" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Orientation="Horizontal">
@@ -237,7 +228,6 @@
                             <Border
                                 Width="20"
                                 Height="20"
-                                Background="Red"
                                 CornerRadius="10" />
                         </StackPanel>
                     </Grid>
@@ -253,12 +243,33 @@
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <materialDesign:PackIcon
-                        Width="100"
-                        Height="100"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Kind="User" />
+                    <hc:Badge
+                        Margin="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Style="{StaticResource BadgeBaseStyle}"
+                        Value="{Binding HoldCount}">
+                        <ListBox VerticalAlignment="Top" ItemsSource="{Binding HoldCartsIndexCollection, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding}" />
+                                        <Button Grid.Column="1" Height="Auto" Width="Auto" Background="Red" Margin="2"
+                                                Command="{Binding DataContext.GetHoldCartByIndexCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource ButtonDashedInfo}" HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch">
+                                            恢复
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </hc:Badge>
                     <TextBlock Grid.Row="1" HorizontalAlignment="Center">User1</TextBlock>
                 </Grid>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Right">
@@ -279,84 +290,36 @@
                         <Button
                             Height="60"
                             Margin="0,2"
-                            Command="{Binding PayDetialCommand}">
+                            Background="#f06632"
+                            Command="{Binding PayDetialCommand}"
+                            Style="{StaticResource ButtonCustom}">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon
-                                    Width="40"
-                                    Height="40"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Kind="CashCheck" />
                                 <TextBlock FontSize="28">结算</TextBlock>
                             </StackPanel>
                         </Button>
                         <Grid Grid.Row="1" Margin="0,2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Button Height="60" Command="{Binding DataContext.HoldThisCartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                            <Button
+                                Height="60"
+                                Background="#ffcf00"
+                                Command="{Binding DataContext.HoldThisCartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                Style="{StaticResource ButtonCustom}">
                                 <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon
-                                        Width="40"
-                                        Height="40"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        Kind="GestureTapHold" />
                                     <TextBlock FontSize="28">挂单</TextBlock>
                                 </StackPanel>
                             </Button>
-                            <materialDesign:Badged
-                                Grid.Column="1"
-                                Margin="2"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                Badge="{Binding HoldCount}">
-                                <materialDesign:PopupBox
-                                    Height="60"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                                    <ListBox ItemsSource="{Binding HoldCartsIndexCollection}">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Border>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <materialDesign:PackIcon
-                                                                Width="30"
-                                                                Height="30"
-                                                                VerticalAlignment="Center"
-                                                                Kind="Cart" />
-                                                            <TextBlock
-                                                                VerticalAlignment="Center"
-                                                                FontSize="24"
-                                                                Text="{Binding}" />
-                                                        </StackPanel>
-                                                    </Border>
-                                                    <Button Command="{Binding DataContext.GetHoldCartByIndexCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}">
-                                                        恢复
-                                                    </Button>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </materialDesign:PopupBox>
-                            </materialDesign:Badged>
-
                         </Grid>
+
                         <Button
                             Grid.Row="2"
                             Height="60"
                             Margin="0,2"
-                            Command="{Binding OpenMenuViewCommand}">
+                            Background="#1ea1e4"
+                            Command="{Binding OpenMenuViewCommand}"
+                            Style="{StaticResource ButtonCustom}">
                             <StackPanel
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal">
-                                <materialDesign:PackIcon
-                                    Width="40"
-                                    Height="40"
-                                    Kind="SettingsApplications" />
                                 <TextBlock FontSize="28">设置</TextBlock>
                             </StackPanel>
                         </Button>
@@ -365,4 +328,4 @@
             </Grid>
         </Grid>
     </Grid>
-</mde:MaterialWindow>
+</Window>

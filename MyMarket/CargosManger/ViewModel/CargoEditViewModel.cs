@@ -15,7 +15,8 @@ namespace MyMarket.CargosManger.ViewModel
     {
         private string _EditModel;
         private ObservableCollection<string> _GroupNameCollection;
-        private CargoInfoModel _NewDetialMoedl =new CargoInfoModel();
+        private CargoInfoModel _NewDetialMoedl;
+        private string _NewGroupNameInput;
 
         public CargoEditViewModel()
         {
@@ -26,32 +27,29 @@ namespace MyMarket.CargosManger.ViewModel
             foreach (var GoodsGroup in DbConn.fsql.Select<CargosGroup>().ToList())
                 GroupNameCollection.Add(GoodsGroup.PDGroup);
             _NewDetialMoedl = new CargoInfoModel();
-            ChangeProfitCommand = new RelayCommand(() =>
-            {
-                if (NewDetialMoedl.PDCost > 0)
-                    NewDetialMoedl.PDProfit = NewDetialMoedl.PDSellPrice / NewDetialMoedl.PDCost - 1;
-                else
-                    NewDetialMoedl.PDProfit = 0;
-            });
             CreatePDCodeCommand = new RelayCommand(() =>
             {
                 NewDetialMoedl = new CargoInfoModel();
-                var s = DateTime.Now.ToString("yyyyMMddHHmmss") + DbConn.fsql.Select<CargoInfoModel>().ToList().Count.ToString("D5");
+                var s = DateTime.Now.ToString("yyyyMMddHHmmss") +
+                        DbConn.fsql.Select<CargoInfoModel>().ToList().Count.ToString("D5");
                 NewDetialMoedl.PDCode = s;
             });
             SaveThisGoodC0mmand = new RelayCommand(() => { DbConn.InsertCargoInfoModels(NewDetialMoedl); });
-            AddGroupDiaClosedCommand = new RelayCommand<string>(s =>
+            AddGroupNameCommand = new RelayCommand(() =>
             {
-                if (s != null && s.Length >= 2 && !GroupNameCollection.Contains(s))
+                if (NewGroupNameInput != null && NewGroupNameInput.Length >= 2 &&
+                    !GroupNameCollection.Contains(NewGroupNameInput))
                 {
                     GroupNameCollection = new ObservableCollection<string>();
-                    foreach (var GoodsGroup in DbConn.InsertCargosGroups(s))
+                    foreach (var GoodsGroup in DbConn.InsertCargosGroups(NewGroupNameInput))
                         GroupNameCollection.Add(GoodsGroup.PDGroup);
                 }
                 else
                 {
                     MessageBox.Show("组名不符合要求或组名已存在");
                 }
+
+                NewGroupNameInput = "";
             });
             SelectPicPath = new RelayCommand<TextBox>(T =>
             {
@@ -64,9 +62,21 @@ namespace MyMarket.CargosManger.ViewModel
                                 + "Portable Network Graphics (*.png)|*.png|"
                                 + "Tag Image File Format (*.tif)|*.tif;*.tiff";
                 var result = dialog.ShowDialog();
-                if ((bool) result) T.Text = dialog.FileName;
+                if ((bool) result)
+                    //T.Text = dialog.FileName;
+                    NewDetialMoedl.PicPath = dialog.FileName;
             });
             ClosedCommand = new RelayCommand(() => { WindowsStatus.CargoEditWindowOpen = false; });
+        }
+
+        public string NewGroupNameInput
+        {
+            get => _NewGroupNameInput;
+            set
+            {
+                _NewGroupNameInput = value;
+                OnPropertyChanged();
+            }
         }
 
         public RelayCommand ClosedCommand { get; set; }
@@ -92,7 +102,7 @@ namespace MyMarket.CargosManger.ViewModel
             }
         }
 
-        public RelayCommand<string> AddGroupDiaClosedCommand { get; set; }
+        public RelayCommand AddGroupNameCommand { get; set; }
 
         public CargoInfoModel NewDetialMoedl
         {
@@ -105,7 +115,6 @@ namespace MyMarket.CargosManger.ViewModel
         }
 
         public RelayCommand CreatePDCodeCommand { get; set; }
-        public RelayCommand ChangeProfitCommand { get; set; }
         public RelayCommand SaveThisGoodC0mmand { get; set; }
 
         private void Decode(object recipient, string message)
