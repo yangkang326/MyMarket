@@ -13,7 +13,7 @@
         <ItemsControl ItemsSource="{Binding MenuNameCollection}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Margin="2" Height="200" Style="{StaticResource ButtonCustom}"
+                    <Button Height="200"
                             Command="{Binding Path=DataContext.MemuButtonClickCommand, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                             CommandParameter="{Binding Mode=OneWay}" Cursor="Hand">
                         <Grid>

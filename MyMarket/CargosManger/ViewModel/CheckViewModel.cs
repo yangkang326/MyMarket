@@ -13,6 +13,7 @@ namespace MyMarket.CargosManger.ViewModel
         private ObservableCollection<CargoInfoModel> _CargoCollection;
 
         private ObservableCollection<CargosGroup> _GroupNameCollection;
+        private CargoInfoModel _SelectInfoModel;
 
         public CheckViewModel()
         {
@@ -23,20 +24,27 @@ namespace MyMarket.CargosManger.ViewModel
             {
                 CargoCollection = DbConn.GetCargoInfoModels(g.PDGroup);
             });
-            EditRelayCommand = new RelayCommand<CargoInfoModel>(c =>
+            EditRelayCommand = new RelayCommand(() =>
             {
                 var win = AddNewCargo.GetInstance();
-                (win.DataContext as CargoEditViewModel).NewDetialMoedl = c;
+                (win.DataContext as CargoEditViewModel).NewDetialMoedl = SelectInfoModel;
                 (win.DataContext as CargoEditViewModel).EditModel = "修改";
                 win.Show();
                 win.Closed += UpdateList;
             });
             AddNewRelayCommand = new RelayCommand(() =>
             {
+                SelectInfoModel = null;
                 var win = AddNewCargo.GetInstance();
+                (win.DataContext as CargoEditViewModel).NewDetialMoedl = SelectInfoModel;
                 (win.DataContext as CargoEditViewModel).EditModel = "保存";
                 win.Show();
                 win.Closed += UpdateList;
+            });
+            DeleRelayCommand = new RelayCommand(() =>
+            {
+                DbConn.fsql.Delete<CargoInfoModel>().Where(i => i.PDCode == SelectInfoModel.PDCode).ExecuteAffrows();
+                CargoCollection = DbConn.GetCargoInfoModels("");
             });
         }
 
@@ -61,9 +69,19 @@ namespace MyMarket.CargosManger.ViewModel
         }
 
         public RelayCommand AddNewRelayCommand { get; set; }
-        public RelayCommand<CargoInfoModel> EditRelayCommand { get; set; }
-        public RelayCommand<CargoInfoModel> DeleRelayCommand { get; set; }
+        public RelayCommand EditRelayCommand { get; set; }
+        public RelayCommand DeleRelayCommand { get; set; }
         public RelayCommand<CargosGroup> SelectGropuChangedCommand { get; set; }
+
+        public CargoInfoModel SelectInfoModel
+        {
+            get => _SelectInfoModel;
+            set
+            {
+                _SelectInfoModel = value;
+                OnPropertyChanged();
+            }
+        }
 
         private void UpdateList(object sender, EventArgs e)
         {

@@ -3,12 +3,21 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:comcmd="clr-namespace:MyMarket.ComCommand"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:cvt="clr-namespace:MyMarket"
     Startup="App_OnStartup">
     <Application.Resources>
         <ResourceDictionary>
-            <cvt:StringToUri x:Key="StringToUri" />
+            <cvt:Con x:Key="Con"></cvt:Con>
             <comcmd:ComCmd x:Key="ComCmd" />
+            <Style TargetType="Button" BasedOn="{StaticResource ButtonCustom}">
+                <Setter Property="Background" Value="DarkGray" />
+                <Setter Property="hc:BorderElement.CornerRadius" Value="10" />
+                <Setter Property="Margin" Value="2" />
+                <Setter Property="MinWidth" Value="80" />
+                <Setter Property="MinHeight" Value="40" />
+                <Setter Property="hc:BackgroundSwitchElement.MouseHoverBackground" Value="ForestGreen" />
+            </Style>
             <Style x:Key="FontIcon" TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="pack://application:,,,/Fonts/#iconfont" />
                 <Setter Property="FontSize" Value="40" />

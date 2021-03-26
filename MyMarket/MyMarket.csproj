@@ -5,6 +5,7 @@
 		<UseWPF>true</UseWPF>
 	</PropertyGroup>
 	<ItemGroup>
+		<None Remove="CYCS.png" />
 		<None Remove="Fonts\iconfont.ttf" />
 	</ItemGroup>
 	<ItemGroup>
@@ -24,6 +25,7 @@
 		<Folder Include="Pay\ViewModel\" />
 	</ItemGroup>
 	<ItemGroup>
+		<Resource Include="CYCS.png" />
 		<Resource Include="Fonts\iconfont.ttf">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>

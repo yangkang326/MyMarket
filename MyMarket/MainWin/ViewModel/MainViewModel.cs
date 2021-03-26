@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,20 +26,7 @@ namespace MyMarket.MainWin.ViewModel
 
         public MainViewModel()
         {
-            ToEndCommand = new RelayCommand<DataGrid>(d =>
-            {
-                Task.Run(() =>
-                {
-                    while (WindowsStatus.MainWindowOpen)
-                    {
-                        Thread.Sleep(500);
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            if (d != null && d.Items.Count > 5) d.ScrollIntoView(d.Items[d.Items.Count - 1]);
-                        });
-                    }
-                });
-            });
+            ToEndCommand = new RelayCommand<ScrollViewer>(d => { d.ScrollToBottom(); });
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             _GroupNameCollection = DbConn.GetCargosGroups();
             CargoInfoCollection = DbConn.GetCargoInfoModels("*");
@@ -117,7 +103,7 @@ namespace MyMarket.MainWin.ViewModel
             });
         }
 
-        public RelayCommand<DataGrid> ToEndCommand { get; set; }
+        public RelayCommand<ScrollViewer> ToEndCommand { get; set; }
 
         public ObservableCollection<CargosGroup> GroupNameCollection
         {

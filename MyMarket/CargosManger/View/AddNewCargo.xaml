@@ -73,7 +73,6 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <ComboBox
-                            Width="380"
                             hc:InfoElement.Necessary="True"
                             Text="{Binding NewDetialMoedl.PDGroup}"
                             hc:InfoElement.Title="商品分类"
@@ -83,8 +82,7 @@
                             Style="{StaticResource ComboBoxExtend}" />
                         <hc:SplitButton
                             x:Name="splitButton"
-                            Grid.Column="1"
-                            Content="+">
+                            Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <hc:SplitButton.DropDownContent>
                                 <StackPanel>
                                     <TextBox Name="InputGroup" Width="150" Text="{Binding NewGroupNameInput}" />

@@ -55,137 +55,103 @@
         <Button
             Grid.Row="4"
             Grid.Column="1"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             1
         </Button>
         <Button
             Grid.Row="4"
             Grid.Column="2"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             2
         </Button>
         <Button
             Grid.Row="4"
             Grid.Column="3"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             3
         </Button>
         <Button
             Grid.Row="5"
             Grid.Column="1"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             4
         </Button>
         <Button
             Grid.Row="5"
             Grid.Column="2"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             5
         </Button>
         <Button
             Grid.Row="5"
             Grid.Column="3"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             6
         </Button>
         <Button
             Grid.Row="6"
             Grid.Column="1"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             7
         </Button>
         <Button
             Grid.Row="6"
             Grid.Column="2"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             8
         </Button>
         <Button
             Grid.Row="6"
             Grid.Column="3"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             9
         </Button>
         <Button
             Grid.Row="7"
             Grid.Column="1"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             0
         </Button>
         <Button
             Grid.Row="7"
             Grid.Column="2"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             00
         </Button>
         <Button
             Grid.Row="7"
             Grid.Column="3"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             .
         </Button>
         <Button
             Grid.Row="4"
             Grid.Column="4"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             10
         </Button>
         <Button
             Grid.Row="5"
             Grid.Column="4"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             20
         </Button>
         <Button
             Grid.Row="6"
             Grid.Column="4"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             50
         </Button>
         <Button
             Grid.Row="7"
             Grid.Column="4"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             100
         </Button>
         <Button
             Grid.Row="4"
             Grid.Column="5"
-            Margin="2"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            Margin="2">
             CE
         </Button>
         <Button
@@ -194,9 +160,7 @@
             Grid.Column="5"
             Margin="2"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="LightGreen"
-            Style="{StaticResource ButtonCustom}">
+            VerticalAlignment="Stretch">
             确定
         </Button>
     </Grid>

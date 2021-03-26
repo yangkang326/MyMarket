@@ -56,8 +56,7 @@
                             <hc:Card Margin="8" Effect="{StaticResource EffectShadow2}">
                                 <Image Width="150" Height="150">
                                     <Image.Source>
-                                        <BitmapImage DecodePixelHeight="80"
-                                                     UriSource="{Binding PicPath, Converter={StaticResource StringToUri}}" />
+                                        <BitmapImage DecodePixelHeight="120" UriSource="{Binding PicPath,Converter={StaticResource Con}}" />
                                     </Image.Source>
                                 </Image>
                                 <hc:Card.Footer>
@@ -124,80 +123,81 @@
                     TextAlignment="Center">
                     购物车
                 </TextBlock>
-                <DataGrid
-                    Grid.Row="1"
-                    AutoGenerateColumns="False"
-                    CanUserAddRows="False"
-                    ItemsSource="{Binding CurentCargosCollection}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Loaded">
-                            <i:InvokeCommandAction
-                                Command="{Binding DataContext.ToEndCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="150"
-                            Binding="{Binding PDName}"
-                            Header="名称"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding PDSN}"
-                            Header="货号" />
-                        <DataGridTextColumn
-                            Binding="{Binding UnitPrice, StringFormat=\{0:F2\}}"
-                            Header="单价"
-                            IsReadOnly="True" />
-                        <DataGridTemplateColumn Width="120" Header="数量">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox
-                                        Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:F3\}}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="TextChanged">
-                                                <i:InvokeCommandAction
-                                                    Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                    CommandParameter="{Binding}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </TextBox>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn
-                            Binding="{Binding PDTotalPrice, StringFormat=\{0:F2\}}"
-                            Header="总价"
-                            IsReadOnly="True" />
-                        <DataGridTemplateColumn Width="80" Header="删除">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        CommandParameter="{Binding Mode=OneWay}"
-                                        Content="删除"
-                                        Style="{StaticResource ButtonDanger}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                    <ItemsControl.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <Border
-                                Padding="2"
-                                BorderThickness="2"
-                                CornerRadius="5">
-                                <StackPanel Width="120" Orientation="Horizontal">
-                                    <Button
-                                        Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        CommandParameter="{Binding}"
-                                        ToolTip="MaterialDesignFloatingActionMiniLightButton" />
-                                </StackPanel>
-                            </Border>
-                        </ItemContainerTemplate>
-                    </ItemsControl.ItemTemplate>
-                </DataGrid>
+                <ScrollViewer Grid.Row="1">
+                    <DataGrid
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        ItemsSource="{Binding CurentCargosCollection}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SizeChanged">
+                                <i:InvokeCommandAction
+                                    Command="{Binding DataContext.ToEndCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                    CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="150"
+                                Binding="{Binding PDName}"
+                                Header="名称"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding PDSN}"
+                                Header="货号" />
+                            <DataGridTextColumn
+                                Binding="{Binding UnitPrice, StringFormat=\{0:F2\}}"
+                                Header="单价"
+                                IsReadOnly="True" />
+                            <DataGridTemplateColumn Width="120" Header="数量">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox
+                                            Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:F3\}}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="TextChanged">
+                                                    <i:InvokeCommandAction
+                                                        Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                        CommandParameter="{Binding}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn
+                                Binding="{Binding PDTotalPrice, StringFormat=\{0:F2\}}"
+                                Header="总价"
+                                IsReadOnly="True" />
+                            <DataGridTemplateColumn Width="80" Header="删除">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                            CommandParameter="{Binding Mode=OneWay}"
+                                            Content="删除"
+                                            Style="{StaticResource ButtonDanger}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                        <ItemsControl.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <Border
+                                    Padding="2"
+                                    BorderThickness="2"
+                                    CornerRadius="5">
+                                    <StackPanel Width="120" Orientation="Horizontal">
+                                        <Button
+                                            Command="{Binding DataContext.DeleCartItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                            CommandParameter="{Binding}"
+                                            ToolTip="MaterialDesignFloatingActionMiniLightButton" />
+                                    </StackPanel>
+                                </Border>
+                            </ItemContainerTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </DataGrid>
+                </ScrollViewer>
                 <StackPanel Grid.Row="2">
                     <TextBlock>
                         <Run FontSize="50" Text="00000" />
@@ -258,11 +258,17 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="{Binding}" />
-                                        <Button Grid.Column="1" Height="Auto" Width="Auto" Background="Red" Margin="2"
-                                                Command="{Binding DataContext.GetHoldCartByIndexCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                CommandParameter="{Binding}"
-                                                Style="{StaticResource ButtonDashedInfo}" HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch">
+                                        <Button
+                                            Grid.Column="1"
+                                            Width="Auto"
+                                            Height="Auto"
+                                            Margin="2"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Background="Red"
+                                            Command="{Binding DataContext.GetHoldCartByIndexCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource ButtonDashedInfo}">
                                             恢复
                                         </Button>
                                     </Grid>
