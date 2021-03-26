@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyMarketMobile.App">
@@ -10,7 +9,7 @@
         <ResourceDictionary>
             <Color x:Key="Primary">#2196F3</Color>
             <Style TargetType="Button">
-                <Setter Property="TextColor" Value="White" />
+                <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -28,6 +27,6 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-        </ResourceDictionary>
+        </ResourceDictionary>        
     </Application.Resources>
 </Application>

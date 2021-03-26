@@ -1,16 +1,19 @@
 ﻿using MyMarketMobile.Views;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using Xamarin.Forms;
 
 namespace MyMarketMobile.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+        public Command LoginCommand { get; }
+
         public LoginViewModel()
         {
             LoginCommand = new Command(OnLoginClicked);
         }
-
-        public Command LoginCommand { get; }
 
         private async void OnLoginClicked(object obj)
         {

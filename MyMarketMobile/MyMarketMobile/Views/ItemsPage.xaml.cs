@@ -1,11 +1,20 @@
-﻿using MyMarketMobile.ViewModels;
+﻿using MyMarketMobile.Models;
+using MyMarketMobile.ViewModels;
+using MyMarketMobile.Views;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace MyMarketMobile.Views
 {
     public partial class ItemsPage : ContentPage
     {
-        private readonly ItemsViewModel _viewModel;
+        ItemsViewModel _viewModel;
 
         public ItemsPage()
         {

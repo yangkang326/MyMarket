@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7FC09454-4F0E-4E9D-972A-E40770FE073F}</ProjectGuid>
+    <ProjectGuid>{9B05D8E3-B994-4EA8-BFF8-CEEEC8B41655}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{89a4fe7c-635d-49c9-8d8c-5cd363c0d68d}</TemplateGuid>
     <OutputType>Exe</OutputType>
@@ -138,7 +138,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\MyMarketMobile\MyMarketMobile.csproj">
-      <Project>{F733258C-047B-4FBA-A4CF-C3E5851A2712}</Project>
+      <Project>{988B3E8F-241F-447C-A1F6-306B9262C2F0}</Project>
       <Name>MyMarketMobile</Name>
     </ProjectReference>
   </ItemGroup>

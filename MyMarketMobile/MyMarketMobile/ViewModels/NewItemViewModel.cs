@@ -1,20 +1,29 @@
-﻿using System;
-using MyMarketMobile.Models;
+﻿using MyMarketMobile.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MyMarketMobile.ViewModels
 {
     public class NewItemViewModel : BaseViewModel
     {
-        private string description;
         private string text;
+        private string description;
 
         public NewItemViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
-            PropertyChanged +=
+            this.PropertyChanged +=
                 (_, __) => SaveCommand.ChangeCanExecute();
+        }
+
+        private bool ValidateSave()
+        {
+            return !String.IsNullOrWhiteSpace(text)
+                && !String.IsNullOrWhiteSpace(description);
         }
 
         public string Text
@@ -32,12 +41,6 @@ namespace MyMarketMobile.ViewModels
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
 
-        private bool ValidateSave()
-        {
-            return !string.IsNullOrWhiteSpace(text)
-                   && !string.IsNullOrWhiteSpace(description);
-        }
-
         private async void OnCancel()
         {
             // This will pop the current page off the navigation stack
@@ -46,7 +49,7 @@ namespace MyMarketMobile.ViewModels
 
         private async void OnSave()
         {
-            var newItem = new Item
+            Item newItem = new Item()
             {
                 Id = Guid.NewGuid().ToString(),
                 Text = Text,

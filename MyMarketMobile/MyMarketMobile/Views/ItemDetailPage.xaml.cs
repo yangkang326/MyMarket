@@ -1,4 +1,5 @@
 ﻿using MyMarketMobile.ViewModels;
+using System.ComponentModel;
 using Xamarin.Forms;
 
 namespace MyMarketMobile.Views
