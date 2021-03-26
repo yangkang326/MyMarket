@@ -2,7 +2,7 @@
 
 namespace MyLib
 {
-    public class CartItem:ObservableObject
+    public class CartItem : ObservableObject
     {
         private double _Count;
 

@@ -4,6 +4,5 @@
     {
         public int ID { get; set; }
         public string PDGroup { get; set; }
-
     }
 }
