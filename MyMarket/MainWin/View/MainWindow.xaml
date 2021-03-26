@@ -56,7 +56,8 @@
                             <hc:Card Margin="8" Effect="{StaticResource EffectShadow2}">
                                 <Image Width="150" Height="150">
                                     <Image.Source>
-                                        <BitmapImage DecodePixelHeight="120" UriSource="{Binding PicPath,Converter={StaticResource Con}}" />
+                                        <BitmapImage DecodePixelHeight="120"
+                                                     UriSource="{Binding PicPath,Converter={StaticResource Con}}" />
                                     </Image.Source>
                                 </Image>
                                 <hc:Card.Footer>
@@ -152,16 +153,16 @@
                             <DataGridTemplateColumn Width="120" Header="数量">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox
-                                            Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:F3\}}">
+                                        <hc:NumericUpDown DecimalPlaces="3"
+                                                          Value="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:F3\}}">
                                             <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="TextChanged">
+                                                <i:EventTrigger EventName="ValueChanged">
                                                     <i:InvokeCommandAction
                                                         Command="{Binding DataContext.PdContChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                         CommandParameter="{Binding}" />
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
-                                        </TextBox>
+                                        </hc:NumericUpDown>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

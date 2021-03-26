@@ -8,7 +8,7 @@
     Startup="App_OnStartup">
     <Application.Resources>
         <ResourceDictionary>
-            <cvt:Con x:Key="Con"></cvt:Con>
+            <cvt:Con x:Key="Con" />
             <comcmd:ComCmd x:Key="ComCmd" />
             <Style TargetType="Button" BasedOn="{StaticResource ButtonCustom}">
                 <Setter Property="Background" Value="DarkGray" />

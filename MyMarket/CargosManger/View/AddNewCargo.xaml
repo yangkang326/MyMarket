@@ -106,27 +106,29 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBox
+                    <hc:NumericUpDown
+                        DecimalPlaces="2"
                         Grid.Column="0"
                         hc:InfoElement.Necessary="True"
-                        Text="{Binding NewDetialMoedl.PDSellPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Value="{Binding NewDetialMoedl.PDSellPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         hc:InfoElement.Title="售价："
                         hc:InfoElement.TitlePlacement="Left"
-                        Style="{StaticResource TextBoxExtend}" />
-                    <TextBox
+                        Style="{StaticResource NumericUpDownPlus}" />
+                    <hc:NumericUpDown
+                        DecimalPlaces="2"
                         Grid.Column="1"
                         hc:InfoElement.Necessary="True"
-                        Text="{Binding NewDetialMoedl.PDCost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Value="{Binding NewDetialMoedl.PDCost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         hc:InfoElement.Title="进价："
                         hc:InfoElement.TitlePlacement="Left"
-                        Style="{StaticResource TextBoxExtend}" />
-                    <TextBox
-                        Grid.Column="2"
-                        hc:InfoElement.Necessary="True"
-                        Text="{Binding NewDetialMoedl.PDProfit, Mode=TwoWay, NotifyOnSourceUpdated=True, StringFormat=\{0:P\}, UpdateSourceTrigger=Default}"
-                        hc:InfoElement.Title="毛利："
-                        hc:InfoElement.TitlePlacement="Left"
-                        Style="{StaticResource TextBoxExtend}" />
+                        Style="{StaticResource NumericUpDownPlus}" />
+                    <hc:NumericUpDown DecimalPlaces="2"
+                                      Grid.Column="2"
+                                      hc:InfoElement.Necessary="True"
+                                      Value="{Binding NewDetialMoedl.PDProfit, Mode=TwoWay, NotifyOnSourceUpdated=True, StringFormat=\{0:P\}, UpdateSourceTrigger=Default}"
+                                      hc:InfoElement.Title="毛利："
+                                      hc:InfoElement.TitlePlacement="Left"
+                                      Style="{StaticResource NumericUpDownPlus}" />
                 </Grid>
             </StackPanel>
         </GroupBox>
