@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows;
 using FreeSql;
-using MyMarket.Models;
+using MyLib;
 
 namespace MyMarket.DbOperate
 {
@@ -97,17 +97,6 @@ namespace MyMarket.DbOperate
             }
 
             return Result;
-        }
-
-        public static void SellCargos(
-            ObservableCollection<CartItem> soldCargosCartItems)
-        {
-            foreach (var CartItem in soldCargosCartItems)
-            {
-                var item = fsql.Select<CargoInfoModel>().Where(i => i.PDCode == CartItem.PDSN).First();
-                fsql.Update<CargoInfoModel>(item.ID).Set(i => i.PDStock, item.PDStock - CartItem.Count)
-                    .ExecuteAffrows();
-            }
         }
     }
 }

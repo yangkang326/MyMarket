@@ -1,8 +1,8 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace MyMarket.Models
+namespace MyLib
 {
-    public class CartItem : ObservableObject
+    public class CartItem:ObservableObject
     {
         private double _Count;
 
@@ -19,7 +19,6 @@ namespace MyMarket.Models
             {
                 _Count = value;
                 PDTotalPrice = value * UnitPrice;
-                OnPropertyChanged();
             }
         }
 

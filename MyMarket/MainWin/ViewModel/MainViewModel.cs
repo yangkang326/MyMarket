@@ -5,9 +5,9 @@ using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using MyLib;
 using MyMarket.AllMenu.View;
 using MyMarket.DbOperate;
-using MyMarket.Models;
 using MyMarket.Pay.View;
 
 namespace MyMarket.MainWin.ViewModel

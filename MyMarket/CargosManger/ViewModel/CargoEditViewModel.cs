@@ -6,8 +6,8 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Win32;
+using MyLib;
 using MyMarket.DbOperate;
-using MyMarket.Models;
 
 namespace MyMarket.CargosManger.ViewModel
 {

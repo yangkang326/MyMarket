@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MyLib;
 using MyMarket.CargosManger.View;
 using MyMarket.DbOperate;
-using MyMarket.Models;
 
 namespace MyMarket.CargosManger.ViewModel
 {
