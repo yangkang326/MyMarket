@@ -26,15 +26,11 @@ namespace MyMarket.MainWin.ViewModel
 
         public MainViewModel()
         {
+            CargoInfoCollection = Operate.GetCargoInfoModels("*");
             ToEndCommand = new RelayCommand<ScrollViewer>(d => { d.ScrollToBottom(); });
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             _GroupNameCollection = DbConn.GetCargosGroups();
-            CargoInfoCollection = DbConn.GetCargoInfoModels("*");
-            AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
-            {
-                ADDToCart(e);
-                InputSearchString = "*";
-            });
+            AddToCratCommand = new RelayCommand<CargoInfoModel>(e => { ADDToCart(e); });
             PdContChangedCommand = new RelayCommand<object>(s =>
             {
                 var tempobj = s as CartItem;
@@ -54,7 +50,7 @@ namespace MyMarket.MainWin.ViewModel
             });
             SelectGropuChangedCommand = new RelayCommand<CargosGroup>(o =>
             {
-                CargoInfoCollection = DbConn.GetCargoInfoModels(o.PDGroup);
+                CargoInfoCollection = Operate.GetCargoInfoModelsByGroupName(o.PDGroup);
             });
             HoldThisCartCommand = new RelayCommand(() =>
             {

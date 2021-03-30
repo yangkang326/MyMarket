@@ -18,8 +18,11 @@ namespace MyMarket.CargosManger.ViewModel
         private CargoInfoModel _NewDetialMoedl;
         private string _NewGroupNameInput;
 
+        private string _PicPath;
+
         public CargoEditViewModel()
         {
+            _PicPath = "";
             _EditModel = "添加";
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             WindowsStatus.CargoEditWindowOpen = true;
@@ -34,7 +37,7 @@ namespace MyMarket.CargosManger.ViewModel
                         DbConn.fsql.Select<CargoInfoModel>().ToList().Count.ToString("D5");
                 NewDetialMoedl.PDCode = s;
             });
-            SaveThisGoodC0mmand = new RelayCommand(() => { DbConn.InsertCargoInfoModels(NewDetialMoedl); });
+            SaveThisGoodC0mmand = new RelayCommand(() => { Operate.InserOrUpdateCargo(NewDetialMoedl); });
             AddGroupNameCommand = new RelayCommand(() =>
             {
                 if (NewGroupNameInput != null && NewGroupNameInput.Length >= 2 &&
@@ -63,8 +66,10 @@ namespace MyMarket.CargosManger.ViewModel
                                 + "Tag Image File Format (*.tif)|*.tif;*.tiff";
                 var result = dialog.ShowDialog();
                 if ((bool) result)
-                    //T.Text = dialog.FileName;
-                    NewDetialMoedl.PicPath = dialog.FileName;
+                {
+                    PicPath = dialog.FileName;
+                    NewDetialMoedl.PicPath = dialog.SafeFileName;
+                }
             });
             ClosedCommand = new RelayCommand(() => { WindowsStatus.CargoEditWindowOpen = false; });
         }
@@ -110,6 +115,16 @@ namespace MyMarket.CargosManger.ViewModel
             set
             {
                 _NewDetialMoedl = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string PicPath
+        {
+            get => _PicPath;
+            set
+            {
+                _PicPath = value;
                 OnPropertyChanged();
             }
         }

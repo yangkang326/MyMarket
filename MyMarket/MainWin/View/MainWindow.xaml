@@ -56,7 +56,7 @@
                             <hc:Card Margin="8" Effect="{StaticResource EffectShadow2}">
                                 <Image Width="150" Height="150">
                                     <Image.Source>
-                                        <BitmapImage DecodePixelHeight="120"
+                                        <BitmapImage DecodePixelHeight="80"
                                                      UriSource="{Binding PicPath,Converter={StaticResource Con}}" />
                                     </Image.Source>
                                 </Image>

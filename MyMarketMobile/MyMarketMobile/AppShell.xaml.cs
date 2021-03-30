@@ -1,12 +1,10 @@
-﻿using MyMarketMobile.ViewModels;
+﻿using System;
 using MyMarketMobile.Views;
-using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace MyMarketMobile
 {
-    public partial class AppShell : Xamarin.Forms.Shell
+    public partial class AppShell : Shell
     {
         public AppShell()
         {
@@ -17,7 +15,7 @@ namespace MyMarketMobile
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//LoginPage");
+            await Current.GoToAsync("//LoginPage");
         }
     }
 }

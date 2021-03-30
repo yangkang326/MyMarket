@@ -1,7 +1,5 @@
-﻿using MyMarketMobile.Models;
-using System;
+﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MyMarketMobile.ViewModels
@@ -9,9 +7,9 @@ namespace MyMarketMobile.ViewModels
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
     public class ItemDetailViewModel : BaseViewModel
     {
+        private string description;
         private string itemId;
         private string text;
-        private string description;
         public string Id { get; set; }
 
         public string Text
@@ -28,10 +26,7 @@ namespace MyMarketMobile.ViewModels
 
         public string ItemId
         {
-            get
-            {
-                return itemId;
-            }
+            get => itemId;
             set
             {
                 itemId = value;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MyMarketMobile.Models
+﻿namespace MyMarketMobile.Models
 {
     public class Item
     {

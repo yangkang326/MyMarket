@@ -1,9 +1,9 @@
-﻿using MyMarketMobile.Models;
-using MyMarketMobile.Views;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using MyMarketMobile.Models;
+using MyMarketMobile.Views;
 using Xamarin.Forms;
 
 namespace MyMarketMobile.ViewModels
@@ -11,11 +11,6 @@ namespace MyMarketMobile.ViewModels
     public class ItemsViewModel : BaseViewModel
     {
         private Item _selectedItem;
-
-        public ObservableCollection<Item> Items { get; }
-        public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
 
         public ItemsViewModel()
         {
@@ -28,7 +23,22 @@ namespace MyMarketMobile.ViewModels
             AddItemCommand = new Command(OnAddItem);
         }
 
-        async Task ExecuteLoadItemsCommand()
+        public ObservableCollection<Item> Items { get; }
+        public Command LoadItemsCommand { get; }
+        public Command AddItemCommand { get; }
+        public Command<Item> ItemTapped { get; }
+
+        public Item SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                SetProperty(ref _selectedItem, value);
+                OnItemSelected(value);
+            }
+        }
+
+        private async Task ExecuteLoadItemsCommand()
         {
             IsBusy = true;
 
@@ -36,10 +46,7 @@ namespace MyMarketMobile.ViewModels
             {
                 Items.Clear();
                 var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
-                {
-                    Items.Add(item);
-                }
+                foreach (var item in items) Items.Add(item);
             }
             catch (Exception ex)
             {
@@ -57,22 +64,12 @@ namespace MyMarketMobile.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                SetProperty(ref _selectedItem, value);
-                OnItemSelected(value);
-            }
-        }
-
         private async void OnAddItem(object obj)
         {
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
-        async void OnItemSelected(Item item)
+        private async void OnItemSelected(Item item)
         {
             if (item == null)
                 return;
