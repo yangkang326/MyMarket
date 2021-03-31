@@ -18,6 +18,7 @@ namespace MyLib
             set
             {
                 _Count = value;
+                OnPropertyChanged();
                 PDTotalPrice = value * UnitPrice;
             }
         }

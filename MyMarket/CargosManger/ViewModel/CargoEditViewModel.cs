@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Win32;
 using MyLib;
-using MyMarket.DbOperate;
 
 namespace MyMarket.CargosManger.ViewModel
 {
@@ -26,32 +24,23 @@ namespace MyMarket.CargosManger.ViewModel
             _EditModel = "添加";
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             WindowsStatus.CargoEditWindowOpen = true;
+            var AllGroup = WebApiOperate.GetAllGroup();
             _GroupNameCollection = new ObservableCollection<string>();
-            foreach (var GoodsGroup in DbConn.fsql.Select<CargosGroup>().ToList())
-                GroupNameCollection.Add(GoodsGroup.PDGroup);
+            foreach (var CargosGroup in WebApiOperate.GetAllGroup()) _GroupNameCollection.Add(CargosGroup.PDGroup);
             _NewDetialMoedl = new CargoInfoModel();
             CreatePDCodeCommand = new RelayCommand(() =>
             {
-                NewDetialMoedl = new CargoInfoModel();
                 var s = DateTime.Now.ToString("yyyyMMddHHmmss") +
-                        DbConn.fsql.Select<CargoInfoModel>().ToList().Count.ToString("D5");
+                        WebApiOperate.GetCargoInfoModels("").Count.ToString("D5");
                 NewDetialMoedl.PDCode = s;
             });
-            SaveThisGoodC0mmand = new RelayCommand(() => { Operate.InserOrUpdateCargo(NewDetialMoedl); });
+            SaveThisGoodC0mmand = new RelayCommand(() => { WebApiOperate.InserOrUpdateCargo(NewDetialMoedl); });
             AddGroupNameCommand = new RelayCommand(() =>
             {
-                if (NewGroupNameInput != null && NewGroupNameInput.Length >= 2 &&
-                    !GroupNameCollection.Contains(NewGroupNameInput))
-                {
-                    GroupNameCollection = new ObservableCollection<string>();
-                    foreach (var GoodsGroup in DbConn.InsertCargosGroups(NewGroupNameInput))
-                        GroupNameCollection.Add(GoodsGroup.PDGroup);
-                }
-                else
-                {
-                    MessageBox.Show("组名不符合要求或组名已存在");
-                }
+                if (!string.IsNullOrEmpty(NewGroupNameInput)) WebApiOperate.InserOrUpdateGroup(NewGroupNameInput);
 
+                GroupNameCollection = new ObservableCollection<string>();
+                foreach (var CargosGroup in WebApiOperate.GetAllGroup()) GroupNameCollection.Add(CargosGroup.PDGroup);
                 NewGroupNameInput = "";
             });
             SelectPicPath = new RelayCommand<TextBox>(T =>

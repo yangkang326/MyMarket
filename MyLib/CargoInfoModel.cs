@@ -5,6 +5,7 @@ namespace MyLib
 {
     public class CargoInfoModel : ObservableObject
     {
+        public string _PDCode = "";
         private double _PDCost;
         private double _PDProfit;
         private double _PDSellPrice;
@@ -12,7 +13,16 @@ namespace MyLib
         [Column(IsIdentity = true, IsPrimary = true)]
         public int ID { get; set; }
 
-        [Column(IsPrimary = true)] public string PDCode { get; set; } = "";
+        [Column(IsPrimary = true)]
+        public string PDCode
+        {
+            get => _PDCode;
+            set
+            {
+                _PDCode = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string PDName { get; set; } = "";
         public string PDSubName { get; set; } = "";

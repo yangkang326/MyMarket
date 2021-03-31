@@ -4,7 +4,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MyLib;
 using MyMarket.CargosManger.View;
-using MyMarket.DbOperate;
 
 namespace MyMarket.CargosManger.ViewModel
 {
@@ -17,12 +16,12 @@ namespace MyMarket.CargosManger.ViewModel
 
         public CheckViewModel()
         {
-            _CargoCollection = DbConn.GetCargoInfoModels("*");
-            _GroupNameCollection = DbConn.GetCargosGroups();
+            _CargoCollection = WebApiOperate.GetCargoInfoModels("*");
+            _GroupNameCollection = WebApiOperate.GetAllGroup();
             _GroupNameCollection.Add(new CargosGroup {PDGroup = "*"});
             SelectGropuChangedCommand = new RelayCommand<CargosGroup>(g =>
             {
-                CargoCollection = DbConn.GetCargoInfoModels(g.PDGroup);
+                CargoCollection = WebApiOperate.GetCargoInfoModelsByGroupName(g.PDGroup);
             });
             EditRelayCommand = new RelayCommand(() =>
             {
@@ -34,7 +33,7 @@ namespace MyMarket.CargosManger.ViewModel
             });
             AddNewRelayCommand = new RelayCommand(() =>
             {
-                SelectInfoModel = null;
+                SelectInfoModel = new CargoInfoModel();
                 var win = AddNewCargo.GetInstance();
                 (win.DataContext as CargoEditViewModel).NewDetialMoedl = SelectInfoModel;
                 (win.DataContext as CargoEditViewModel).EditModel = "保存";
@@ -43,8 +42,7 @@ namespace MyMarket.CargosManger.ViewModel
             });
             DeleRelayCommand = new RelayCommand(() =>
             {
-                DbConn.fsql.Delete<CargoInfoModel>().Where(i => i.PDCode == SelectInfoModel.PDCode).ExecuteAffrows();
-                CargoCollection = DbConn.GetCargoInfoModels("");
+                CargoCollection = WebApiOperate.DeleCargo(SelectInfoModel.PDCode);
             });
         }
 
@@ -85,7 +83,7 @@ namespace MyMarket.CargosManger.ViewModel
 
         private void UpdateList(object sender, EventArgs e)
         {
-            CargoCollection = DbConn.GetCargoInfoModels("*");
+            CargoCollection = WebApiOperate.GetCargoInfoModels("*");
         }
     }
 }
