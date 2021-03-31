@@ -8,7 +8,8 @@ namespace MyLib
     {
         public static ObservableCollection<CargoInfoModel> GetCargoInfoModels(string Searchstring)
         {
-            var client = new RestClient($"https://localhost:44324/api/Cargos/GetCargosBySerchstring?s={Searchstring}");
+            var client =
+                new RestClient($"http://localhost:28294/api/Cargos/GetCargosBySerchstring?searchstr={Searchstring}");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
             request.AddParameter("text/plain", "", ParameterType.RequestBody);
@@ -19,7 +20,7 @@ namespace MyLib
         public static ObservableCollection<CargoInfoModel> GetCargoInfoModelsByGroupName(string GroupName)
         {
             var client =
-                new RestClient($"https://localhost:44324/api/Cargos/GetCargosByGroupname?groupname={GroupName}");
+                new RestClient($"http://localhost:28294/api/Cargos/GetCargosByGroupname?groupname={GroupName}");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
             request.AddParameter("text/plain", "", ParameterType.RequestBody);
@@ -29,7 +30,7 @@ namespace MyLib
 
         public static ObservableCollection<CargoInfoModel> InserOrUpdateCargo(CargoInfoModel cargo)
         {
-            var client = new RestClient("https://localhost:44324/api/Cargos/InsertOrUpdateCargo");
+            var client = new RestClient("http://localhost:28294/api/Cargos/InsertOrUpdateCargo");
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
@@ -41,7 +42,7 @@ namespace MyLib
         public static ObservableCollection<CargosGroup> InserOrUpdateGroup(string groupname)
         {
             var client =
-                new RestClient($"https://localhost:44324/api/Cargos/InsertOrUpdateCargoGroup?newGroupname={groupname}");
+                new RestClient($"http://localhost:28294/api/Cargos/InsertOrUpdateCargoGroup?newGroupname={groupname}");
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddParameter("text/plain", "", ParameterType.RequestBody);
@@ -51,7 +52,7 @@ namespace MyLib
 
         public static ObservableCollection<CargosGroup> GetAllGroup()
         {
-            var client = new RestClient("https://localhost:44324/api/Cargos/GetAllGroup");
+            var client = new RestClient("http://localhost:28294/api/Cargos/GetAllGroup");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
             request.AddParameter("text/plain", "", ParameterType.RequestBody);
@@ -61,7 +62,7 @@ namespace MyLib
 
         public static ObservableCollection<CargoInfoModel> DeleCargo(string pdcode)
         {
-            var client = new RestClient($"https://localhost:44324/api/Cargos/DeleCargo?pdcode={pdcode}");
+            var client = new RestClient($"http://localhost:28294/api/Cargos/DeleCargo?pdcode={pdcode}");
             client.Timeout = -1;
             var request = new RestRequest(Method.DELETE);
             request.AddParameter("text/plain", "", ParameterType.RequestBody);
@@ -71,7 +72,7 @@ namespace MyLib
 
         public static double CheckStock(string pdcode)
         {
-            var client = new RestClient($"https://localhost:44324/api/Cargos/CheckStock?pdcode={pdcode}");
+            var client = new RestClient($"http://localhost:28294/api/Cargos/CheckStock?pdcode={pdcode}");
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddParameter("text/plain", "", ParameterType.RequestBody);

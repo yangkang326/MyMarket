@@ -48,7 +48,7 @@
             </ItemsControl>
             <VirtualizingStackPanel Grid.Row="1">
                 <ItemsControl
-                    ItemsSource="{Binding CargoInfoCollection}"
+                    ItemsSource="{Binding CargoInfoCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ItemsControl.ItemTemplate>

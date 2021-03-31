@@ -25,10 +25,10 @@ namespace MyMarket.MainWin.ViewModel
 
         public MainViewModel()
         {
-            _CargoInfoCollection = WebApiOperate.GetCargoInfoModels("*");
-            ToEndCommand = new RelayCommand<ScrollViewer>(d => { d.ScrollToBottom(); });
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             _GroupNameCollection = WebApiOperate.GetAllGroup();
+            _CargoInfoCollection = WebApiOperate.GetCargoInfoModels("");
+            ToEndCommand = new RelayCommand<ScrollViewer>(d => { d.ScrollToBottom(); });
             AddToCratCommand = new RelayCommand<CargoInfoModel>(e => { ADDToCart(e); });
             PdContChangedCommand = new RelayCommand<CartItem>(s =>
             {
