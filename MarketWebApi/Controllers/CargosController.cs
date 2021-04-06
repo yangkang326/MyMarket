@@ -11,26 +11,25 @@ namespace MarketWebApi.Controllers
     [Route("api/[controller]/[action]")]
     public class CargosController : Controller
     {
-        public static IFreeSql Client = new FreeSqlBuilder().UseConnectionString(DataType.MySql,
-                "Data Source=192.168.0.191;Port=3306;User ID=root;Password=yangkang; Initial Catalog=MyMarket;Charset=utf8; SslMode=none;Min pool size=1")
+        public static IFreeSql Client = new FreeSqlBuilder().UseConnectionString(DataType.Sqlite, @"Data Source=db1.db")
             .UseAutoSyncStructure(true).Build();
 
-        private readonly ILogger<CargosController> _logger;
+        private readonly ILogger<CargosController> _Logger;
 
         public CargosController(ILogger<CargosController> logger)
         {
-            _logger = logger;
+            _Logger = logger;
         }
 
         [HttpPost]
         public ObservableCollection<CargoInfoModel> InsertOrUpdateCargo([FromBody] CargoInfoModel newCargo)
         {
-            var cnt = Client.Select<CargoInfoModel>().Where(i => i.PDCode == newCargo.PDCode).First();
-            if (cnt != null)
+            var Cnt = Client.Select<CargoInfoModel>().Where(i => i.PDCode == newCargo.PDCode).First();
+            if (Cnt != null)
             {
-                newCargo.ID = cnt.ID;
-                Client.Update<CargoInfoModel>().Where(i => i.ID == cnt.ID).SetSource(newCargo)
-                    .IgnoreColumns(a => new {a.PDCode, a.ID})
+                newCargo.PDId = Cnt.PDId;
+                Client.Update<CargoInfoModel>().Where(i => i.PDId == Cnt.PDId).SetSource(newCargo)
+                    .IgnoreColumns(a => new {a.PDCode, ID = a.PDId})
                     .ExecuteAffrows();
             }
             else
@@ -64,36 +63,36 @@ namespace MarketWebApi.Controllers
         [HttpGet]
         public ObservableCollection<CargoInfoModel> GetCargosBySerchstring(string searchstr)
         {
-            var result = new ObservableCollection<CargoInfoModel>();
+            var Result = new ObservableCollection<CargoInfoModel>();
             if (string.IsNullOrEmpty(searchstr))
             {
-                result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
+                Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
             }
             else
             {
-                var temp1 = Client.Select<CargoInfoModel>().Where(i => i.PDCode.Contains(searchstr)).ToList();
-                var temp2 = Client.Select<CargoInfoModel>().Where(i => i.PDName.Contains(searchstr)).ToList();
-                var temp3 = Client.Select<CargoInfoModel>().Where(i => i.PDSubName.Contains(searchstr)).ToList();
-                var temp4 = temp1.Union(temp2).ToList();
-                var temp5 = temp4.Union(temp3).ToList();
-                foreach (var CargoInfoModelitem in temp5)
-                    if (result.Where(i => i.PDCode == CargoInfoModelitem.PDCode).ToList().Count == 0)
-                        result.Add(CargoInfoModelitem);
+                var Temp1 = Client.Select<CargoInfoModel>().Where(i => i.PDCode.Contains(searchstr)).ToList();
+                var Temp2 = Client.Select<CargoInfoModel>().Where(i => i.PDName.Contains(searchstr)).ToList();
+                var Temp3 = Client.Select<CargoInfoModel>().Where(i => i.PDSubName.Contains(searchstr)).ToList();
+                var Temp4 = Temp1.Union(Temp2).ToList();
+                var Temp5 = Temp4.Union(Temp3).ToList();
+                foreach (var CargoInfoModelitem in Temp5)
+                    if (Result.Where(i => i.PDCode == CargoInfoModelitem.PDCode).ToList().Count == 0)
+                        Result.Add(CargoInfoModelitem);
             }
 
-            return result;
+            return Result;
         }
 
         [HttpGet]
         public ObservableCollection<CargoInfoModel> GetCargosByGroupname(string groupname)
         {
-            var result = new ObservableCollection<CargoInfoModel>();
+            var Result = new ObservableCollection<CargoInfoModel>();
             if (string.IsNullOrEmpty(groupname))
-                result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
+                Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
             else
-                result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>()
+                Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>()
                     .Where(i => i.PDGroup == groupname).ToList());
-            return result;
+            return Result;
         }
 
         [HttpGet]

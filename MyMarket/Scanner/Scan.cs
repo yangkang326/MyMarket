@@ -11,15 +11,15 @@ namespace MyMarket.Scanner
         public static SerialPort ScanPort = new();
         public static string Receicecode = "";
 
-        public static void GetSerialPort(string PortName)
+        public static void GetSerialPort(string portName)
         {
-            var resultport = new SerialPort();
-            resultport.PortName = "COM5";
-            resultport.BaudRate = 9600;
-            resultport.DataBits = 8;
-            resultport.StopBits = StopBits.One;
-            resultport.Parity = Parity.None;
-            ScanPort = resultport;
+            var Resultport = new SerialPort();
+            Resultport.PortName = "COM5";
+            Resultport.BaudRate = 9600;
+            Resultport.DataBits = 8;
+            Resultport.StopBits = StopBits.One;
+            Resultport.Parity = Parity.None;
+            ScanPort = Resultport;
         }
 
         public static void OpenPort()
@@ -29,22 +29,22 @@ namespace MyMarket.Scanner
                 ScanPort.Open();
                 ScanPort.DataReceived += Decode;
             }
-            catch (Exception e)
+            catch (Exception E)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(E);
             }
         }
 
         public static void Decode(object sender, SerialDataReceivedEventArgs e)
         {
-            var buffer = new List<byte>();
-            var temp = new byte[1024];
-            var length = ScanPort.Read(temp, 0, Math.Min(ScanPort.BytesToRead, temp.Length));
-            var temp2 = new byte[length - 2];
-            Array.Copy(temp, 0, temp2, 0, length - 2);
-            buffer.AddRange(temp2);
-            var temp3 = Encoding.ASCII.GetChars(temp2);
-            Receicecode = new string(temp3);
+            var Buffer = new List<byte>();
+            var Temp = new byte[1024];
+            var Length = ScanPort.Read(Temp, 0, Math.Min(ScanPort.BytesToRead, Temp.Length));
+            var Temp2 = new byte[Length - 2];
+            Array.Copy(Temp, 0, Temp2, 0, Length - 2);
+            Buffer.AddRange(Temp2);
+            var Temp3 = Encoding.ASCII.GetChars(Temp2);
+            Receicecode = new string(Temp3);
             WeakReferenceMessenger.Default.Send(Receicecode, "DataCom");
         }
     }

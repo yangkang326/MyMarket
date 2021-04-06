@@ -61,7 +61,7 @@
             ItemsSource="{Binding CargoCollection}"
             SelectionUnit="FullRow" SelectedItem="{Binding SelectInfoModel}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding ID}" Header="ID" />
+                <DataGridTextColumn Binding="{Binding PDId}" Header="ID" />
                 <DataGridTextColumn Binding="{Binding PDName}" Header="商品名" />
                 <DataGridTextColumn Binding="{Binding PDCode}" Header="编号" />
                 <DataGridTextColumn Binding="{Binding PDSellPrice}" Header="售价" />

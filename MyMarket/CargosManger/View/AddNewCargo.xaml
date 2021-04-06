@@ -39,7 +39,7 @@
                         Style="{StaticResource TextBoxExtend}" />
                     <Button
                         Grid.Column="1"
-                        Command="{Binding CreatePDCodeCommand}"
+                        Command="{Binding PDCreatePdCodeCommand}"
                         Content="生成" />
                 </Grid>
                 <Grid Margin="2,5">
@@ -232,7 +232,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBox
                         Grid.Column="0"
-                        Text="{Binding NewDetialMoedl.WeighSN}"
+                        Text="{Binding NewDetialMoedl.PDWeighSn}"
                         hc:InfoElement.Title="秤编码："
                         hc:InfoElement.TitlePlacement="Left"
                         Style="{StaticResource TextBoxExtend}" />
@@ -272,7 +272,7 @@
                 FontSize="20" />
             <Button
                 Margin="2"
-                Command="{Binding SaveThisGoodC0mmand}"
+                Command="{Binding PDSaveThisGoodC0Mmand}"
                 Content="{Binding EditModel}"
                 FontSize="20" />
         </StackPanel>

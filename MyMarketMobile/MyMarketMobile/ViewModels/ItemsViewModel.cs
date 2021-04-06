@@ -10,25 +10,34 @@ namespace MyMarketMobile.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
+        private CargoInfoModel _selectedItem;
 
         public ItemsViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            Items = WebApiOperate.GetCargoInfoModels("");
+            //LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            ItemTapped = new Command<Item>(OnItemSelected);
+            //ItemTapped = new Command<Item>(OnItemSelected);
 
-            AddItemCommand = new Command(OnAddItem);
+            //AddItemCommand = new Command(OnAddItem);
+        }
+        private ObservableCollection<CargoInfoModel> _Items;
+
+        public ObservableCollection<CargoInfoModel> Items
+        {
+            get => _Items;
+            set
+            {
+                SetProperty(ref _Items, value);
+            }
         }
 
-        public ObservableCollection<Item> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
         public Command<Item> ItemTapped { get; }
 
-        public Item SelectedItem
+        public CargoInfoModel SelectedItem
         {
             get => _selectedItem;
             set
@@ -38,25 +47,25 @@ namespace MyMarketMobile.ViewModels
             }
         }
 
-        private async Task ExecuteLoadItemsCommand()
-        {
-            IsBusy = true;
+        //private async Task ExecuteLoadItemsCommand()
+        //{
+        //    IsBusy = true;
 
-            try
-            {
-                Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items) Items.Add(item);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
-        }
+        //    try
+        //    {
+        //        Items.Clear();
+        //        var items = await DataStore.GetItemsAsync(true);
+        //        foreach (var item in items) Items.Add(item);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine(ex);
+        //    }
+        //    finally
+        //    {
+        //        IsBusy = false;
+        //    }
+        //}
 
         public void OnAppearing()
         {
@@ -69,13 +78,13 @@ namespace MyMarketMobile.ViewModels
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
-        private async void OnItemSelected(Item item)
+        private async void OnItemSelected(CargoInfoModel item)
         {
             if (item == null)
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.PDCode}");
         }
     }
 }

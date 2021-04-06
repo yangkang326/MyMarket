@@ -68,8 +68,8 @@ namespace MyMarket.AllMenu.ViewModel
                 switch (m.Name)
                 {
                     case "商品信息":
-                        var win = CargosCheckModel.GetInstance();
-                        win.Show();
+                        var Win = CargosCheckModel.GetInstance();
+                        Win.Show();
                         break;
                 }
             });

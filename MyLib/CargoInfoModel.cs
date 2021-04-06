@@ -5,21 +5,21 @@ namespace MyLib
 {
     public class CargoInfoModel : ObservableObject
     {
-        public string _PDCode = "";
-        private double _PDCost;
-        private double _PDProfit;
-        private double _PDSellPrice;
+        private double _PdCost;
+        private double _PdProfit;
+        private double _PdSellPrice;
+        public string PdCode = "";
 
         [Column(IsIdentity = true, IsPrimary = true)]
-        public int ID { get; set; }
+        public int PDId { get; set; }
 
         [Column(IsPrimary = true)]
         public string PDCode
         {
-            get => _PDCode;
+            get => PdCode;
             set
             {
-                _PDCode = value;
+                PdCode = value;
                 OnPropertyChanged();
             }
         }
@@ -30,30 +30,30 @@ namespace MyLib
 
         public double PDSellPrice
         {
-            get => _PDSellPrice;
+            get => _PdSellPrice;
             set
             {
-                _PDSellPrice = value;
-                if (_PDCost > 0) PDProfit = (value - _PDCost) / _PDCost;
+                _PdSellPrice = value;
+                if (_PdCost > 0) PDProfit = (value - _PdCost) / _PdCost;
             }
         }
 
         public double PDCost
         {
-            get => _PDCost;
+            get => _PdCost;
             set
             {
-                _PDCost = value;
-                if (value > 0) PDProfit = (_PDSellPrice - value) / value;
+                _PdCost = value;
+                if (value > 0) PDProfit = (_PdSellPrice - value) / value;
             }
         }
 
         public double PDProfit
         {
-            get => _PDProfit;
+            get => _PdProfit;
             set
             {
-                _PDProfit = value;
+                _PdProfit = value;
                 OnPropertyChanged();
             }
         }
@@ -65,7 +65,7 @@ namespace MyLib
         public bool IsWeighedNeeded { get; set; } = false;
         public bool IsCommunicationNeeded { get; set; } = false;
         public string PDGroup { get; set; } = "";
-        public string WeighSN { get; set; } = "";
+        public string PDWeighSn { get; set; } = "";
         public string PicPath { get; set; } = "";
     }
 }

@@ -25,20 +25,20 @@ namespace MyMarket.CargosManger.ViewModel
             });
             EditRelayCommand = new RelayCommand(() =>
             {
-                var win = AddNewCargo.GetInstance();
-                (win.DataContext as CargoEditViewModel).NewDetialMoedl = SelectInfoModel;
-                (win.DataContext as CargoEditViewModel).EditModel = "修改";
-                win.Show();
-                win.Closed += UpdateList;
+                var Win = AddNewCargo.GetInstance();
+                (Win.DataContext as CargoEditViewModel).NewDetialMoedl = SelectInfoModel;
+                (Win.DataContext as CargoEditViewModel).EditModel = "修改";
+                Win.Show();
+                Win.Closed += UpdateList;
             });
             AddNewRelayCommand = new RelayCommand(() =>
             {
                 SelectInfoModel = new CargoInfoModel();
-                var win = AddNewCargo.GetInstance();
-                (win.DataContext as CargoEditViewModel).NewDetialMoedl = SelectInfoModel;
-                (win.DataContext as CargoEditViewModel).EditModel = "保存";
-                win.Show();
-                win.Closed += UpdateList;
+                var Win = AddNewCargo.GetInstance();
+                (Win.DataContext as CargoEditViewModel).NewDetialMoedl = SelectInfoModel;
+                (Win.DataContext as CargoEditViewModel).EditModel = "保存";
+                Win.Show();
+                Win.Closed += UpdateList;
             });
             DeleRelayCommand = new RelayCommand(() =>
             {

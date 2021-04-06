@@ -144,7 +144,7 @@
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="*"
-                                Binding="{Binding PDSN}"
+                                Binding="{Binding PDSn}"
                                 Header="货号" />
                             <DataGridTextColumn
                                 Binding="{Binding UnitPrice, StringFormat=\{0:F2\}}"

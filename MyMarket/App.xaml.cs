@@ -16,9 +16,9 @@ namespace MyMarket
         {
             Scan.GetSerialPort("COM5");
             Scan.OpenPort();
-            var win = MainWin.View.MainWindow.GetInstance();
+            var Win = MainWin.View.MainWindow.GetInstance();
             WindowsStatus.MainWindowOpen = true;
-            win.Show();
+            Win.Show();
         }
     }
 }

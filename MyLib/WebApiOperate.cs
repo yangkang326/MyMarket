@@ -6,78 +6,92 @@ namespace MyLib
 {
     public static class WebApiOperate
     {
-        public static ObservableCollection<CargoInfoModel> GetCargoInfoModels(string Searchstring)
+        public static ObservableCollection<CargoInfoModel> GetCargoInfoModels(string searchstring)
         {
-            var client =
-                new RestClient($"http://localhost:28294/api/Cargos/GetCargosBySerchstring?searchstr={Searchstring}");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
-            request.AddParameter("text/plain", "", ParameterType.RequestBody);
-            var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<ObservableCollection<CargoInfoModel>>(response.Content);
+            var Client =
+                new RestClient($"http://localhost:28294/api/Cargos/GetCargosBySerchstring?searchstr={searchstring}")
+                {
+                    Timeout = -1
+                };
+            var Request = new RestRequest(Method.GET);
+            Request.AddParameter("text/plain", "", ParameterType.RequestBody);
+            var Response = Client.Execute(Request);
+            return JsonConvert.DeserializeObject<ObservableCollection<CargoInfoModel>>(Response.Content);
         }
 
-        public static ObservableCollection<CargoInfoModel> GetCargoInfoModelsByGroupName(string GroupName)
+        public static ObservableCollection<CargoInfoModel> GetCargoInfoModelsByGroupName(string groupName)
         {
-            var client =
-                new RestClient($"http://localhost:28294/api/Cargos/GetCargosByGroupname?groupname={GroupName}");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
-            request.AddParameter("text/plain", "", ParameterType.RequestBody);
-            var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<ObservableCollection<CargoInfoModel>>(response.Content);
+            var Client =
+                new RestClient($"http://localhost:28294/api/Cargos/GetCargosByGroupname?groupname={groupName}")
+                {
+                    Timeout = -1
+                };
+            var Request = new RestRequest(Method.GET);
+            Request.AddParameter("text/plain", "", ParameterType.RequestBody);
+            var Response = Client.Execute(Request);
+            return JsonConvert.DeserializeObject<ObservableCollection<CargoInfoModel>>(Response.Content);
         }
 
         public static ObservableCollection<CargoInfoModel> InserOrUpdateCargo(CargoInfoModel cargo)
         {
-            var client = new RestClient("http://localhost:28294/api/Cargos/InsertOrUpdateCargo");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json", JsonConvert.SerializeObject(cargo), ParameterType.RequestBody);
-            var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<ObservableCollection<CargoInfoModel>>(response.Content);
+            var Client = new RestClient("http://localhost:28294/api/Cargos/InsertOrUpdateCargo")
+            {
+                Timeout = -1
+            };
+            var Request = new RestRequest(Method.POST);
+            Request.AddHeader("Content-Type", "application/json");
+            Request.AddParameter("application/json", JsonConvert.SerializeObject(cargo), ParameterType.RequestBody);
+            var Response = Client.Execute(Request);
+            return JsonConvert.DeserializeObject<ObservableCollection<CargoInfoModel>>(Response.Content);
         }
 
         public static ObservableCollection<CargosGroup> InserOrUpdateGroup(string groupname)
         {
-            var client =
-                new RestClient($"http://localhost:28294/api/Cargos/InsertOrUpdateCargoGroup?newGroupname={groupname}");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddParameter("text/plain", "", ParameterType.RequestBody);
-            var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<ObservableCollection<CargosGroup>>(response.Content);
+            var Client =
+                new RestClient($"http://localhost:28294/api/Cargos/InsertOrUpdateCargoGroup?newGroupname={groupname}")
+                {
+                    Timeout = -1
+                };
+            var Request = new RestRequest(Method.POST);
+            Request.AddParameter("text/plain", "", ParameterType.RequestBody);
+            var Response = Client.Execute(Request);
+            return JsonConvert.DeserializeObject<ObservableCollection<CargosGroup>>(Response.Content);
         }
 
         public static ObservableCollection<CargosGroup> GetAllGroup()
         {
-            var client = new RestClient("http://localhost:28294/api/Cargos/GetAllGroup");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
-            request.AddParameter("text/plain", "", ParameterType.RequestBody);
-            var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<ObservableCollection<CargosGroup>>(response.Content);
+            var Client = new RestClient("http://localhost:28294/api/Cargos/GetAllGroup")
+            {
+                Timeout = -1
+            };
+            var Request = new RestRequest(Method.GET);
+            Request.AddParameter("text/plain", "", ParameterType.RequestBody);
+            var Response = Client.Execute(Request);
+            return JsonConvert.DeserializeObject<ObservableCollection<CargosGroup>>(Response.Content);
         }
 
         public static ObservableCollection<CargoInfoModel> DeleCargo(string pdcode)
         {
-            var client = new RestClient($"http://localhost:28294/api/Cargos/DeleCargo?pdcode={pdcode}");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.DELETE);
-            request.AddParameter("text/plain", "", ParameterType.RequestBody);
-            var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<ObservableCollection<CargoInfoModel>>(response.Content);
+            var Client = new RestClient($"http://localhost:28294/api/Cargos/DeleCargo?pdcode={pdcode}")
+            {
+                Timeout = -1
+            };
+            var Request = new RestRequest(Method.DELETE);
+            Request.AddParameter("text/plain", "", ParameterType.RequestBody);
+            var Response = Client.Execute(Request);
+            return JsonConvert.DeserializeObject<ObservableCollection<CargoInfoModel>>(Response.Content);
         }
 
         public static double CheckStock(string pdcode)
         {
-            var client = new RestClient($"http://localhost:28294/api/Cargos/CheckStock?pdcode={pdcode}");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddParameter("text/plain", "", ParameterType.RequestBody);
-            var response = client.Execute(request);
-            return JsonConvert.DeserializeObject<double>(response.Content);
+            var Client = new RestClient($"http://localhost:28294/api/Cargos/CheckStock?pdcode={pdcode}")
+            {
+                Timeout = -1
+            };
+            var Request = new RestRequest(Method.POST);
+            Request.AddParameter("text/plain", "", ParameterType.RequestBody);
+            var Response = Client.Execute(Request);
+            return JsonConvert.DeserializeObject<double>(Response.Content);
         }
     }
 }

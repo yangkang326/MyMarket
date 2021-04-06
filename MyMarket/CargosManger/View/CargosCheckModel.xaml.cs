@@ -8,7 +8,7 @@ namespace MyMarket.CargosManger.View
     /// </summary>
     public partial class CargosCheckModel : Window
     {
-        private static CargosCheckModel Instance;
+        private static CargosCheckModel _Instance;
 
         private CargosCheckModel()
         {
@@ -18,13 +18,13 @@ namespace MyMarket.CargosManger.View
 
         private void Dispose(object sender, EventArgs e)
         {
-            Instance = null;
+            _Instance = null;
         }
 
         public static CargosCheckModel GetInstance()
         {
-            if (Instance == null) Instance = new CargosCheckModel();
-            return Instance;
+            if (_Instance == null) _Instance = new CargosCheckModel();
+            return _Instance;
         }
     }
 }

@@ -28,13 +28,13 @@ namespace MyMarket.CargosManger.ViewModel
             _GroupNameCollection = new ObservableCollection<string>();
             foreach (var CargosGroup in WebApiOperate.GetAllGroup()) _GroupNameCollection.Add(CargosGroup.PDGroup);
             _NewDetialMoedl = new CargoInfoModel();
-            CreatePDCodeCommand = new RelayCommand(() =>
+            PDCreatePdCodeCommand = new RelayCommand(() =>
             {
-                var s = DateTime.Now.ToString("yyyyMMddHHmmss") +
+                var S = DateTime.Now.ToString("yyyyMMddHHmmss") +
                         WebApiOperate.GetCargoInfoModels("").Count.ToString("D5");
-                NewDetialMoedl.PDCode = s;
+                NewDetialMoedl.PDCode = S;
             });
-            SaveThisGoodC0mmand = new RelayCommand(() => { WebApiOperate.InserOrUpdateCargo(NewDetialMoedl); });
+            PDSaveThisGoodC0Mmand = new RelayCommand(() => { WebApiOperate.InserOrUpdateCargo(NewDetialMoedl); });
             AddGroupNameCommand = new RelayCommand(() =>
             {
                 if (!string.IsNullOrEmpty(NewGroupNameInput)) WebApiOperate.InserOrUpdateGroup(NewGroupNameInput);
@@ -45,19 +45,19 @@ namespace MyMarket.CargosManger.ViewModel
             });
             SelectPicPath = new RelayCommand<TextBox>(T =>
             {
-                var dialog = new OpenFileDialog();
-                dialog.Filter = "All Image Files|*.bmp;*.ico;*.gif;*.jpeg;*.jpg;*.png;*.tif;*.tiff|"
+                var Dialog = new OpenFileDialog();
+                Dialog.Filter = "All Image Files|*.bmp;*.ico;*.gif;*.jpeg;*.jpg;*.png;*.tif;*.tiff|"
                                 + "Windows Bitmap(*.bmp)|*.bmp|"
                                 + "Windows Icon(*.ico)|*.ico|"
                                 + "Graphics Interchange Format (*.gif)|(*.gif)|"
                                 + "JPEG File Interchange Format (*.jpg)|*.jpg;*.jpeg|"
                                 + "Portable Network Graphics (*.png)|*.png|"
                                 + "Tag Image File Format (*.tif)|*.tif;*.tiff";
-                var result = dialog.ShowDialog();
-                if ((bool) result)
+                var Result = Dialog.ShowDialog();
+                if ((bool) Result)
                 {
-                    PicPath = dialog.FileName;
-                    NewDetialMoedl.PicPath = dialog.SafeFileName;
+                    PicPath = Dialog.FileName;
+                    NewDetialMoedl.PicPath = Dialog.SafeFileName;
                 }
             });
             ClosedCommand = new RelayCommand(() => { WindowsStatus.CargoEditWindowOpen = false; });
@@ -118,8 +118,8 @@ namespace MyMarket.CargosManger.ViewModel
             }
         }
 
-        public RelayCommand CreatePDCodeCommand { get; set; }
-        public RelayCommand SaveThisGoodC0mmand { get; set; }
+        public RelayCommand PDCreatePdCodeCommand { get; set; }
+        public RelayCommand PDSaveThisGoodC0Mmand { get; set; }
 
         private void Decode(object recipient, string message)
         {

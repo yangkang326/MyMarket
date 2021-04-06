@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MarketMoblie.MainPage"
+             xmlns:vm="clr-namespace:MarketMoblie.ViewModel;assembly=MarketMoblie">
+    <ContentPage.BindingContext>
+        <vm:ViewModel />
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+            <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36" />
+        </Frame>
+        <CollectionView ItemsSource="{Binding CargoInfoModels}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="https://aka.ms/campus.jpg" Margin="2" HeightRequest="10" WidthRequest="60" />
+                        <Grid Margin="1" Grid.Column="1" Background="Red">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding PDName}" />
+                            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PDCode}" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding PDSellPrice}" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding PDUnit}" />
+                            <Button Text="Add" Grid.RowSpan="2" Grid.Column="2" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label Text="Start developing now" FontSize="Title" Padding="30,10,30,10" />
+        <Label
+            Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!"
+            FontSize="16" Padding="30,0,30,0" />
+        <Label FontSize="16" Padding="30,24,30,0">
+            <Label.FormattedText>
+                <FormattedString>
+                    <FormattedString.Spans>
+                        <Span Text="Learn more at " />
+                        <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold" />
+                    </FormattedString.Spans>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    </StackLayout>
+
+</ContentPage>

@@ -21,13 +21,13 @@ namespace MyMarket
         {
             try
             {
-                var arr = Convert.FromBase64String(base64String);
-                var ms = new MemoryStream(arr);
-                var bmp = new Bitmap(ms);
-                ms.Close();
-                return bmp;
+                var Arr = Convert.FromBase64String(base64String);
+                var Ms = new MemoryStream(Arr);
+                var Bmp = new Bitmap(Ms);
+                Ms.Close();
+                return Bmp;
             }
-            catch (Exception ex)
+            catch (Exception Ex)
             {
                 return null;
             }
@@ -35,18 +35,18 @@ namespace MyMarket
 
         public static BitmapImage BitmapToBitmapImage(Bitmap bitmap)
         {
-            using (var stream = new MemoryStream())
+            using (var Stream = new MemoryStream())
             {
-                bitmap.Save(stream, ImageFormat.Png);
-                stream.Position = 0;
-                var result = new BitmapImage();
-                result.BeginInit();
-                result.CacheOption = BitmapCacheOption.OnLoad;
-                result.StreamSource = stream;
-                result.DecodePixelHeight = 120;
-                result.EndInit();
-                result.Freeze();
-                return result;
+                bitmap.Save(Stream, ImageFormat.Png);
+                Stream.Position = 0;
+                var Result = new BitmapImage();
+                Result.BeginInit();
+                Result.CacheOption = BitmapCacheOption.OnLoad;
+                Result.StreamSource = Stream;
+                Result.DecodePixelHeight = 120;
+                Result.EndInit();
+                Result.Freeze();
+                return Result;
             }
         }
     }

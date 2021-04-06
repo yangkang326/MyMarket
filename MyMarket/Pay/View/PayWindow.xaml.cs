@@ -8,7 +8,7 @@ namespace MyMarket.Pay.View
     /// </summary>
     public partial class PayWindow : Window
     {
-        private static PayWindow Instance;
+        private static PayWindow _Instance;
 
         private PayWindow()
         {
@@ -18,13 +18,13 @@ namespace MyMarket.Pay.View
 
         public static PayWindow GetInstace()
         {
-            if (Instance == null) Instance = new PayWindow();
-            return Instance;
+            if (_Instance == null) _Instance = new PayWindow();
+            return _Instance;
         }
 
         private void Dispose(object sender, EventArgs e)
         {
-            Instance = null;
+            _Instance = null;
         }
     }
 }

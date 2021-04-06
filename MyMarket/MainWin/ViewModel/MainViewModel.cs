@@ -29,22 +29,22 @@ namespace MyMarket.MainWin.ViewModel
             _GroupNameCollection = WebApiOperate.GetAllGroup();
             _CargoInfoCollection = WebApiOperate.GetCargoInfoModels("");
             ToEndCommand = new RelayCommand<ScrollViewer>(d => { d.ScrollToBottom(); });
-            AddToCratCommand = new RelayCommand<CargoInfoModel>(e => { ADDToCart(e); });
+            AddToCratCommand = new RelayCommand<CargoInfoModel>(e => { AddToCart(e); });
             PdContChangedCommand = new RelayCommand<CartItem>(s =>
             {
-                var temp = WebApiOperate.CheckStock(s.PDSN);
-                s.Count = s.Count > temp ? temp : s.Count;
-                CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+                var Temp = WebApiOperate.CheckStock(s.PDSn);
+                s.Count = s.Count > Temp ? Temp : s.Count;
+                CurrentTotalPrice = DoAddTotal(CurentCargosCollection);
             });
             DeleCartItemCommand = new RelayCommand<CartItem>(e =>
             {
                 CurentCargosCollection.Remove(e);
-                CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+                CurrentTotalPrice = DoAddTotal(CurentCargosCollection);
             });
             PayDetialCommand = new RelayCommand(() =>
             {
-                var win = PayWindow.GetInstace();
-                win.ShowDialog();
+                var Win = PayWindow.GetInstace();
+                Win.ShowDialog();
             });
             SelectGropuChangedCommand = new RelayCommand<CargosGroup>(o =>
             {
@@ -62,15 +62,15 @@ namespace MyMarket.MainWin.ViewModel
             });
             OpenMenuViewCommand = new RelayCommand(() =>
             {
-                var menuwin = MenuView.GetInstance();
-                menuwin.Show();
+                var Menuwin = MenuView.GetInstance();
+                Menuwin.Show();
             });
             GetHoldCartByIndexCommand = new RelayCommand<int>(i =>
             {
                 if (CurentCargosCollection.Count > 0)
                 {
-                    var result = MessageBox.Show("当前购物车未结算，是否保存", "挂单处理", MessageBoxButton.YesNoCancel);
-                    if (result == MessageBoxResult.Yes)
+                    var Result = MessageBox.Show("当前购物车未结算，是否保存", "挂单处理", MessageBoxButton.YesNoCancel);
+                    if (Result == MessageBoxResult.Yes)
                     {
                         HoldCartsCollection.Add(CurentCargosCollection);
                         CurentCargosCollection = HoldCartsCollection[i - 1];
@@ -79,7 +79,7 @@ namespace MyMarket.MainWin.ViewModel
                         HoldCount = HoldCartsCollection.Count;
                         HoldCartsIndexCollection.Add(HoldCount);
                     }
-                    else if (result == MessageBoxResult.No)
+                    else if (Result == MessageBoxResult.No)
                     {
                         CurentCargosCollection = HoldCartsCollection[i - 1];
                         HoldCartsCollection.RemoveAt(i - 1);
@@ -203,23 +203,23 @@ namespace MyMarket.MainWin.ViewModel
             }
         }
 
-        private async void ADDToCart(CargoInfoModel c)
+        private async void AddToCart(CargoInfoModel c)
         {
-            var tenmcont = 1.0;
+            var Tenmcont = 1.0;
             if (c.IsWeighedNeeded)
             {
                 await Task.Delay(1000);
-                tenmcont = 20;
+                Tenmcont = 20;
             }
 
             CurentCargosCollection.Add(new CartItem
             {
                 PDName = c.PDName,
-                PDSN = c.PDCode,
+                PDSn = c.PDCode,
                 UnitPrice = c.PDSellPrice,
-                Count = tenmcont
+                Count = Tenmcont
             });
-            CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+            CurrentTotalPrice = DoAddTotal(CurentCargosCollection);
         }
 
         private void Decode(object recipient, string message)
@@ -233,32 +233,32 @@ namespace MyMarket.MainWin.ViewModel
                     CurentCargosCollection.Add(new CartItem
                     {
                         PDName = CargoInfoCollection[0].PDName,
-                        PDSN = CargoInfoCollection[0].PDCode,
+                        PDSn = CargoInfoCollection[0].PDCode,
                         UnitPrice = CargoInfoCollection[0].PDSellPrice,
                         Count = CargoInfoCollection[0].IsWeighedNeeded
                             ? GetWeight(CargoInfoCollection[0].PDSellPrice)
                             : 1
                     });
                 });
-                CurrentTotalPrice = DOAddTotal(CurentCargosCollection);
+                CurrentTotalPrice = DoAddTotal(CurentCargosCollection);
                 InputSearchString = "";
             }
         }
 
-        private double GetWeight(double UnitPrice)
+        private double GetWeight(double unitPrice)
         {
-            double result = 0;
-            result = 30;
-            return result;
+            double Result = 0;
+            Result = 30;
+            return Result;
         }
 
 
-        private double DOAddTotal(ObservableCollection<CartItem> listcartitems)
+        private double DoAddTotal(ObservableCollection<CartItem> listcartitems)
         {
-            double temp = 0;
-            foreach (var listcartiteml in listcartitems) temp += listcartiteml.PDTotalPrice;
+            double Temp = 0;
+            foreach (var Listcartiteml in listcartitems) Temp += Listcartiteml.PDTotalPrice;
             CartCount = listcartitems.Count;
-            return temp;
+            return Temp;
         }
     }
 }

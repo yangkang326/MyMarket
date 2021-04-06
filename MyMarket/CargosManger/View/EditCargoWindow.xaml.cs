@@ -8,7 +8,7 @@ namespace MyMarket.CargosManger.View
     /// </summary>
     public partial class EditCargoWindow : Window
     {
-        private static EditCargoWindow Instance;
+        private static EditCargoWindow _Instance;
 
         private EditCargoWindow()
         {
@@ -18,13 +18,13 @@ namespace MyMarket.CargosManger.View
 
         private void Dispose(object sender, EventArgs e)
         {
-            Instance = null;
+            _Instance = null;
         }
 
         public static EditCargoWindow GetInstance()
         {
-            if (Instance == null) Instance = new EditCargoWindow();
-            return Instance;
+            if (_Instance == null) _Instance = new EditCargoWindow();
+            return _Instance;
         }
     }
 }

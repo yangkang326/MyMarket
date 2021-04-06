@@ -8,7 +8,7 @@ namespace MyMarket.CargosManger.View
     /// </summary>
     public partial class CargosInHousingWindow : Window
     {
-        private static CargosInHousingWindow Instance;
+        private static CargosInHousingWindow _Instance;
 
         private CargosInHousingWindow()
         {
@@ -18,13 +18,13 @@ namespace MyMarket.CargosManger.View
 
         private void Dispose(object sender, EventArgs e)
         {
-            Instance = null;
+            _Instance = null;
         }
 
         public static CargosInHousingWindow GetInstance()
         {
-            if (Instance == null) Instance = new CargosInHousingWindow();
-            return Instance;
+            if (_Instance == null) _Instance = new CargosInHousingWindow();
+            return _Instance;
         }
     }
 }

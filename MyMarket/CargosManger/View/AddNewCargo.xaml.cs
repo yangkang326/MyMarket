@@ -9,7 +9,7 @@ namespace MyMarket.CargosManger.View
     /// </summary>
     public partial class AddNewCargo : Window
     {
-        private static AddNewCargo Instance;
+        private static AddNewCargo _Instance;
 
         private AddNewCargo()
         {
@@ -19,15 +19,15 @@ namespace MyMarket.CargosManger.View
 
         private void Dispose(object sender, EventArgs e)
         {
-            Instance = null;
+            _Instance = null;
             WindowsStatus.CargoEditWindowOpen = false;
             WeakReferenceMessenger.Default.UnregisterAll(DataContext);
         }
 
         public static AddNewCargo GetInstance()
         {
-            if (Instance == null) Instance = new AddNewCargo();
-            return Instance;
+            if (_Instance == null) _Instance = new AddNewCargo();
+            return _Instance;
         }
     }
 }

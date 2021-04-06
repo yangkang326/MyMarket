@@ -6,9 +6,9 @@ namespace MyLib
     {
         private double _Count;
 
-        private double _PDTotalPrice;
+        private double _PdTotalPrice;
         public string PDName { get; set; }
-        public string PDSN { get; set; }
+        public string PDSn { get; set; }
 
         public double UnitPrice { get; set; }
 
@@ -25,10 +25,10 @@ namespace MyLib
 
         public double PDTotalPrice
         {
-            get => _PDTotalPrice;
+            get => _PdTotalPrice;
             set
             {
-                _PDTotalPrice = value;
+                _PdTotalPrice = value;
                 OnPropertyChanged();
             }
         }

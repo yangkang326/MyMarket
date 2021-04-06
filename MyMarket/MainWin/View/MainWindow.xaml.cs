@@ -13,7 +13,7 @@ namespace MyMarket.MainWin.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static MainWindow Instance;
+        private static MainWindow _Instance;
 
         public MainWindow()
         {
@@ -31,13 +31,13 @@ namespace MyMarket.MainWin.View
 
         private void Dispose(object sender, EventArgs e)
         {
-            Instance = null;
+            _Instance = null;
         }
 
         public static MainWindow GetInstance()
         {
-            if (Instance == null) Instance = new MainWindow();
-            return Instance;
+            if (_Instance == null) _Instance = new MainWindow();
+            return _Instance;
         }
     }
 }

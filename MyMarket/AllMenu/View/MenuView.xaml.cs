@@ -8,7 +8,7 @@ namespace MyMarket.AllMenu.View
     /// </summary>
     public partial class MenuView : Window
     {
-        private static MenuView Instance;
+        private static MenuView _Instance;
 
         private MenuView()
         {
@@ -18,13 +18,13 @@ namespace MyMarket.AllMenu.View
 
         private void Dispose(object sender, EventArgs e)
         {
-            Instance = null;
+            _Instance = null;
         }
 
         public static MenuView GetInstance()
         {
-            if (Instance == null) Instance = new MenuView();
-            return Instance;
+            if (_Instance == null) _Instance = new MenuView();
+            return _Instance;
         }
     }
 }
