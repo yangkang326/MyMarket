@@ -57,7 +57,7 @@
                                 <Image Width="150" Height="150">
                                     <Image.Source>
                                         <BitmapImage DecodePixelHeight="80"
-                                                     UriSource="{Binding PicPath,Converter={StaticResource Con}}" />
+                                                     UriSource="{Binding PicPath, Converter={StaticResource PathConverter}}" />
                                     </Image.Source>
                                 </Image>
                                 <hc:Card.Footer>

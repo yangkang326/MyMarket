@@ -66,6 +66,16 @@ namespace MyLib
         public bool IsCommunicationNeeded { get; set; } = false;
         public string PDGroup { get; set; } = "";
         public string PDWeighSn { get; set; } = "";
-        public string PicPath { get; set; } = "";
+        private string _PicPath { get; set; } = "";
+
+        public string PicPath
+        {
+            get => _PicPath;
+            set
+            {
+                _PicPath = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

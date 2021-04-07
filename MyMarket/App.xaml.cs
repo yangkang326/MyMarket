@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Windows;
+using MyLib;
 using MyMarket.Scanner;
 
 #endregion
@@ -16,6 +17,8 @@ namespace MyMarket
         {
             Scan.GetSerialPort("COM5");
             Scan.OpenPort();
+            WindowsStatus.StatiCargoInfoModels = WebApiOperate.GetCargoInfoModels();
+            WindowsStatus.StatiCargosGroups = WebApiOperate.GetAllGroup();
             var Win = MainWin.View.MainWindow.GetInstance();
             WindowsStatus.MainWindowOpen = true;
             Win.Show();

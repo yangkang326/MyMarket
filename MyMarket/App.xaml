@@ -4,11 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:comcmd="clr-namespace:MyMarket.ComCommand"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:cvt="clr-namespace:MyMarket"
+    xmlns:cvt="clr-namespace:MyMarket.Conv"
     Startup="App_OnStartup">
     <Application.Resources>
         <ResourceDictionary>
-            <cvt:Con x:Key="Con" />
+            <cvt:PicPathConverter x:Key="PathConverter" />
             <comcmd:ComCmd x:Key="ComCmd" />
             <Style TargetType="Button" BasedOn="{StaticResource ButtonCustom}">
                 <Setter Property="Background" Value="DarkGray" />

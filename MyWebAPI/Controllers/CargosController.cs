@@ -1,18 +1,18 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using FreeSql;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyLib;
 
 namespace MyWebAPI.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]/[action]")]
+    [ApiController, Route("api/[controller]/[action]")]
     public class CargosController : Controller
     {
-        public static IFreeSql Client = new FreeSqlBuilder().UseConnectionString(DataType.Sqlite, @"Data Source=db1.db")
-            .UseAutoSyncStructure(true).Build();
+        public static IFreeSql Client = new FreeSqlBuilder().UseConnectionString(DataType.Sqlite, @"Data Source=db1.db").UseAutoSyncStructure(true).Build();
 
         private readonly ILogger<CargosController> _Logger;
 
@@ -22,20 +22,21 @@ namespace MyWebAPI.Controllers
         }
 
         [HttpPost]
-        public ObservableCollection<CargoInfoModel> InsertOrUpdateCargo([FromBody] CargoInfoModel newCargo)
+        public ObservableCollection<CargoInfoModel> InsertOrUpdateCargo([FromBody]CargoInfoModel newCargo)
         {
             var Cnt = Client.Select<CargoInfoModel>().Where(i => i.PDCode == newCargo.PDCode).First();
             if (Cnt != null)
             {
                 newCargo.PDId = Cnt.PDId;
-                Client.Update<CargoInfoModel>().Where(i => i.PDId == Cnt.PDId).SetSource(newCargo)
-                    .IgnoreColumns(a => new {a.PDCode, ID = a.PDId})
-                    .ExecuteAffrows();
+                Client.Update<CargoInfoModel>().Where(i => i.PDId == Cnt.PDId).SetSource(newCargo).IgnoreColumns(a => new
+                {
+                    a.PDCode,
+                    ID = a.PDId
+                }).ExecuteAffrows();
             }
             else
             {
-                Client.Insert(newCargo)
-                    .ExecuteAffrows();
+                Client.Insert(newCargo).ExecuteAffrows();
             }
 
             return new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
@@ -90,8 +91,7 @@ namespace MyWebAPI.Controllers
             if (string.IsNullOrEmpty(groupname))
                 Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
             else
-                Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>()
-                    .Where(i => i.PDGroup == groupname).ToList());
+                Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().Where(i => i.PDGroup == groupname).ToList());
             return Result;
         }
 
@@ -106,6 +106,18 @@ namespace MyWebAPI.Controllers
         {
             Client.Delete<CargoInfoModel>().Where(i => i.PDCode == pdcode).ExecuteAffrows();
             return new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
+        }
+
+        [HttpPost("UploadFile"), Consumes("multipart/form-data")] //这里写你自己上传文件用的url地址
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            var a = file.FileName;
+            using (var fs = System.IO.File.Create(@"C:\\Users\\Administrator\\Documents\\Image\\" + a)) //filePath写文件保存到哪
+            {
+                await file.CopyToAsync(fs);
+            }
+
+            return NoContent();
         }
     }
 }

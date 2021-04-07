@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,10 +27,16 @@ namespace MyMarket.MainWin.ViewModel
         public MainViewModel()
         {
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
-            _GroupNameCollection = WebApiOperate.GetAllGroup();
-            _CargoInfoCollection = WebApiOperate.GetCargoInfoModels("");
-            ToEndCommand = new RelayCommand<ScrollViewer>(d => { d.ScrollToBottom(); });
-            AddToCratCommand = new RelayCommand<CargoInfoModel>(e => { AddToCart(e); });
+            _GroupNameCollection = WindowsStatus.StatiCargosGroups;
+            _CargoInfoCollection = WindowsStatus.StatiCargoInfoModels;
+            ToEndCommand = new RelayCommand<ScrollViewer>(d =>
+            {
+                d.ScrollToBottom();
+            });
+            AddToCratCommand = new RelayCommand<CargoInfoModel>(e =>
+            {
+                AddToCart(e);
+            });
             PdContChangedCommand = new RelayCommand<CartItem>(s =>
             {
                 var Temp = WebApiOperate.CheckStock(s.PDSn);
@@ -48,7 +55,8 @@ namespace MyMarket.MainWin.ViewModel
             });
             SelectGropuChangedCommand = new RelayCommand<CargosGroup>(o =>
             {
-                CargoInfoCollection = WebApiOperate.GetCargoInfoModelsByGroupName(o.PDGroup);
+                var result = WindowsStatus.StatiCargoInfoModels.Where(i => i.PDGroup == o.PDGroup).ToList();
+                CargoInfoCollection = new ObservableCollection<CargoInfoModel>(result);
             });
             HoldThisCartCommand = new RelayCommand(() =>
             {
@@ -115,7 +123,8 @@ namespace MyMarket.MainWin.ViewModel
             set
             {
                 _InputSearchString = value;
-                CargoInfoCollection = WebApiOperate.GetCargoInfoModels(value);
+                var reslut = WindowsStatus.StatiCargoInfoModels.Where(i => i.PDGroup == value || i.PDCode.Contains(value) || i.PDName.Contains(value) || i.PDSubName.Contains(value)).ToList();
+                CargoInfoCollection = new ObservableCollection<CargoInfoModel>(reslut);
                 OnPropertyChanged();
             }
         }
@@ -225,7 +234,8 @@ namespace MyMarket.MainWin.ViewModel
         private void Decode(object recipient, string message)
         {
             if (!WindowsStatus.CargoEditWindowOpen) InputSearchString = message;
-            CargoInfoCollection = WebApiOperate.GetCargoInfoModels(message);
+            var result = WindowsStatus.StatiCargoInfoModels.Where(i => i.PDCode == message).ToList();
+            CargoInfoCollection = new ObservableCollection<CargoInfoModel>(result);
             if (CargoInfoCollection.Count == 1)
             {
                 Application.Current.Dispatcher.Invoke(() =>
@@ -235,9 +245,7 @@ namespace MyMarket.MainWin.ViewModel
                         PDName = CargoInfoCollection[0].PDName,
                         PDSn = CargoInfoCollection[0].PDCode,
                         UnitPrice = CargoInfoCollection[0].PDSellPrice,
-                        Count = CargoInfoCollection[0].IsWeighedNeeded
-                            ? GetWeight(CargoInfoCollection[0].PDSellPrice)
-                            : 1
+                        Count = CargoInfoCollection[0].IsWeighedNeeded ? GetWeight(CargoInfoCollection[0].PDSellPrice) : 1
                     });
                 });
                 CurrentTotalPrice = DoAddTotal(CurentCargosCollection);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using MyLib;
@@ -16,12 +17,16 @@ namespace MyMarket.CargosManger.ViewModel
 
         public CheckViewModel()
         {
-            _CargoCollection = WebApiOperate.GetCargoInfoModels("*");
-            _GroupNameCollection = WebApiOperate.GetAllGroup();
-            _GroupNameCollection.Add(new CargosGroup {PDGroup = "*"});
+            _CargoCollection = WindowsStatus.StatiCargoInfoModels;
+            _GroupNameCollection = WindowsStatus.StatiCargosGroups;
+            _GroupNameCollection.Add(new CargosGroup
+            {
+                PDGroup = ""
+            });
             SelectGropuChangedCommand = new RelayCommand<CargosGroup>(g =>
             {
-                CargoCollection = WebApiOperate.GetCargoInfoModelsByGroupName(g.PDGroup);
+                var result = WindowsStatus.StatiCargoInfoModels.Where(i => i.PDGroup == g.PDGroup).ToList();
+                CargoCollection = new ObservableCollection<CargoInfoModel>(result);
             });
             EditRelayCommand = new RelayCommand(() =>
             {
@@ -83,7 +88,8 @@ namespace MyMarket.CargosManger.ViewModel
 
         private void UpdateList(object sender, EventArgs e)
         {
-            CargoCollection = WebApiOperate.GetCargoInfoModels("*");
+            CargoCollection = WebApiOperate.GetCargoInfoModels();
+            WindowsStatus.StatiCargoInfoModels = WebApiOperate.GetCargoInfoModels();
         }
     }
 }
