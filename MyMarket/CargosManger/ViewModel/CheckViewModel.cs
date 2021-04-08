@@ -17,15 +17,15 @@ namespace MyMarket.CargosManger.ViewModel
 
         public CheckViewModel()
         {
-            _CargoCollection = WindowsStatus.StatiCargoInfoModels;
-            _GroupNameCollection = WindowsStatus.StatiCargosGroups;
+            _CargoCollection = WebApiOperate.StatiCargoInfoModels;
+            _GroupNameCollection = WebApiOperate.StatiCargosGroups;
             _GroupNameCollection.Add(new CargosGroup
             {
                 PDGroup = ""
             });
             SelectGropuChangedCommand = new RelayCommand<CargosGroup>(g =>
             {
-                var result = WindowsStatus.StatiCargoInfoModels.Where(i => i.PDGroup == g.PDGroup).ToList();
+                var result = WebApiOperate.StatiCargoInfoModels.Where(i => i.PDGroup == g.PDGroup).ToList();
                 CargoCollection = new ObservableCollection<CargoInfoModel>(result);
             });
             EditRelayCommand = new RelayCommand(() =>
@@ -88,8 +88,8 @@ namespace MyMarket.CargosManger.ViewModel
 
         private void UpdateList(object sender, EventArgs e)
         {
-            CargoCollection = WebApiOperate.GetCargoInfoModels();
-            WindowsStatus.StatiCargoInfoModels = WebApiOperate.GetCargoInfoModels();
+            CargoCollection = WebApiOperate.GetAllCargoInfoModels();
+            WebApiOperate.StatiCargoInfoModels = WebApiOperate.GetAllCargoInfoModels();
         }
     }
 }

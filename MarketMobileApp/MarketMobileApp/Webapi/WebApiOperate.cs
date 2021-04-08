@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using MarketMobileApp.Models;
 using Newtonsoft.Json;
 using RestSharp;
 
-namespace MyLib
+namespace MarketMobileApp.Webapi
 {
     public static class WebApiOperate
     {

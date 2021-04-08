@@ -24,13 +24,13 @@ namespace MyMarket.CargosManger.ViewModel
             _EditModel = "添加";
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             WindowsStatus.CargoEditWindowOpen = true;
-            var AllGroup = WindowsStatus.StatiCargosGroups;
+            var AllGroup = WebApiOperate.StatiCargosGroups;
             _GroupNameCollection = new ObservableCollection<string>();
             foreach (var CargosGroup in WebApiOperate.GetAllGroup()) _GroupNameCollection.Add(CargosGroup.PDGroup);
             _NewDetialMoedl = new CargoInfoModel();
             PDCreatePdCodeCommand = new RelayCommand(() =>
             {
-                var S = DateTime.Now.ToString("yyyyMMddHHmmss") + WindowsStatus.StatiCargoInfoModels.Count.ToString("D5");
+                var S = DateTime.Now.ToString("yyyyMMddHHmmss") + WebApiOperate.StatiCargoInfoModels.Count.ToString("D5");
                 NewDetialMoedl.PDCode = S;
             });
             PDSaveThisGoodC0Mmand = new RelayCommand(() =>

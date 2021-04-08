@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using FreeSql;
 using Microsoft.AspNetCore.Http;
@@ -62,38 +61,12 @@ namespace MyWebAPI.Controllers
         }
 
         [HttpGet]
-        public ObservableCollection<CargoInfoModel> GetCargosBySerchstring(string searchstr)
+        public ObservableCollection<CargoInfoModel> GetAllCargos()
         {
-            var Result = new ObservableCollection<CargoInfoModel>();
-            if (string.IsNullOrEmpty(searchstr))
-            {
-                Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
-            }
-            else
-            {
-                var Temp1 = Client.Select<CargoInfoModel>().Where(i => i.PDCode.Contains(searchstr)).ToList();
-                var Temp2 = Client.Select<CargoInfoModel>().Where(i => i.PDName.Contains(searchstr)).ToList();
-                var Temp3 = Client.Select<CargoInfoModel>().Where(i => i.PDSubName.Contains(searchstr)).ToList();
-                var Temp4 = Temp1.Union(Temp2).ToList();
-                var Temp5 = Temp4.Union(Temp3).ToList();
-                foreach (var CargoInfoModelitem in Temp5)
-                    if (Result.Where(i => i.PDCode == CargoInfoModelitem.PDCode).ToList().Count == 0)
-                        Result.Add(CargoInfoModelitem);
-            }
-
+            var Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
             return Result;
         }
 
-        [HttpGet]
-        public ObservableCollection<CargoInfoModel> GetCargosByGroupname(string groupname)
-        {
-            var Result = new ObservableCollection<CargoInfoModel>();
-            if (string.IsNullOrEmpty(groupname))
-                Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
-            else
-                Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().Where(i => i.PDGroup == groupname).ToList());
-            return Result;
-        }
 
         [HttpGet]
         public ObservableCollection<CargosGroup> GetAllGroup()
