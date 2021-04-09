@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -72,6 +73,7 @@ namespace MyMarket.MainWin.ViewModel
             {
                 var Menuwin = MenuView.GetInstance();
                 Menuwin.Show();
+                Menuwin.Closed += Update;
             });
             GetHoldCartByIndexCommand = new RelayCommand<int>(i =>
             {
@@ -210,6 +212,14 @@ namespace MyMarket.MainWin.ViewModel
                 _CartCargosCount = value;
                 OnPropertyChanged();
             }
+        }
+
+        private void Update(object sender, EventArgs e)
+        {
+            WebApiOperate.StatiCargoInfoModels = WebApiOperate.StatiCargoInfoModels;
+            WebApiOperate.StatiCargosGroups = WebApiOperate.StatiCargosGroups;
+            CargoInfoCollection = WebApiOperate.StatiCargoInfoModels;
+            GroupNameCollection = WebApiOperate.StatiCargosGroups;
         }
 
         private async void AddToCart(CargoInfoModel c)

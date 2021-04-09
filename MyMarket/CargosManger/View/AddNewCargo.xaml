@@ -32,11 +32,10 @@
                     </Grid.ColumnDefinitions>
                     <TextBox
                         hc:InfoElement.Necessary="True"
-                        Text="{Binding NewDetialMoedl.PDCode}"
                         hc:InfoElement.Title="商品条码："
                         hc:InfoElement.TitlePlacement="Left"
-
-                        Style="{StaticResource TextBoxExtend}" />
+                        Style="{StaticResource TextBoxExtend}"
+                        Text="{Binding NewDetialMoedl.PDCode}" />
                     <Button
                         Grid.Column="1"
                         Command="{Binding PDCreatePdCodeCommand}"
@@ -49,18 +48,17 @@
                     </Grid.ColumnDefinitions>
                     <TextBox
                         hc:InfoElement.Necessary="True"
-                        Text="{Binding NewDetialMoedl.PDName}"
                         hc:InfoElement.Title="商品名称："
                         hc:InfoElement.TitlePlacement="Left"
-
-                        Style="{StaticResource TextBoxExtend}" />
+                        Style="{StaticResource TextBoxExtend}"
+                        Text="{Binding NewDetialMoedl.PDName}" />
                     <TextBox
                         Grid.Column="1"
                         hc:InfoElement.Necessary="True"
-                        Text="{Binding NewDetialMoedl.PDSubName}"
                         hc:InfoElement.Title="拼音码："
                         hc:InfoElement.TitlePlacement="Left"
-                        Style="{StaticResource TextBoxExtend}" />
+                        Style="{StaticResource TextBoxExtend}"
+                        Text="{Binding NewDetialMoedl.PDSubName}" />
                 </Grid>
                 <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
@@ -69,36 +67,54 @@
                     </Grid.ColumnDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+
                         </Grid.ColumnDefinitions>
-                        <ComboBox
-                            hc:InfoElement.Necessary="True"
-                            Text="{Binding NewDetialMoedl.PDGroup}"
-                            hc:InfoElement.Title="商品分类"
-                            hc:InfoElement.TitlePlacement="Left"
-                            IsEditable="True"
-                            ItemsSource="{Binding GroupNameCollection}"
-                            Style="{StaticResource ComboBoxExtend}" />
+                        <TextBlock Text="商品分类" />
                         <hc:SplitButton
-                            x:Name="splitButton"
-                            Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            Grid.Column="1"
+                            hc:InfoElement.Necessary="True"
+                            hc:InfoElement.Title="商品分类："
+                            hc:InfoElement.TitlePlacement="Left"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" Style="{StaticResource SplitButtonInfo}"
+                            Content="{Binding SelectedGroupName}">
                             <hc:SplitButton.DropDownContent>
-                                <StackPanel>
-                                    <TextBox Name="InputGroup" Width="150" Text="{Binding NewGroupNameInput}" />
-                                    <Button Command="{Binding AddGroupNameCommand}">确定</Button>
-                                </StackPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <ItemsControl ItemsSource="{Binding GroupNameCollection}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Command="{Binding Path=DataContext.GroupSelectedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding PDGroup}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                        <TextBox
+                                            Name="InputGroup"
+                                            Width="150"
+                                            Text="{Binding NewGroupNameInput}" />
+                                        <Button Command="{Binding AddGroupNameCommand}">确定</Button>
+
+                                    </StackPanel>
+                                </Grid>
                             </hc:SplitButton.DropDownContent>
                         </hc:SplitButton>
                     </Grid>
                     <TextBox
                         Grid.Column="1"
                         hc:InfoElement.Necessary="True"
-                        Text="{Binding NewDetialMoedl.PDStock}"
                         hc:InfoElement.Title="商品库存："
                         hc:InfoElement.TitlePlacement="Left"
-
-                        Style="{StaticResource TextBoxExtend}" />
+                        Style="{StaticResource TextBoxExtend}"
+                        Text="{Binding NewDetialMoedl.PDStock}" />
                 </Grid>
                 <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>
@@ -107,28 +123,29 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <hc:NumericUpDown
-                        DecimalPlaces="2"
                         Grid.Column="0"
                         hc:InfoElement.Necessary="True"
-                        Value="{Binding NewDetialMoedl.PDSellPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         hc:InfoElement.Title="售价："
                         hc:InfoElement.TitlePlacement="Left"
-                        Style="{StaticResource NumericUpDownPlus}" />
-                    <hc:NumericUpDown
                         DecimalPlaces="2"
+                        Style="{StaticResource NumericUpDownPlus}"
+                        Value="{Binding NewDetialMoedl.PDSellPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <hc:NumericUpDown
                         Grid.Column="1"
                         hc:InfoElement.Necessary="True"
-                        Value="{Binding NewDetialMoedl.PDCost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         hc:InfoElement.Title="进价："
                         hc:InfoElement.TitlePlacement="Left"
-                        Style="{StaticResource NumericUpDownPlus}" />
-                    <hc:NumericUpDown DecimalPlaces="2"
-                                      Grid.Column="2"
-                                      hc:InfoElement.Necessary="True"
-                                      Value="{Binding NewDetialMoedl.PDProfit, Mode=TwoWay, NotifyOnSourceUpdated=True, StringFormat=\{0:P\}, UpdateSourceTrigger=Default}"
-                                      hc:InfoElement.Title="毛利："
-                                      hc:InfoElement.TitlePlacement="Left"
-                                      Style="{StaticResource NumericUpDownPlus}" />
+                        DecimalPlaces="2"
+                        Style="{StaticResource NumericUpDownPlus}"
+                        Value="{Binding NewDetialMoedl.PDCost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <hc:NumericUpDown
+                        Grid.Column="2"
+                        hc:InfoElement.Necessary="True"
+                        hc:InfoElement.Title="毛利："
+                        hc:InfoElement.TitlePlacement="Left"
+                        DecimalPlaces="2"
+                        Style="{StaticResource NumericUpDownPlus}"
+                        Value="{Binding NewDetialMoedl.PDProfit, Mode=TwoWay, NotifyOnSourceUpdated=True, StringFormat=\{0:P\}, UpdateSourceTrigger=Default}" />
                 </Grid>
             </StackPanel>
         </GroupBox>
@@ -146,16 +163,17 @@
                     </Grid.ColumnDefinitions>
                     <TextBox
                         Grid.Column="0"
-                        Text="{Binding NewDetialMoedl.PDSupplier}"
                         hc:InfoElement.Title="供货商："
                         hc:InfoElement.TitlePlacement="Left"
-                        Style="{StaticResource TextBoxExtend}" />
-                    <ComboBox Grid.Column="1"
-                              Text="{Binding NewDetialMoedl.PDUnit}"
-                              hc:InfoElement.Title="单位"
-                              hc:InfoElement.TitlePlacement="Left"
-                              IsEditable="True"
-                              Style="{StaticResource ComboBoxExtend}">
+                        Style="{StaticResource TextBoxExtend}"
+                        Text="{Binding NewDetialMoedl.PDSupplier}" />
+                    <ComboBox
+                        Grid.Column="1"
+                        hc:InfoElement.Title="单位"
+                        hc:InfoElement.TitlePlacement="Left"
+                        IsEditable="True"
+                        Style="{StaticResource ComboBoxExtend}"
+                        Text="{Binding NewDetialMoedl.PDUnit}">
                         <TextBlock>500g（斤）</TextBlock>
                         <TextBlock>1Kg（公斤）</TextBlock>
                         <TextBlock>盒</TextBlock>
@@ -232,21 +250,22 @@
                     </Grid.ColumnDefinitions>
                     <TextBox
                         Grid.Column="0"
-                        Text="{Binding NewDetialMoedl.PDWeighSn}"
                         hc:InfoElement.Title="秤编码："
                         hc:InfoElement.TitlePlacement="Left"
-                        Style="{StaticResource TextBoxExtend}" />
+                        Style="{StaticResource TextBoxExtend}"
+                        Text="{Binding NewDetialMoedl.PDWeighSn}" />
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBox Name="PicPathBox"
-                                 Grid.Column="0"
-                                 Text="{Binding NewDetialMoedl.PicPath }"
-                                 hc:InfoElement.Title="图片地址："
-                                 hc:InfoElement.TitlePlacement="Left"
-                                 Style="{StaticResource TextBoxExtend}" />
+                        <TextBox
+                            Name="PicPathBox"
+                            Grid.Column="0"
+                            hc:InfoElement.Title="图片地址："
+                            hc:InfoElement.TitlePlacement="Left"
+                            Style="{StaticResource TextBoxExtend}"
+                            Text="{Binding NewDetialMoedl.PicPath}" />
                         <Button
                             Grid.Column="1"
                             Command="{Binding SelectPicPath}"

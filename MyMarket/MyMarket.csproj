@@ -24,7 +24,7 @@
 		<Folder Include="Pay\ViewModel\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\MyLib\MyLib.csproj" />
+		<ProjectReference Include="..\MyLib\MyLib.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<Resource Include="CYCS.png" />

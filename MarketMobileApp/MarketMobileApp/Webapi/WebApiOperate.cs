@@ -12,7 +12,6 @@ namespace MarketMobileApp.Webapi
 
         public static ObservableCollection<CargoInfoModel> GetAllCargoInfoModels()
         {
-            string searchstring = "";
             var client = new RestClient("http://39.104.103.234:8081/api/Cargos/GetAllCargos");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
@@ -64,8 +63,7 @@ namespace MarketMobileApp.Webapi
             {
                 Timeout = -1
             };
-            var Request = new RestRequest(Method.DELETE);
-            Request.AddParameter("text/plain", "", ParameterType.RequestBody);
+            var Request = new RestRequest(Method.POST);
             var Response = Client.Execute(Request);
             return JsonConvert.DeserializeObject<ObservableCollection<CargoInfoModel>>(Response.Content);
         }

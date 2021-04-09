@@ -9,25 +9,24 @@ using MyLib;
 
 namespace MyMarket.CargosManger.ViewModel
 {
-    public class CargoEditViewModel : ObservableObject
+    public class CargoEditViewModel : ObservableObject, IDisposable
     {
         private string _EditModel;
-        private ObservableCollection<string> _GroupNameCollection;
+        private ObservableCollection<CargosGroup> _GroupNameCollection;
         private CargoInfoModel _NewDetialMoedl;
         private string _NewGroupNameInput;
 
         private string _PicPath;
+        private string _SelectedGroupName;
 
         public CargoEditViewModel()
         {
+            _SelectedGroupName = "";
             _PicPath = "";
             _EditModel = "添加";
             WeakReferenceMessenger.Default.Register<string, string>(this, "DataCom", Decode);
             WindowsStatus.CargoEditWindowOpen = true;
-            var AllGroup = WebApiOperate.StatiCargosGroups;
-            _GroupNameCollection = new ObservableCollection<string>();
-            foreach (var CargosGroup in WebApiOperate.GetAllGroup()) _GroupNameCollection.Add(CargosGroup.PDGroup);
-            _NewDetialMoedl = new CargoInfoModel();
+            _GroupNameCollection = WebApiOperate.StatiCargosGroups;
             PDCreatePdCodeCommand = new RelayCommand(() =>
             {
                 var S = DateTime.Now.ToString("yyyyMMddHHmmss") + WebApiOperate.StatiCargoInfoModels.Count.ToString("D5");
@@ -39,10 +38,8 @@ namespace MyMarket.CargosManger.ViewModel
             });
             AddGroupNameCommand = new RelayCommand(() =>
             {
-                if (!string.IsNullOrEmpty(NewGroupNameInput)) WebApiOperate.InserOrUpdateGroup(NewGroupNameInput);
-
-                GroupNameCollection = new ObservableCollection<string>();
-                foreach (var CargosGroup in WebApiOperate.GetAllGroup()) GroupNameCollection.Add(CargosGroup.PDGroup);
+                if (!string.IsNullOrEmpty(NewGroupNameInput)) WebApiOperate.StatiCargosGroups = WebApiOperate.InserOrUpdateGroup(NewGroupNameInput);
+                GroupNameCollection = WebApiOperate.StatiCargosGroups;
                 NewGroupNameInput = "";
             });
             SelectPicPath = new RelayCommand<TextBox>(T =>
@@ -61,7 +58,37 @@ namespace MyMarket.CargosManger.ViewModel
             {
                 WindowsStatus.CargoEditWindowOpen = false;
             });
+            GroupSelectedCommand = new RelayCommand<CargosGroup>(g =>
+            {
+                if (g != null)
+                {
+                    SelectedGroupName = g.PDGroup;
+                }
+                else
+                {
+                    SelectedGroupName = "";
+                }
+
+                if (NewDetialMoedl == null)
+                {
+                    NewDetialMoedl = new CargoInfoModel();
+                }
+
+                NewDetialMoedl.PDGroup = g.PDGroup;
+            });
         }
+
+        public string SelectedGroupName
+        {
+            get => _SelectedGroupName;
+            set
+            {
+                _SelectedGroupName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RelayCommand<CargosGroup> GroupSelectedCommand { get; set; }
 
         public string NewGroupNameInput
         {
@@ -86,7 +113,7 @@ namespace MyMarket.CargosManger.ViewModel
             }
         }
 
-        public ObservableCollection<string> GroupNameCollection
+        public ObservableCollection<CargosGroup> GroupNameCollection
         {
             get => _GroupNameCollection;
             set
@@ -120,6 +147,12 @@ namespace MyMarket.CargosManger.ViewModel
 
         public RelayCommand PDCreatePdCodeCommand { get; set; }
         public RelayCommand PDSaveThisGoodC0Mmand { get; set; }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
+
 
         private void Decode(object recipient, string message)
         {

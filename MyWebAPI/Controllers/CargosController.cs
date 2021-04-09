@@ -12,7 +12,6 @@ namespace MyWebAPI.Controllers
     public class CargosController : Controller
     {
         public static IFreeSql Client = new FreeSqlBuilder().UseConnectionString(DataType.Sqlite, @"Data Source=db1.db").UseAutoSyncStructure(true).Build();
-
         private readonly ILogger<CargosController> _Logger;
 
         public CargosController(ILogger<CargosController> logger)
@@ -21,7 +20,7 @@ namespace MyWebAPI.Controllers
         }
 
         [HttpPost]
-        public ObservableCollection<CargoInfoModel> InsertOrUpdateCargo([FromBody]CargoInfoModel newCargo)
+        public Task<ObservableCollection<CargoInfoModel>> InsertOrUpdateCargo([FromBody]CargoInfoModel newCargo)
         {
             var Cnt = Client.Select<CargoInfoModel>().Where(i => i.PDCode == newCargo.PDCode).First();
             if (Cnt != null)
@@ -38,47 +37,48 @@ namespace MyWebAPI.Controllers
                 Client.Insert(newCargo).ExecuteAffrows();
             }
 
-            return new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
+            return Task.FromResult(new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList()));
         }
 
         [HttpPost]
-        public ObservableCollection<CargosGroup> InsertOrUpdateCargoGroup(string newGroupname)
+        public Task<ObservableCollection<CargosGroup>> InsertOrUpdateCargoGroup(string newGroupname)
         {
             if (Client.Select<CargosGroup>().Where(i => i.PDGroup == newGroupname).ToList().Count == 0)
                 Client.Insert(new CargosGroup
                 {
                     PDGroup = newGroupname
                 }).ExecuteAffrows();
-            return new ObservableCollection<CargosGroup>(Client.Select<CargosGroup>().ToList());
+            return Task.FromResult(new ObservableCollection<CargosGroup>(Client.Select<CargosGroup>().ToList()));
         }
 
         [HttpPost]
-        public double CheckStock(string pdcode)
+        public Task<double> CheckStock(string pdcode)
         {
+            double stock = 0;
             if (Client.Select<CargoInfoModel>().Where(i => i.PDCode == pdcode).First() != null)
-                return Client.Select<CargoInfoModel>().Where(i => i.PDCode == pdcode).First().PDStock;
-            return 0;
+                stock = Client.Select<CargoInfoModel>().Where(i => i.PDCode == pdcode).First().PDStock;
+            return Task.FromResult(stock);
         }
 
         [HttpGet]
-        public ObservableCollection<CargoInfoModel> GetAllCargos()
+        public Task<ObservableCollection<CargoInfoModel>> GetAllCargos()
         {
             var Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
-            return Result;
+            return Task.FromResult(Result);
         }
 
 
         [HttpGet]
-        public ObservableCollection<CargosGroup> GetAllGroup()
+        public Task<ObservableCollection<CargosGroup>> GetAllGroup()
         {
-            return new(Client.Select<CargosGroup>().ToList());
+            return Task.FromResult(new ObservableCollection<CargosGroup>(Client.Select<CargosGroup>().ToList()));
         }
 
-        [HttpDelete]
-        public ObservableCollection<CargoInfoModel> DeleCargo(string pdcode)
+        [HttpPost]
+        public Task<ObservableCollection<CargoInfoModel>> DeleCargo(string pdcode)
         {
             Client.Delete<CargoInfoModel>().Where(i => i.PDCode == pdcode).ExecuteAffrows();
-            return new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
+            return Task.FromResult(new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList()));
         }
 
         [HttpPost("UploadFile"), Consumes("multipart/form-data")] //这里写你自己上传文件用的url地址

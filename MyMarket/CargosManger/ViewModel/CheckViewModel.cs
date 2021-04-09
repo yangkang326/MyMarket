@@ -19,10 +19,6 @@ namespace MyMarket.CargosManger.ViewModel
         {
             _CargoCollection = WebApiOperate.StatiCargoInfoModels;
             _GroupNameCollection = WebApiOperate.StatiCargosGroups;
-            _GroupNameCollection.Add(new CargosGroup
-            {
-                PDGroup = ""
-            });
             SelectGropuChangedCommand = new RelayCommand<CargosGroup>(g =>
             {
                 var result = WebApiOperate.StatiCargoInfoModels.Where(i => i.PDGroup == g.PDGroup).ToList();
@@ -32,6 +28,7 @@ namespace MyMarket.CargosManger.ViewModel
             {
                 var Win = AddNewCargo.GetInstance();
                 (Win.DataContext as CargoEditViewModel).NewDetialMoedl = SelectInfoModel;
+                (Win.DataContext as CargoEditViewModel).SelectedGroupName = SelectInfoModel.PDGroup;
                 (Win.DataContext as CargoEditViewModel).EditModel = "修改";
                 Win.Show();
                 Win.Closed += UpdateList;
@@ -41,6 +38,7 @@ namespace MyMarket.CargosManger.ViewModel
                 SelectInfoModel = new CargoInfoModel();
                 var Win = AddNewCargo.GetInstance();
                 (Win.DataContext as CargoEditViewModel).NewDetialMoedl = SelectInfoModel;
+                (Win.DataContext as CargoEditViewModel).SelectedGroupName = SelectInfoModel.PDGroup;
                 (Win.DataContext as CargoEditViewModel).EditModel = "保存";
                 Win.Show();
                 Win.Closed += UpdateList;
