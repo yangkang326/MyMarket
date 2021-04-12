@@ -17,8 +17,9 @@ namespace MyMarket
         {
             Scan.GetSerialPort("COM5");
             Scan.OpenPort();
-            WebApiOperate.StatiCargoInfoModels = WebApiOperate.GetAllCargoInfoModels();
-            WebApiOperate.StatiCargosGroups = WebApiOperate.GetAllGroup();
+            WebApiOperate.StatiCargoInfoModels = WebApiOperate.GetAllCargoInfoModels().Result;
+            WebApiOperate.StatiCargosGroups = WebApiOperate.GetAllGroup().Result;
+            WebApiOperate.StatiCargosUnits = WebApiOperate.GetAllUnit().Result;
             var Win = MainWin.View.MainWindow.GetInstance();
             WindowsStatus.MainWindowOpen = true;
             Win.Show();

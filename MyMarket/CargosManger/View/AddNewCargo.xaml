@@ -67,19 +67,17 @@
                     </Grid.ColumnDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
-                            <ColumnDefinition />
-
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="商品分类" />
                         <hc:SplitButton
                             Grid.Column="1"
-                            hc:InfoElement.Necessary="True"
-                            hc:InfoElement.Title="商品分类："
-                            hc:InfoElement.TitlePlacement="Left"
+                            Margin="5,0"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch" Style="{StaticResource SplitButtonInfo}"
-                            Content="{Binding SelectedGroupName}">
+                            VerticalAlignment="Stretch"
+                            Content="{Binding SelectedGroupName}"
+                            Style="{StaticResource SplitButtonInfo}">
                             <hc:SplitButton.DropDownContent>
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -167,25 +165,46 @@
                         hc:InfoElement.TitlePlacement="Left"
                         Style="{StaticResource TextBoxExtend}"
                         Text="{Binding NewDetialMoedl.PDSupplier}" />
-                    <ComboBox
-                        Grid.Column="1"
-                        hc:InfoElement.Title="单位"
-                        hc:InfoElement.TitlePlacement="Left"
-                        IsEditable="True"
-                        Style="{StaticResource ComboBoxExtend}"
-                        Text="{Binding NewDetialMoedl.PDUnit}">
-                        <TextBlock>500g（斤）</TextBlock>
-                        <TextBlock>1Kg（公斤）</TextBlock>
-                        <TextBlock>盒</TextBlock>
-                        <TextBlock>条</TextBlock>
-                        <TextBlock>只</TextBlock>
-                        <TextBlock>个</TextBlock>
-                        <TextBlock>套</TextBlock>
-                        <TextBlock>件</TextBlock>
-                        <TextBlock>箱</TextBlock>
-                        <TextBlock>打</TextBlock>
-                        <TextBlock>瓶</TextBlock>
-                    </ComboBox>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="商品分类" />
+                        <hc:SplitButton
+                            Grid.Column="1"
+                            Margin="5,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Content="{Binding SelectedUnits}"
+                            Style="{StaticResource SplitButtonInfo}">
+                            <hc:SplitButton.DropDownContent>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <ItemsControl ItemsSource="{Binding UnitsCollection}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Command="{Binding Path=DataContext.UnitSelectedComamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="{Binding Unit}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                        <TextBox
+                                            Name="InputUnit"
+                                            Width="150"
+                                            Text="{Binding InputUnit}" />
+                                        <Button Command="{Binding AddUnitCommand}">确定</Button>
+                                    </StackPanel>
+                                </Grid>
+                            </hc:SplitButton.DropDownContent>
+                        </hc:SplitButton>
+                    </Grid>
                 </Grid>
                 <Grid Margin="2,5">
                     <Grid.ColumnDefinitions>

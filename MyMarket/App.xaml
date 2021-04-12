@@ -27,6 +27,7 @@
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="FontFamily" Value="宋体" />
             </Style>
+            <Style TargetType="Window" BasedOn="{StaticResource WindowBlur}"></Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />

@@ -13,14 +13,18 @@ namespace MyMarket.CargosManger.ViewModel
     {
         private string _EditModel;
         private ObservableCollection<CargosGroup> _GroupNameCollection;
+        private string _InputUnit;
         private CargoInfoModel _NewDetialMoedl;
         private string _NewGroupNameInput;
-
         private string _PicPath;
         private string _SelectedGroupName;
+        private string _SelectedUnits;
+        private ObservableCollection<CargoUnit> _UnitsCollection;
 
         public CargoEditViewModel()
         {
+            _SelectedUnits = "";
+            _UnitsCollection = WebApiOperate.StatiCargosUnits;
             _SelectedGroupName = "";
             _PicPath = "";
             _EditModel = "添加";
@@ -38,9 +42,15 @@ namespace MyMarket.CargosManger.ViewModel
             });
             AddGroupNameCommand = new RelayCommand(() =>
             {
-                if (!string.IsNullOrEmpty(NewGroupNameInput)) WebApiOperate.StatiCargosGroups = WebApiOperate.InserOrUpdateGroup(NewGroupNameInput);
+                if (!string.IsNullOrEmpty(NewGroupNameInput)) WebApiOperate.StatiCargosGroups = WebApiOperate.InserOrUpdateGroup(NewGroupNameInput).Result;
                 GroupNameCollection = WebApiOperate.StatiCargosGroups;
                 NewGroupNameInput = "";
+            });
+            AddUnitCommand = new RelayCommand(() =>
+            {
+                if (!string.IsNullOrEmpty(InputUnit)) WebApiOperate.StatiCargosUnits = WebApiOperate.InserOrUpdateunit(InputUnit).Result;
+                UnitsCollection = WebApiOperate.StatiCargosUnits;
+                InputUnit = "";
             });
             SelectPicPath = new RelayCommand<TextBox>(T =>
             {
@@ -76,7 +86,58 @@ namespace MyMarket.CargosManger.ViewModel
 
                 NewDetialMoedl.PDGroup = g.PDGroup;
             });
+            UnitSelectedComamnd = new RelayCommand<CargoUnit>(u =>
+            {
+                if (u != null)
+                {
+                    SelectedUnits = u.Unit;
+                }
+                else
+                {
+                    SelectedUnits = "";
+                }
+
+                if (NewDetialMoedl == null)
+                {
+                    NewDetialMoedl = new CargoInfoModel();
+                }
+
+                NewDetialMoedl.PDUnit = u.Unit;
+            });
         }
+
+        public string InputUnit
+        {
+            get => _InputUnit;
+            set
+            {
+                _InputUnit = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SelectedUnits
+        {
+            get => _SelectedUnits;
+            set
+            {
+                _SelectedUnits = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<CargoUnit> UnitsCollection
+        {
+            get => _UnitsCollection;
+            set
+            {
+                _UnitsCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public RelayCommand AddUnitCommand { get; set; }
+        public RelayCommand<CargoUnit> UnitSelectedComamnd { get; set; }
 
         public string SelectedGroupName
         {

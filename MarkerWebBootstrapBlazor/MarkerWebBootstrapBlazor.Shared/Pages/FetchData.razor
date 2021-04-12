@@ -1,0 +1,35 @@
+﻿@page "/fetchdata"
+
+@using MarkerWebBootstrapBlazor.Shared.Data
+@using MyLib
+@using System.Collections.ObjectModel
+@inject WeatherForecastService ForecastService
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <Table TItem="CargoInfoModel" Items="@forecasts.Take(3)">
+        <TableColumns>
+            <TableColumn @bind-Field="@context.PDCode" Width="180" />
+            <TableColumn @bind-Field="@context.PDName" />
+            <TableColumn @bind-Field="@context.PDSellPrice" />
+        </TableColumns>
+    </Table>
+
+}
+<button class="btn btn-primary" @onclick="update">更新</button>
+@code {
+    private ObservableCollection<CargoInfoModel> forecasts;
+
+    protected async void update()
+    {
+        forecasts = await WebApiOperate.GetAllCargoInfoModels();
+    }
+}

@@ -52,6 +52,17 @@ namespace MyWebAPI.Controllers
         }
 
         [HttpPost]
+        public Task<ObservableCollection<CargoUnit>> InsertOrUpdateCargoUnit(string newunit)
+        {
+            if (Client.Select<CargoUnit>().Where(i => i.Unit == newunit).ToList().Count == 0)
+                Client.Insert(new CargoUnit
+                {
+                    Unit = newunit
+                }).ExecuteAffrows();
+            return Task.FromResult(new ObservableCollection<CargoUnit>(Client.Select<CargoUnit>().ToList()));
+        }
+
+        [HttpPost]
         public Task<double> CheckStock(string pdcode)
         {
             double stock = 0;
@@ -63,8 +74,7 @@ namespace MyWebAPI.Controllers
         [HttpGet]
         public Task<ObservableCollection<CargoInfoModel>> GetAllCargos()
         {
-            var Result = new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList());
-            return Task.FromResult(Result);
+            return Task.FromResult(new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList()));
         }
 
 
@@ -74,6 +84,12 @@ namespace MyWebAPI.Controllers
             return Task.FromResult(new ObservableCollection<CargosGroup>(Client.Select<CargosGroup>().ToList()));
         }
 
+        [HttpGet]
+        public Task<ObservableCollection<CargoUnit>> GetAllUnits()
+        {
+            return Task.FromResult(new ObservableCollection<CargoUnit>(Client.Select<CargoUnit>().ToList()));
+        }
+
         [HttpPost]
         public Task<ObservableCollection<CargoInfoModel>> DeleCargo(string pdcode)
         {
@@ -81,11 +97,24 @@ namespace MyWebAPI.Controllers
             return Task.FromResult(new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList()));
         }
 
-        [HttpPost("UploadFile"), Consumes("multipart/form-data")] //这里写你自己上传文件用的url地址
+        [HttpPost]
+        public Task<ObservableCollection<CargoInfoModel>> BillUpLoad(ObservableCollection<CartItem> cartItems)
+        {
+            foreach (var cartitem in cartItems)
+            {
+                var temInfoModel = Client.Select<CargoInfoModel>().Where(i => i.PDCode == cartitem.PDSn).First();
+                temInfoModel.PDStock -= cartitem.Count;
+                Client.Update<CargoInfoModel>(temInfoModel).ExecuteAffrows();
+            }
+
+            return Task.FromResult(new ObservableCollection<CargoInfoModel>(Client.Select<CargoInfoModel>().ToList()));
+        }
+
+        [HttpPost("UploadFile"), Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
             var a = file.FileName;
-            using (var fs = System.IO.File.Create(@"C:\\Users\\Administrator\\Documents\\Image\\" + a)) //filePath写文件保存到哪
+            using (var fs = System.IO.File.Create(@"C:\\Users\\Administrator\\Documents\\Image\\" + a))
             {
                 await file.CopyToAsync(fs);
             }

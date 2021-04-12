@@ -38,9 +38,9 @@ namespace MyMarket.MainWin.ViewModel
             {
                 AddToCart(e);
             });
-            PdContChangedCommand = new RelayCommand<CartItem>(s =>
+            PdContChangedCommand = new RelayCommand<CartItem>(async s =>
             {
-                var Temp = WebApiOperate.CheckStock(s.PDSn);
+                var Temp = await WebApiOperate.CheckStock(s.PDSn);
                 s.Count = s.Count > Temp ? Temp : s.Count;
                 CurrentTotalPrice = DoAddTotal(CurentCargosCollection);
             });

@@ -45,7 +45,7 @@ namespace MyMarket.CargosManger.ViewModel
             });
             DeleRelayCommand = new RelayCommand(() =>
             {
-                CargoCollection = WebApiOperate.DeleCargo(SelectInfoModel.PDCode);
+                CargoCollection = WebApiOperate.DeleCargo(SelectInfoModel.PDCode).Result;
             });
         }
 
@@ -86,8 +86,8 @@ namespace MyMarket.CargosManger.ViewModel
 
         private void UpdateList(object sender, EventArgs e)
         {
-            CargoCollection = WebApiOperate.GetAllCargoInfoModels();
-            WebApiOperate.StatiCargoInfoModels = WebApiOperate.GetAllCargoInfoModels();
+            CargoCollection = WebApiOperate.GetAllCargoInfoModels().Result;
+            WebApiOperate.StatiCargoInfoModels = WebApiOperate.GetAllCargoInfoModels().Result;
         }
     }
 }
