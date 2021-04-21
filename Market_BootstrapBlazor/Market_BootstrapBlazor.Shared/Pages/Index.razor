@@ -1,0 +1,65 @@
+﻿@page "/"
+@using MyLib
+<head>
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_2435471_46fl5pigzqu.css" />
+</head>
+<h1 align="center">个人信息</h1>
+<Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.FormRow">
+    @{
+                foreach (CargoInfoModel cargo in Cargos)
+                {
+                    <Card>
+                        <CardHeader>
+                            @cargo.PDName
+                        </CardHeader>
+                        <CardBody>
+                            <img align="middle" style="display: inline-block; width: 100%; max-width: 100%; height: auto;" src="http://39.104.103.234:8082/@cargo.PicPath" />
+                        </CardBody>
+                        <CardFooter>
+                            <b style="font-size: 200%">@cargo.PDSellPrice</b>
+                            元/
+                            @cargo.PDUnit
+                        </CardFooter>
+                    </Card>
+                }
+            }
+</Row>
+<Table TItem="CargoInfoModel" IsAutoRefresh="true" Items="Cargos" IsMultipleSelect="true" IsStriped="true" IsBordered="true"
+       ShowToolbar="true" ShowDefaultButtons="true" ShowAddButton="false" ShowExtendButtons="true" OnAddAsync="@OnAddAsync" OnSaveAsync="@OnSaveAsync" OnDeleteAsync="@OnDeleteAsync">
+    <TableToolbarTemplate>
+        <TableToolbarButton TItem="CargoInfoModel" Color="Color.Primary" Icon="fa fa-fw fa-edit" Text="选择" />
+    </TableToolbarTemplate>
+    <TableColumns>
+        <TableColumn @bind-Field="@context.PDId" Width="180" />
+        <TableColumn @bind-Field="@context.PDName" />
+        <TableColumn @bind-Field="@context.PDCode" />
+        <TableColumn @bind-Field="@context.PDSellPrice" />
+        <TableColumn @bind-Field="@context.PDCost" />
+        <TableColumn @bind-Field="@context.PDStock" />
+        <TableColumn @bind-Field="@context.PDSupplier" />
+    </TableColumns>
+    @*<EditTemplate>
+        <div class="form-inline">
+            <div class="row">
+                <div class="form-group col-12 col-sm-6">
+                    <BootstrapInput @bind-Value="@context.PDName" placeholder="不可为空，50字以内" maxlength="50" />
+                </div>
+                <div class="form-group col-12 col-sm-6">
+                    <BootstrapInput @bind-Value="@context.PDCode" placeholder="不可为空，50字以内" maxlength="50" />
+                </div>
+                <div class="form-group col-12 col-sm-6">
+                    <DateTimePicker @bind-Value="@context.PDSellPrice" />
+                </div>
+                <div class="form-group col-12 col-sm-6">
+                    <BootstrapInput @bind-Value="@context.PDStock" />
+                </div>
+                <div class="form-group col-12 col-sm-6">
+                    <BootstrapInput @bind-Value="@context.PDCost" />
+                </div>
+                <div class="form-group col-12 col-sm-6">
+                    <BootstrapInput @bind-Value="@context.PicPath"/>
+                </div>
+            </div>
+        </div>
+    </EditTemplate>*@
+</Table>

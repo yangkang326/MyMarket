@@ -1,0 +1,50 @@
+﻿@page "/YANGKANG"
+<head>
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_2435471_46fl5pigzqu.css" />
+    <style type="text/css">
+        h1 {
+            color: red;
+            font-family: "宋体";
+            text-align: center
+        }
+
+        p {
+            color: blue
+        }
+    </style>
+</head>
+<body>
+    <div style="alignment: center; padding: 5px">
+        <h1>杨康</h1>
+    </div>
+
+    <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.FormRow">
+        <div >
+            <div class="col-auto col-form-label">
+                <span>姓名</span>
+            </div>
+            <div class="col-6">
+                <Display TValue="string" Value="@Name" />
+            </div>
+        </div>
+        <div >
+            <div class="col-auto col-form-label">
+                <span>性别</span>
+            </div>
+            <div class="col-6">
+                <Display TValue="string" Value="@Gender" />
+            </div>
+        </div>
+        <div >
+            <div class="col-auto col-form-label">
+                <span>出生日期：</span>
+            </div>
+            <div class="col-6">
+                <Display TValue="string" Value="@Brithday" />
+            </div>
+        </div>
+        <Avatar Url="http://39.104.103.234:8082/YK.png" Size="Size.ExtraLarge" />
+    </Row>
+</body>
+
+

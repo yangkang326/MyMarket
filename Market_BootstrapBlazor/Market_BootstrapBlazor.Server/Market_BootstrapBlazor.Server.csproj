@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>4b8d6e59-46d3-49cc-88e2-763a50ac857c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Market_BootstrapBlazor.Shared\Market_BootstrapBlazor.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,45 @@
+﻿{
+  "Market_BootstrapBlazor.Shared.Pages.Foo": {
+    "Name": "Name",
+    "DateTime": "DateTime",
+    "Address": "Address",
+    "Count": "Count",
+    "Complete": "Complete",
+    "Education": "Education",
+    "Hobby": "Hobby",
+    "Name.Required": "{0} is required.",
+    "Address.Required": "{0} is required.",
+    "Education.Required": "{0} is required.",
+    "Hobby.Required": "{0} is required.",
+    "Name.PlaceHolder": "required",
+    "Hobbys": "Swimming,Climb,Shoot,Chess",
+    "Foo.Name": "Zhangsan {0}",
+    "Foo.Address": "Lane {0} of Jinshajiang Road, Putuo District, Shanghai",
+    "Foo.Address2": "Earth, China, Lane {0} of Jinshajiang Road, Putuo District, Shanghai. Here is an example of super long cell",
+    "Foo.BindValue": "BindValue"
+  },
+  "Market_BootstrapBlazor.Shared.Pages.EnumEducation": {
+    "PlaceHolder": "Click to select ...",
+    "Primary": "Primary",
+    "Middel": "Middel"
+  },
+  "Market_BootstrapBlazor.Shared.Pages.CargoInfoModel": {
+    "pdId": "1",
+    "pdCode": "桃子",
+    "pdName": "string",
+    "pdSubName": "string",
+    "pdStock": "number($double)",
+    "pdSellPrice": "number($double)",
+    "pdCost": "number($double)",
+    "pdProfit": "number($double)",
+    "pdSupplier": "string",
+    "pdUnit": "string",
+    "isVipDiscount": "boolean",
+    "isVipPointInc": "boolean",
+    "isWeighedNeeded": "boolean",
+    "isCommunicationNeeded": "boolean",
+    "pdGroup": "string",
+    "pdWeighSn": "string",
+    "picPath": "string"
+  }
+}

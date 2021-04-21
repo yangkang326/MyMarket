@@ -3,14 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:comcmd="clr-namespace:MyMarket.ComCommand"
-    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:cvt="clr-namespace:MyMarket.Conv"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     Startup="App_OnStartup">
     <Application.Resources>
         <ResourceDictionary>
             <cvt:PicPathConverter x:Key="PathConverter" />
             <comcmd:ComCmd x:Key="ComCmd" />
-            <Style TargetType="Button" BasedOn="{StaticResource ButtonCustom}">
+            <Style BasedOn="{StaticResource ButtonCustom}" TargetType="Button">
                 <Setter Property="Background" Value="DarkGray" />
                 <Setter Property="hc:BorderElement.CornerRadius" Value="10" />
                 <Setter Property="Margin" Value="2" />
@@ -27,7 +27,7 @@
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="FontFamily" Value="宋体" />
             </Style>
-            <Style TargetType="Window" BasedOn="{StaticResource WindowBlur}"></Style>
+            <Style BasedOn="{StaticResource WindowBlur}" TargetType="Window" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />
